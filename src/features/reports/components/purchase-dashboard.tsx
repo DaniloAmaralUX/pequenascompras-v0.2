@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Icons } from '@/components/icons';
+import { cn } from '@/lib/utils';
 import { dashboardQueryOptions } from '../api/queries';
 import { statusBadgeVariant } from '@/features/purchase-requests/constants/purchase-request-options';
 import { GastoMensalChart, CategoriaPieChart, TopItensBarChart } from './charts';
@@ -167,9 +168,10 @@ function KpiCard({
       </CardHeader>
       <CardContent>
         <p
-          className={
-            destaque ? 'text-primary text-xs font-medium' : 'text-muted-foreground text-xs'
-          }
+          className={cn(
+            'text-xs',
+            destaque ? 'text-primary font-medium' : 'text-muted-foreground'
+          )}
         >
           {rodape}
         </p>

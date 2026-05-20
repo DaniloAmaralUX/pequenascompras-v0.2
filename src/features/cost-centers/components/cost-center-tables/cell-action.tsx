@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger
@@ -47,7 +48,7 @@ export function CellAction({ data }: CellActionProps) {
         <DropdownMenuTrigger asChild>
           <Button
             variant='ghost'
-            className="relative h-8 w-8 p-0 before:absolute before:-inset-1 before:content-['']"
+            className="relative size-8 p-0 before:absolute before:-inset-1 before:content-['']"
           >
             <span className='sr-only'>Abrir menu</span>
             <Icons.ellipsis className='h-4 w-4' />
@@ -55,12 +56,14 @@ export function CellAction({ data }: CellActionProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuLabel>Ações</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => router.push(`/dashboard/cost-centers/${data.id}`)}>
-            <Icons.edit className='mr-2 h-4 w-4' /> Editar
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Icons.trash className='mr-2 h-4 w-4' /> Remover
-          </DropdownMenuItem>
+          <DropdownMenuGroup>
+            <DropdownMenuItem onClick={() => router.push(`/dashboard/cost-centers/${data.id}`)}>
+              <Icons.edit className='mr-2 h-4 w-4' /> Editar
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setOpen(true)}>
+              <Icons.trash className='mr-2 h-4 w-4' /> Remover
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

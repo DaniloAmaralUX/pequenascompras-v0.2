@@ -12,6 +12,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
 import { Icons } from '@/components/icons';
 import { alertasPrecoQueryOptions } from '../api/queries';
 
@@ -35,9 +36,17 @@ export default function PrecosAlertasReport() {
       <Card>
         <CardContent className='pt-6'>
           {data.length === 0 ? (
-            <p className='text-muted-foreground py-8 text-center text-sm'>
-              Nenhum alerta de preço no momento.
-            </p>
+            <Empty>
+              <EmptyHeader>
+                <EmptyMedia variant='icon'>
+                  <Icons.circleCheck />
+                </EmptyMedia>
+                <EmptyTitle>Nenhum alerta de preço</EmptyTitle>
+                <EmptyDescription>
+                  Nenhum item está acima da média histórica de preço no momento.
+                </EmptyDescription>
+              </EmptyHeader>
+            </Empty>
           ) : (
             <Table>
               <TableHeader>

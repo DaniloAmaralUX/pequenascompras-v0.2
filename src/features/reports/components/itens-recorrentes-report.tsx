@@ -11,6 +11,8 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
+import { Icons } from '@/components/icons';
 import { itensRecorrentesQueryOptions } from '../api/queries';
 
 const formatBRL = (v: number) =>
@@ -23,9 +25,17 @@ export default function ItensRecorrentesReport() {
     <Card>
       <CardContent className='pt-6'>
         {data.length === 0 ? (
-          <p className='text-muted-foreground py-8 text-center text-sm'>
-            Nenhum item recorrente identificado.
-          </p>
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant='icon'>
+                <Icons.report />
+              </EmptyMedia>
+              <EmptyTitle>Nenhum item recorrente</EmptyTitle>
+              <EmptyDescription>
+                Ainda não há itens comprados em mais de uma solicitação no período.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
         ) : (
           <Table>
             <TableHeader>
