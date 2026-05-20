@@ -50,6 +50,14 @@ export const navGroups: NavGroup[] = [
         items: []
       },
       {
+        title: 'Centros de Custo',
+        url: '/dashboard/cost-centers',
+        icon: 'costCenter',
+        shortcut: ['x', 'x'],
+        isActive: false,
+        items: []
+      },
+      {
         title: 'Usuários',
         url: '/dashboard/users',
         icon: 'teams',

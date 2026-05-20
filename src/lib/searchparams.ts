@@ -13,6 +13,7 @@ export const searchParams = {
   gender: parseAsString,
   category: parseAsString,
   categoria: parseAsString,
+  unidade: parseAsString,
   role: parseAsString,
   sort: parseAsString
   // advanced filter
