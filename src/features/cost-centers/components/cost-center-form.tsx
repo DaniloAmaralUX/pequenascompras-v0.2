@@ -3,6 +3,7 @@
 import { useAppForm, useFormFields } from '@/components/ui/tanstack-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormSection } from '@/components/form-section';
 import { createCostCenterMutation, updateCostCenterMutation } from '../api/mutations';
 import type { CostCenter } from '../api/types';
 import { useMutation } from '@tanstack/react-query';
@@ -74,51 +75,53 @@ export default function CostCenterForm({
     useFormFields<CostCenterFormValues>();
 
   return (
-    <Card className='mx-auto w-full'>
+    <Card className='mx-auto w-full max-w-4xl'>
       <CardHeader>
         <CardTitle className='text-left text-2xl font-bold'>{pageTitle}</CardTitle>
       </CardHeader>
       <CardContent>
         <form.AppForm>
-          <form.Form className='space-y-8'>
-            <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
-              <FormTextField
-                name='codigo'
-                label='Código'
-                required
-                placeholder='Ex.: CC-1001'
-                validators={{
-                  onBlur: z.string().min(2, 'Informe o código do centro de custo.')
-                }}
-              />
+          <form.Form className='flex flex-col gap-8'>
+            <FormSection title='Dados do centro de custo'>
+              <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+                <FormTextField
+                  name='codigo'
+                  label='Código'
+                  required
+                  placeholder='Ex.: CC-1001'
+                  validators={{
+                    onBlur: z.string().min(2, 'Informe o código do centro de custo.')
+                  }}
+                />
+                <FormTextField
+                  name='nome'
+                  label='Nome do centro de custo'
+                  required
+                  placeholder='Ex.: Tecnologia da Informação'
+                  validators={{
+                    onBlur: z.string().min(2, 'O nome deve ter ao menos 2 caracteres.')
+                  }}
+                />
+                <FormSelectField
+                  name='unidade'
+                  label='Unidade'
+                  required
+                  options={unidadeOptions}
+                  placeholder='Selecione a unidade'
+                  validators={{
+                    onBlur: z.string().min(1, 'Selecione a unidade.')
+                  }}
+                />
+              </div>
+            </FormSection>
 
-              <FormTextField
-                name='nome'
-                label='Nome do centro de custo'
-                required
-                placeholder='Ex.: Tecnologia da Informação'
-                validators={{
-                  onBlur: z.string().min(2, 'O nome deve ter ao menos 2 caracteres.')
-                }}
+            <FormSection title='Situação'>
+              <FormSwitchField
+                name='ativo'
+                label='Centro de custo ativo'
+                description='Apenas centros de custo ativos podem ser usados em solicitações.'
               />
-
-              <FormSelectField
-                name='unidade'
-                label='Unidade'
-                required
-                options={unidadeOptions}
-                placeholder='Selecione a unidade'
-                validators={{
-                  onBlur: z.string().min(1, 'Selecione a unidade.')
-                }}
-              />
-            </div>
-
-            <FormSwitchField
-              name='ativo'
-              label='Centro de custo ativo'
-              description='Apenas centros de custo ativos podem ser usados em solicitações.'
-            />
+            </FormSection>
 
             <div className='flex justify-end gap-2'>
               <Button type='button' variant='outline' onClick={() => router.back()}>

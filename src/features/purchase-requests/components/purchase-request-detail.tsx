@@ -30,7 +30,7 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
   const req = data.request as PurchaseRequest;
 
   return (
-    <div className='space-y-4'>
+    <div className='flex flex-col gap-4'>
       {/* Cabeçalho */}
       <RevealSection delay={0}>
         <div className='flex flex-wrap items-center justify-between gap-3'>
@@ -66,7 +66,7 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
       <RevealSection delay={0.16}>
         <div className='grid gap-4 lg:grid-cols-3'>
         {/* Coluna principal */}
-        <div className='space-y-4 lg:col-span-2'>
+        <div className='flex flex-col gap-4 lg:col-span-2'>
           {/* Dados gerais */}
           <Card>
             <CardHeader>
@@ -85,8 +85,8 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
             </CardContent>
           </Card>
 
-          {/* Itens */}
-          <Card>
+          {/* Itens — conteúdo primário da solicitação */}
+          <Card className='border-primary/40'>
             <CardHeader>
               <CardTitle className='text-base'>Itens ({req.itens.length})</CardTitle>
             </CardHeader>
@@ -172,7 +172,7 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
         </div>
 
         {/* Coluna lateral */}
-        <div className='space-y-4'>
+        <div className='flex flex-col gap-4 lg:sticky lg:top-20 lg:self-start'>
           <Card>
             <CardHeader>
               <CardTitle className='text-base'>Resumo</CardTitle>

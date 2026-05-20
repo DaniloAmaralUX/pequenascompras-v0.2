@@ -3,6 +3,7 @@
 import { useAppForm, useFormFields } from '@/components/ui/tanstack-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormSection } from '@/components/form-section';
 import { createCatalogItemMutation, updateCatalogItemMutation } from '../api/mutations';
 import type { CatalogItem } from '../api/types';
 import { useMutation } from '@tanstack/react-query';
@@ -78,72 +79,76 @@ export default function CatalogItemForm({
     useFormFields<CatalogItemFormValues>();
 
   return (
-    <Card className='mx-auto w-full'>
+    <Card className='mx-auto w-full max-w-4xl'>
       <CardHeader>
         <CardTitle className='text-left text-2xl font-bold'>{pageTitle}</CardTitle>
       </CardHeader>
       <CardContent>
         <form.AppForm>
-          <form.Form className='space-y-8'>
-            <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
-              <FormTextField
-                name='nome'
-                label='Nome do item'
-                required
-                placeholder='Ex.: Resma de papel A4'
-                validators={{
-                  onBlur: z.string().min(2, 'O nome deve ter ao menos 2 caracteres.')
-                }}
-              />
+          <form.Form className='flex flex-col gap-8'>
+            <FormSection title='Dados do item'>
+              <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+                <FormTextField
+                  name='nome'
+                  label='Nome do item'
+                  required
+                  placeholder='Ex.: Resma de papel A4'
+                  validators={{
+                    onBlur: z.string().min(2, 'O nome deve ter ao menos 2 caracteres.')
+                  }}
+                />
+                <FormSelectField
+                  name='categoria'
+                  label='Categoria'
+                  required
+                  options={itemCategoryOptions}
+                  placeholder='Selecione a categoria'
+                  validators={{
+                    onBlur: z.string().min(1, 'Selecione uma categoria.')
+                  }}
+                />
+                <FormSelectField
+                  name='unidade_medida'
+                  label='Unidade de medida'
+                  required
+                  options={unidadeMedidaOptions}
+                  placeholder='Selecione a unidade'
+                  validators={{
+                    onBlur: z.string().min(1, 'Selecione a unidade de medida.')
+                  }}
+                />
+                <FormTextField
+                  name='preco_medio_historico'
+                  label='Preço médio histórico (R$)'
+                  required
+                  type='number'
+                  min={0}
+                  step={0.01}
+                  placeholder='0,00'
+                  validators={{
+                    onBlur: z.number({ message: 'Informe o preço médio.' })
+                  }}
+                />
+              </div>
+            </FormSection>
 
-              <FormSelectField
-                name='categoria'
-                label='Categoria'
-                required
-                options={itemCategoryOptions}
-                placeholder='Selecione a categoria'
-                validators={{
-                  onBlur: z.string().min(1, 'Selecione uma categoria.')
-                }}
-              />
-
-              <FormSelectField
-                name='unidade_medida'
-                label='Unidade de medida'
-                required
-                options={unidadeMedidaOptions}
-                placeholder='Selecione a unidade'
-                validators={{
-                  onBlur: z.string().min(1, 'Selecione a unidade de medida.')
-                }}
-              />
-
-              <FormTextField
-                name='preco_medio_historico'
-                label='Preço médio histórico (R$)'
-                required
-                type='number'
-                min={0}
-                step={0.01}
-                placeholder='0,00'
-                validators={{
-                  onBlur: z.number({ message: 'Informe o preço médio.' })
-                }}
-              />
-            </div>
-
-            <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-              <FormSwitchField
-                name='is_item_estoque'
-                label='Item de estoque'
-                description='Itens de estoque são rejeitados pelo motor de governança em pequenas compras.'
-              />
-              <FormSwitchField
-                name='tem_contrato_vigente'
-                label='Possui contrato vigente'
-                description='Itens com contrato vigente devem ser comprados pelo contrato, não por compra avulsa.'
-              />
-            </div>
+            <FormSection
+              title='Classificação de governança'
+              description='Define como o motor de regras trata o item em pequenas compras.'
+            >
+              <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+                <FormSwitchField
+                  name='is_item_estoque'
+                  label='Item de estoque'
+                  description='Itens de estoque são rejeitados pelo motor de governança em pequenas compras.'
+                />
+                <FormSwitchField
+                  name='tem_contrato_vigente'
+                  label='Possui contrato vigente'
+                  description='Itens com contrato vigente devem ser comprados pelo contrato, não por compra avulsa.'
+                />
+              </div>
+            </FormSection>
 
             <div className='flex justify-end gap-2'>
               <Button type='button' variant='outline' onClick={() => router.back()}>

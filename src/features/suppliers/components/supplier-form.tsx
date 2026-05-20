@@ -3,6 +3,7 @@
 import { useAppForm, useFormFields } from '@/components/ui/tanstack-form';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { FormSection } from '@/components/form-section';
 import { createSupplierMutation, updateSupplierMutation } from '../api/mutations';
 import type { Supplier } from '../api/types';
 import { useMutation } from '@tanstack/react-query';
@@ -80,79 +81,87 @@ export default function SupplierForm({
     useFormFields<SupplierFormValues>();
 
   return (
-    <Card className='mx-auto w-full'>
+    <Card className='mx-auto w-full max-w-4xl'>
       <CardHeader>
         <CardTitle className='text-left text-2xl font-bold'>{pageTitle}</CardTitle>
       </CardHeader>
       <CardContent>
         <form.AppForm>
-          <form.Form className='space-y-8'>
-            <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
-              <FormTextField
-                name='nome'
-                label='Nome do fornecedor'
-                required
-                placeholder='Razão social ou nome fantasia'
-                validators={{
-                  onBlur: z.string().min(2, 'O nome deve ter ao menos 2 caracteres.')
-                }}
-              />
+          <form.Form className='flex flex-col gap-8'>
+            <FormSection title='Identificação'>
+              <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+                <FormTextField
+                  name='nome'
+                  label='Nome do fornecedor'
+                  required
+                  placeholder='Razão social ou nome fantasia'
+                  validators={{
+                    onBlur: z.string().min(2, 'O nome deve ter ao menos 2 caracteres.')
+                  }}
+                />
+                <FormTextField
+                  name='cnpj'
+                  label='CNPJ'
+                  required
+                  placeholder='00.000.000/0001-00'
+                  validators={{
+                    onBlur: z.string().min(14, 'Informe um CNPJ válido.')
+                  }}
+                />
+              </div>
+            </FormSection>
 
-              <FormTextField
-                name='cnpj'
-                label='CNPJ'
-                required
-                placeholder='00.000.000/0001-00'
-                validators={{
-                  onBlur: z.string().min(14, 'Informe um CNPJ válido.')
-                }}
-              />
+            <FormSection title='Contato e classificação'>
+              <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+                <FormTextField
+                  name='email'
+                  label='E-mail'
+                  required
+                  type='email'
+                  placeholder='contato@fornecedor.com'
+                  validators={{
+                    onBlur: z.string().email('Informe um e-mail válido.')
+                  }}
+                />
+                <FormTextField
+                  name='telefone'
+                  label='Telefone'
+                  required
+                  placeholder='(00) 00000-0000'
+                  validators={{
+                    onBlur: z.string().min(8, 'Informe um telefone válido.')
+                  }}
+                />
+                <FormSelectField
+                  name='categoria'
+                  label='Categoria'
+                  required
+                  options={supplierCategoryOptions}
+                  placeholder='Selecione a categoria'
+                  validators={{
+                    onBlur: z.string().min(1, 'Selecione uma categoria.')
+                  }}
+                />
+              </div>
+            </FormSection>
 
-              <FormTextField
-                name='email'
-                label='E-mail'
-                required
-                type='email'
-                placeholder='contato@fornecedor.com'
-                validators={{
-                  onBlur: z.string().email('Informe um e-mail válido.')
-                }}
-              />
-
-              <FormTextField
-                name='telefone'
-                label='Telefone'
-                required
-                placeholder='(00) 00000-0000'
-                validators={{
-                  onBlur: z.string().min(8, 'Informe um telefone válido.')
-                }}
-              />
-
-              <FormSelectField
-                name='categoria'
-                label='Categoria'
-                required
-                options={supplierCategoryOptions}
-                placeholder='Selecione a categoria'
-                validators={{
-                  onBlur: z.string().min(1, 'Selecione uma categoria.')
-                }}
-              />
-            </div>
-
-            <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-              <FormSwitchField
-                name='homologado'
-                label='Fornecedor homologado'
-                description='Apenas fornecedores homologados podem ser usados em solicitações.'
-              />
-              <FormSwitchField
-                name='bloqueado'
-                label='Fornecedor bloqueado'
-                description='Fornecedores bloqueados são rejeitados pelo motor de governança.'
-              />
-            </div>
+            <FormSection
+              title='Governança'
+              description='Critérios usados pelo motor de regras ao validar solicitações.'
+            >
+              <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+                <FormSwitchField
+                  name='homologado'
+                  label='Fornecedor homologado'
+                  description='Apenas fornecedores homologados podem ser usados em solicitações.'
+                />
+                <FormSwitchField
+                  name='bloqueado'
+                  label='Fornecedor bloqueado'
+                  description='Fornecedores bloqueados são rejeitados pelo motor de governança.'
+                />
+              </div>
+            </FormSection>
 
             <div className='flex justify-end gap-2'>
               <Button type='button' variant='outline' onClick={() => router.back()}>

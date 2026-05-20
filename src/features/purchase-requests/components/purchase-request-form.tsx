@@ -114,13 +114,13 @@ export default function PurchaseRequestForm() {
   };
 
   return (
-    <Card className='mx-auto w-full'>
+    <Card className='mx-auto w-full max-w-4xl'>
       <CardHeader>
         <CardTitle className='text-left text-2xl font-bold'>Nova Solicitação de Compra</CardTitle>
       </CardHeader>
       <CardContent>
         <form.AppForm>
-          <form.Form className='space-y-6'>
+          <form.Form className='flex flex-col gap-6'>
             <div className='flex flex-col items-center gap-1'>
               <span className='text-muted-foreground text-sm'>
                 Etapa {currentStep} de {stepSchemas.length}
