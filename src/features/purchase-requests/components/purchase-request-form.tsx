@@ -128,7 +128,7 @@ export default function PurchaseRequestForm() {
               <Progress value={(currentStep / stepSchemas.length) * 100} />
             </div>
 
-            <AnimatePresence mode='popLayout'>
+            <AnimatePresence mode='popLayout' initial={false}>
               <motion.div
                 key={currentStep}
                 initial={{ opacity: 0, x: 15 }}

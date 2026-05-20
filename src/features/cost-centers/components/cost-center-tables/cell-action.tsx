@@ -45,7 +45,10 @@ export function CellAction({ data }: CellActionProps) {
       />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button variant='ghost' className='h-8 w-8 p-0'>
+          <Button
+            variant='ghost'
+            className="relative h-8 w-8 p-0 before:absolute before:-inset-1 before:content-['']"
+          >
             <span className='sr-only'>Abrir menu</span>
             <Icons.ellipsis className='h-4 w-4' />
           </Button>

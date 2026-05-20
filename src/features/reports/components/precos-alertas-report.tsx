@@ -63,7 +63,10 @@ export default function PrecosAlertasReport() {
                       {formatBRL(a.precoMedio)}
                     </TableCell>
                     <TableCell className='text-right'>
-                      <Badge variant={a.diferencaPct > 20 ? 'destructive' : 'secondary'}>
+                      <Badge
+                        variant={a.diferencaPct > 20 ? 'destructive' : 'secondary'}
+                        className='tabular-nums'
+                      >
                         +{a.diferencaPct.toFixed(1)}%
                       </Badge>
                     </TableCell>
