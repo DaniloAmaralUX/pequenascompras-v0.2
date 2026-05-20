@@ -4,7 +4,6 @@
 
 import { faker } from '@faker-js/faker';
 import { matchSorter } from 'match-sorter';
-import { ITEM_CATEGORIES, UNIDADES_MEDIDA } from '@/constants/mock-api-catalog-items';
 import { SESI_UNIDADES } from '@/constants/mock-api-cost-centers';
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -92,26 +91,47 @@ const FLUXO: PurchaseStatus[] = [
 const somaItens = (itens: PurchaseRequestItem[]) =>
   itens.reduce((t, it) => t + it.quantidade * it.valor_unitario_estimado, 0);
 
+/**
+ * Catálogo fixo de itens comuns de pequenas compras. Usar um pool fixo
+ * (em vez de nomes aleatórios) faz os itens se repetirem entre solicitações,
+ * tornando significativas as análises de recorrência e de preço.
+ */
+const CATALOGO_ITENS = [
+  { nome: 'Café em grão', categoria: 'Alimentação / Coffee Break', unidade: 'Quilograma', preco: 38 },
+  { nome: 'Coffee break - salgados', categoria: 'Alimentação / Coffee Break', unidade: 'Pacote', preco: 95 },
+  { nome: 'Água mineral 500ml', categoria: 'Alimentação / Coffee Break', unidade: 'Caixa', preco: 22 },
+  { nome: 'Papel sulfite A4', categoria: 'Material de Escritório', unidade: 'Resma', preco: 28 },
+  { nome: 'Caneta esferográfica azul', categoria: 'Material de Escritório', unidade: 'Caixa', preco: 24 },
+  { nome: 'Bloco de notas', categoria: 'Material de Escritório', unidade: 'Unidade', preco: 9 },
+  { nome: 'Pasta de arquivo', categoria: 'Material de Escritório', unidade: 'Unidade', preco: 15 },
+  { nome: 'Toner para impressora', categoria: 'Equipamentos e TI', unidade: 'Unidade', preco: 185 },
+  { nome: 'Cabo HDMI 2m', categoria: 'Equipamentos e TI', unidade: 'Unidade', preco: 32 },
+  { nome: 'Mouse USB', categoria: 'Equipamentos e TI', unidade: 'Unidade', preco: 46 },
+  { nome: 'Lâmpada LED', categoria: 'Manutenção Predial', unidade: 'Unidade', preco: 26 },
+  { nome: 'Detergente multiuso', categoria: 'Limpeza e Higiene', unidade: 'Litro', preco: 13 },
+  { nome: 'Papel higiênico', categoria: 'Limpeza e Higiene', unidade: 'Pacote', preco: 34 },
+  { nome: 'Copo descartável 200ml', categoria: 'Limpeza e Higiene', unidade: 'Pacote', preco: 9 },
+  { nome: 'Pilha AA', categoria: 'Equipamentos e TI', unidade: 'Pacote', preco: 16 }
+];
+
 function gerarItens(forcarValorAlto = false): PurchaseRequestItem[] {
   const qtd = faker.number.int({ min: 1, max: 4 });
-  const itens: PurchaseRequestItem[] = [];
-  for (let i = 0; i < qtd; i++) {
-    itens.push({
+  const escolhidos = faker.helpers.arrayElements(CATALOGO_ITENS, qtd);
+  return escolhidos.map((cat) => {
+    // preço varia ±25% do preço base — gera dispersão para a análise de preços
+    const variacao = faker.number.float({ min: 0.75, max: 1.25 });
+    return {
       id: faker.string.uuid(),
-      descricao: faker.commerce.productName(),
-      categoria: faker.helpers.arrayElement(ITEM_CATEGORIES),
-      quantidade: faker.number.int({ min: 1, max: 20 }),
-      unidade_medida: faker.helpers.arrayElement(UNIDADES_MEDIDA),
-      valor_unitario_estimado: parseFloat(
-        faker.commerce.price({
-          min: forcarValorAlto ? 200 : 5,
-          max: forcarValorAlto ? 600 : 250,
-          dec: 2
-        })
-      )
-    });
-  }
-  return itens;
+      descricao: cat.nome,
+      categoria: cat.categoria,
+      quantidade: faker.number.int({
+        min: forcarValorAlto ? 20 : 1,
+        max: forcarValorAlto ? 60 : 18
+      }),
+      unidade_medida: cat.unidade,
+      valor_unitario_estimado: parseFloat((cat.preco * variacao).toFixed(2))
+    };
+  });
 }
 
 let contadorNumero = 0;

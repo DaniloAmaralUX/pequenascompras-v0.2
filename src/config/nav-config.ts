@@ -63,6 +63,35 @@ export const navGroups: NavGroup[] = [
     ]
   },
   {
+    label: 'Relatórios',
+    items: [
+      {
+        title: 'Itens Recorrentes',
+        url: '/dashboard/reports/items',
+        icon: 'report',
+        shortcut: ['r', 'i'],
+        isActive: false,
+        items: []
+      },
+      {
+        title: 'Gasto por Setor',
+        url: '/dashboard/reports/spend',
+        icon: 'costCenter',
+        shortcut: ['r', 'g'],
+        isActive: false,
+        items: []
+      },
+      {
+        title: 'Preços & Alertas',
+        url: '/dashboard/reports/prices',
+        icon: 'trendingUp',
+        shortcut: ['r', 'p'],
+        isActive: false,
+        items: []
+      }
+    ]
+  },
+  {
     label: 'Cadastros',
     items: [
       {
