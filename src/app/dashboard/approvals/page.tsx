@@ -1,0 +1,27 @@
+import PageContainer from '@/components/layout/page-container';
+import PurchaseRequestListingPage from '@/features/purchase-requests/components/purchase-request-listing';
+import { STATUS_VIEWS } from '@/features/purchase-requests/constants/purchase-request-options';
+import { searchParamsCache } from '@/lib/searchparams';
+import { SearchParams } from 'nuqs/server';
+
+export const metadata = {
+  title: 'Compras: Aprovações'
+};
+
+type PageProps = {
+  searchParams: Promise<SearchParams>;
+};
+
+export default async function Page(props: PageProps) {
+  const searchParams = await props.searchParams;
+  searchParamsCache.parse(searchParams);
+
+  return (
+    <PageContainer
+      pageTitle='Aprovações Pendentes'
+      pageDescription='Solicitações aguardando aprovação do gestor.'
+    >
+      <PurchaseRequestListingPage presetStatuses={STATUS_VIEWS.aprovacoes} />
+    </PageContainer>
+  );
+}

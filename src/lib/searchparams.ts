@@ -14,6 +14,9 @@ export const searchParams = {
   category: parseAsString,
   categoria: parseAsString,
   unidade: parseAsString,
+  numero: parseAsString,
+  status: parseAsString,
+  prioridade: parseAsString,
   role: parseAsString,
   sort: parseAsString
   // advanced filter

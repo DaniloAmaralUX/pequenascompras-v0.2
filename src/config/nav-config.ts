@@ -27,6 +27,38 @@ export const navGroups: NavGroup[] = [
         isActive: false,
         shortcut: ['d', 'd'],
         items: []
+      },
+      {
+        title: 'Solicitações',
+        url: '/dashboard/requests',
+        icon: 'request',
+        shortcut: ['s', 's'],
+        isActive: false,
+        items: []
+      },
+      {
+        title: 'Nova Solicitação',
+        url: '/dashboard/requests/new',
+        icon: 'add',
+        shortcut: ['n', 's'],
+        isActive: false,
+        items: []
+      },
+      {
+        title: 'Aprovações',
+        url: '/dashboard/approvals',
+        icon: 'checks',
+        shortcut: ['a', 'a'],
+        isActive: false,
+        items: []
+      },
+      {
+        title: 'Execução',
+        url: '/dashboard/execution',
+        icon: 'receipt',
+        shortcut: ['e', 'e'],
+        isActive: false,
+        items: []
       }
     ]
   },
