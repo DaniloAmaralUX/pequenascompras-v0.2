@@ -12,7 +12,7 @@ export const columns: ColumnDef<User>[] = [
     id: 'name',
     accessorFn: (row) => `${row.first_name} ${row.last_name}`,
     header: ({ column }: { column: Column<User, unknown> }) => (
-      <DataTableColumnHeader column={column} title='Name' />
+      <DataTableColumnHeader column={column} title='Nome' />
     ),
     cell: ({ row }) => (
       <div className='flex flex-col'>
@@ -23,45 +23,51 @@ export const columns: ColumnDef<User>[] = [
       </div>
     ),
     meta: {
-      label: 'Name',
-      placeholder: 'Search users...',
+      label: 'Nome',
+      placeholder: 'Buscar usuários...',
       variant: 'text' as const,
       icon: Icons.text
     },
     enableColumnFilter: true
   },
   {
-    accessorKey: 'phone',
-    header: 'PHONE'
-  },
-  {
     id: 'role',
     accessorKey: 'role',
     enableSorting: false,
     header: ({ column }: { column: Column<User, unknown> }) => (
-      <DataTableColumnHeader column={column} title='Role' />
+      <DataTableColumnHeader column={column} title='Papel' />
     ),
-    cell: ({ cell }) => {
-      return (
-        <Badge variant='outline' className='capitalize'>
-          {cell.getValue<User['role']>()}
-        </Badge>
-      );
-    },
+    cell: ({ cell }) => <Badge variant='outline'>{cell.getValue<User['role']>()}</Badge>,
     enableColumnFilter: true,
     meta: {
-      label: 'roles',
+      label: 'Papel',
       variant: 'multiSelect' as const,
       options: ROLE_OPTIONS
     }
   },
   {
+    accessorKey: 'unidade',
+    header: 'Unidade',
+    enableSorting: false,
+    cell: ({ cell }) => (
+      <span className='text-muted-foreground text-sm'>{cell.getValue<User['unidade']>()}</span>
+    )
+  },
+  {
+    accessorKey: 'centro_de_custo',
+    header: 'Centro de Custo',
+    enableSorting: false,
+    cell: ({ cell }) => (
+      <span className='font-mono text-sm'>{cell.getValue<User['centro_de_custo']>()}</span>
+    )
+  },
+  {
     accessorKey: 'status',
-    header: 'STATUS',
+    header: 'Situação',
     cell: ({ cell }) => {
       const status = cell.getValue<User['status']>();
       const variant =
-        status === 'Active' ? 'default' : status === 'Inactive' ? 'secondary' : 'outline';
+        status === 'Ativo' ? 'default' : status === 'Inativo' ? 'secondary' : 'outline';
       return <Badge variant={variant}>{status}</Badge>;
     }
   },

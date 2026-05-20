@@ -25,4 +25,6 @@ export type UserMutationPayload = {
   phone: string;
   role: string;
   status: string;
+  unidade: string;
+  centro_de_custo: string;
 };

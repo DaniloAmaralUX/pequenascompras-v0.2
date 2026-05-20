@@ -18,13 +18,7 @@ import type { User } from '../api/types';
 import { toast } from 'sonner';
 import * as z from 'zod';
 import { userSchema, type UserFormValues } from '../schemas/user';
-import { ROLE_OPTIONS } from './users-table/options';
-
-const STATUS_OPTIONS = [
-  { value: 'Active', label: 'Active' },
-  { value: 'Inactive', label: 'Inactive' },
-  { value: 'Invited', label: 'Invited' }
-];
+import { ROLE_OPTIONS, STATUS_OPTIONS, UNIDADE_OPTIONS } from './users-table/options';
 
 interface UserFormSheetProps {
   user?: User;
@@ -38,20 +32,20 @@ export function UserFormSheet({ user, open, onOpenChange }: UserFormSheetProps) 
   const createMutation = useMutation({
     ...createUserMutation,
     onSuccess: () => {
-      toast.success('User created successfully');
+      toast.success('Usuário criado com sucesso');
       onOpenChange(false);
       form.reset();
     },
-    onError: () => toast.error('Failed to create user')
+    onError: () => toast.error('Falha ao criar usuário')
   });
 
   const updateMutation = useMutation({
     ...updateUserMutation,
     onSuccess: () => {
-      toast.success('User updated successfully');
+      toast.success('Usuário atualizado com sucesso');
       onOpenChange(false);
     },
-    onError: () => toast.error('Failed to update user')
+    onError: () => toast.error('Falha ao atualizar usuário')
   });
 
   const form = useAppForm({
@@ -61,7 +55,9 @@ export function UserFormSheet({ user, open, onOpenChange }: UserFormSheetProps) 
       email: user?.email ?? '',
       phone: user?.phone ?? '',
       role: user?.role ?? '',
-      status: user?.status ?? 'Active'
+      status: user?.status ?? 'Ativo',
+      unidade: user?.unidade ?? '',
+      centro_de_custo: user?.centro_de_custo ?? ''
     } as UserFormValues,
     validators: {
       onSubmit: userSchema
@@ -83,11 +79,11 @@ export function UserFormSheet({ user, open, onOpenChange }: UserFormSheetProps) 
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className='flex flex-col'>
         <SheetHeader>
-          <SheetTitle>{isEdit ? 'Edit User' : 'New User'}</SheetTitle>
+          <SheetTitle>{isEdit ? 'Editar Usuário' : 'Novo Usuário'}</SheetTitle>
           <SheetDescription>
             {isEdit
-              ? 'Update the user details below.'
-              : 'Fill in the details to create a new user.'}
+              ? 'Atualize os dados do usuário abaixo.'
+              : 'Preencha os dados para criar um novo usuário.'}
           </SheetDescription>
         </SheetHeader>
 
@@ -97,65 +93,86 @@ export function UserFormSheet({ user, open, onOpenChange }: UserFormSheetProps) 
               <div className='grid grid-cols-2 gap-4'>
                 <FormTextField
                   name='first_name'
-                  label='First Name'
+                  label='Nome'
                   required
-                  placeholder='John'
+                  placeholder='João'
                   validators={{
-                    onBlur: z.string().min(2, 'First name must be at least 2 characters')
+                    onBlur: z.string().min(2, 'O nome deve ter ao menos 2 caracteres.')
                   }}
                 />
                 <FormTextField
                   name='last_name'
-                  label='Last Name'
+                  label='Sobrenome'
                   required
-                  placeholder='Doe'
+                  placeholder='Silva'
                   validators={{
-                    onBlur: z.string().min(2, 'Last name must be at least 2 characters')
+                    onBlur: z.string().min(2, 'O sobrenome deve ter ao menos 2 caracteres.')
                   }}
                 />
               </div>
 
               <FormTextField
                 name='email'
-                label='Email'
+                label='E-mail'
                 required
                 type='email'
-                placeholder='john@example.com'
+                placeholder='joao@sesi.org.br'
                 validators={{
-                  onBlur: z.string().email('Please enter a valid email')
+                  onBlur: z.string().email('Informe um e-mail válido.')
                 }}
               />
 
               <FormTextField
                 name='phone'
-                label='Phone'
+                label='Telefone'
                 required
                 type='tel'
-                placeholder='(555) 123-4567'
+                placeholder='(00) 00000-0000'
                 validators={{
-                  onBlur: z.string().min(1, 'Phone number is required')
+                  onBlur: z.string().min(1, 'O telefone é obrigatório.')
                 }}
               />
 
               <FormSelectField
                 name='role'
-                label='Role'
+                label='Papel'
                 required
                 options={ROLE_OPTIONS}
-                placeholder='Select role'
+                placeholder='Selecione o papel'
                 validators={{
-                  onBlur: z.string().min(1, 'Please select a role')
+                  onBlur: z.string().min(1, 'Selecione um papel.')
+                }}
+              />
+
+              <FormSelectField
+                name='unidade'
+                label='Unidade'
+                required
+                options={UNIDADE_OPTIONS}
+                placeholder='Selecione a unidade'
+                validators={{
+                  onBlur: z.string().min(1, 'Selecione a unidade.')
+                }}
+              />
+
+              <FormTextField
+                name='centro_de_custo'
+                label='Centro de custo'
+                required
+                placeholder='Ex.: CC-1001'
+                validators={{
+                  onBlur: z.string().min(1, 'Informe o centro de custo.')
                 }}
               />
 
               <FormSelectField
                 name='status'
-                label='Status'
+                label='Situação'
                 required
                 options={STATUS_OPTIONS}
-                placeholder='Select status'
+                placeholder='Selecione a situação'
                 validators={{
-                  onBlur: z.string().min(1, 'Please select a status')
+                  onBlur: z.string().min(1, 'Selecione a situação.')
                 }}
               />
             </form.Form>
@@ -164,10 +181,10 @@ export function UserFormSheet({ user, open, onOpenChange }: UserFormSheetProps) 
 
         <SheetFooter>
           <Button type='button' variant='outline' onClick={() => onOpenChange(false)}>
-            Cancel
+            Cancelar
           </Button>
           <Button type='submit' form='user-form-sheet' isLoading={isPending}>
-            <Icons.check /> {isEdit ? 'Update User' : 'Create User'}
+            <Icons.check /> {isEdit ? 'Atualizar usuário' : 'Criar usuário'}
           </Button>
         </SheetFooter>
       </SheetContent>
@@ -181,7 +198,7 @@ export function UserFormSheetTrigger() {
   return (
     <>
       <Button onClick={() => setOpen(true)}>
-        <Icons.add className='mr-2 h-4 w-4' /> Add User
+        <Icons.add className='mr-2 h-4 w-4' /> Novo Usuário
       </Button>
       <UserFormSheet open={open} onOpenChange={setOpen} />
     </>

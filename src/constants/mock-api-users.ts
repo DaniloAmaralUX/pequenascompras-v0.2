@@ -1,11 +1,23 @@
 ////////////////////////////////////////////////////////////////////////////////
-// 🛑 Nothing in here has anything to do with Nextjs, it's just a fake database
+// Banco de dados fake de Usuários — Sistema de Pequenas Compras (SESI)
 ////////////////////////////////////////////////////////////////////////////////
 
 import { faker } from '@faker-js/faker';
 import { matchSorter } from 'match-sorter';
+import { SESI_UNIDADES } from '@/constants/mock-api-cost-centers';
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Papéis do sistema de compras (usados no RBAC)
+export const USER_ROLES = [
+  'Solicitante',
+  'Gestor',
+  'Analista de Suprimentos',
+  'Administrador'
+] as const;
+
+// Situação do usuário
+export const USER_STATUSES = ['Ativo', 'Inativo', 'Convidado'] as const;
 
 export type User = {
   id: number;
@@ -15,37 +27,32 @@ export type User = {
   phone: string;
   status: string;
   role: string;
+  unidade: string;
+  centro_de_custo: string;
   created_at: string;
   updated_at: string;
 };
 
-// Mock user data store
 export const fakeUsers = {
   records: [] as User[],
 
   initialize() {
     const sampleUsers: User[] = [];
-    function generateRandomUserData(id: number): User {
-      const roles = ['Developer', 'Designer', 'Manager', 'QA', 'DevOps', 'Product Owner'];
-      const statuses = ['Active', 'Inactive', 'Invited'];
-
-      return {
+    for (let id = 1; id <= 40; id++) {
+      sampleUsers.push({
         id,
         first_name: faker.person.firstName(),
         last_name: faker.person.lastName(),
-        email: faker.internet.email(),
+        email: faker.internet.email().toLowerCase(),
         phone: faker.phone.number({ style: 'national' }),
-        status: faker.helpers.arrayElement(statuses),
-        role: faker.helpers.arrayElement(roles),
-        created_at: faker.date.between({ from: '2022-01-01', to: '2023-12-31' }).toISOString(),
+        status: faker.helpers.arrayElement(USER_STATUSES),
+        role: faker.helpers.arrayElement(USER_ROLES),
+        unidade: faker.helpers.arrayElement(SESI_UNIDADES),
+        centro_de_custo: `CC-${faker.number.int({ min: 1001, max: 1014 })}`,
+        created_at: faker.date.between({ from: '2024-01-01', to: '2025-12-31' }).toISOString(),
         updated_at: faker.date.recent().toISOString()
-      };
+      });
     }
-
-    for (let i = 1; i <= 50; i++) {
-      sampleUsers.push(generateRandomUserData(i));
-    }
-
     this.records = sampleUsers;
   },
 
@@ -66,11 +73,11 @@ export const fakeUsers = {
   },
 
   async createUser(data: Omit<User, 'id' | 'created_at' | 'updated_at'>) {
-    await delay(800);
+    await delay(500);
 
     const newUser: User = {
       ...data,
-      id: this.records.length + 1,
+      id: this.records.length > 0 ? Math.max(...this.records.map((u) => u.id)) + 1 : 1,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
@@ -79,18 +86,18 @@ export const fakeUsers = {
 
     return {
       success: true,
-      message: 'User created successfully',
+      message: 'Usuário criado com sucesso',
       user: newUser
     };
   },
 
   async updateUser(id: number, data: Omit<User, 'id' | 'created_at' | 'updated_at'>) {
-    await delay(800);
+    await delay(500);
 
     const index = this.records.findIndex((user) => user.id === id);
 
     if (index === -1) {
-      return { success: false, message: `User with ID ${id} not found` };
+      return { success: false, message: `Usuário com ID ${id} não encontrado` };
     }
 
     this.records[index] = {
@@ -101,25 +108,25 @@ export const fakeUsers = {
 
     return {
       success: true,
-      message: 'User updated successfully',
+      message: 'Usuário atualizado com sucesso',
       user: this.records[index]
     };
   },
 
   async deleteUser(id: number) {
-    await delay(800);
+    await delay(500);
 
     const index = this.records.findIndex((user) => user.id === id);
 
     if (index === -1) {
-      return { success: false, message: `User with ID ${id} not found` };
+      return { success: false, message: `Usuário com ID ${id} não encontrado` };
     }
 
     this.records.splice(index, 1);
 
     return {
       success: true,
-      message: 'User deleted successfully'
+      message: 'Usuário removido com sucesso'
     };
   },
 
@@ -136,14 +143,13 @@ export const fakeUsers = {
     search?: string;
     sort?: string;
   }) {
-    await delay(800);
+    await delay(500);
     const rolesArray = roles ? (Array.isArray(roles) ? roles : String(roles).split(/[.,]/)) : [];
     const allUsers = await this.getAll({
       roles: rolesArray,
       search
     });
 
-    // Sorting
     if (sort) {
       try {
         const sortItems = JSON.parse(sort) as {
@@ -153,7 +159,6 @@ export const fakeUsers = {
         if (sortItems.length > 0) {
           const { id, desc } = sortItems[0];
           allUsers.sort((a, b) => {
-            // Handle computed 'name' column
             const aVal =
               id === 'name' ? `${a.first_name} ${a.last_name}` : (a as Record<string, unknown>)[id];
             const bVal =
@@ -167,7 +172,7 @@ export const fakeUsers = {
           });
         }
       } catch {
-        // Invalid sort param — ignore
+        // parâmetro de ordenação inválido — ignora
       }
     }
 
@@ -179,7 +184,7 @@ export const fakeUsers = {
     return {
       success: true,
       time: new Date().toISOString(),
-      message: 'Sample data for testing and learning purposes',
+      message: 'Usuários carregados',
       total_users: totalUsers,
       offset,
       limit,
