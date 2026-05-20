@@ -8,18 +8,15 @@ type BreadcrumbItem = {
   link: string;
 };
 
-// This allows to add custom title as well
+// Mapeamento de rótulos amigáveis para as rotas do sistema de compras
 const routeMapping: Record<string, BreadcrumbItem[]> = {
   '/dashboard': [{ title: 'Dashboard', link: '/dashboard' }],
-  '/dashboard/employee': [
-    { title: 'Dashboard', link: '/dashboard' },
-    { title: 'Employee', link: '/dashboard/employee' }
-  ],
-  '/dashboard/product': [
-    { title: 'Dashboard', link: '/dashboard' },
-    { title: 'Product', link: '/dashboard/product' }
-  ]
-  // Add more custom mappings as needed
+  '/dashboard/overview': [{ title: 'Dashboard', link: '/dashboard/overview' }],
+  '/dashboard/suppliers': [{ title: 'Fornecedores', link: '/dashboard/suppliers' }],
+  '/dashboard/cost-centers': [{ title: 'Centros de Custo', link: '/dashboard/cost-centers' }],
+  '/dashboard/catalog': [{ title: 'Catálogo de Itens', link: '/dashboard/catalog' }],
+  '/dashboard/users': [{ title: 'Usuários', link: '/dashboard/users' }]
+  // Adicione mais mapeamentos conforme necessário
 };
 
 export function useBreadcrumbs() {

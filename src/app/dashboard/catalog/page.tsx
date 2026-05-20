@@ -1,37 +1,38 @@
 import PageContainer from '@/components/layout/page-container';
 import { buttonVariants } from '@/components/ui/button';
-import ProductListingPage from '@/features/products/components/product-listing';
+import CatalogItemListingPage from '@/features/catalog-items/components/catalog-item-listing';
 import { searchParamsCache } from '@/lib/searchparams';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 import Link from 'next/link';
 import { SearchParams } from 'nuqs/server';
-import { productInfoContent } from '@/config/infoconfig';
 
 export const metadata = {
-  title: 'Dashboard: Products'
+  title: 'Compras: Catálogo de Itens'
 };
 
-type pageProps = {
+type PageProps = {
   searchParams: Promise<SearchParams>;
 };
 
-export default async function Page(props: pageProps) {
+export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
   searchParamsCache.parse(searchParams);
 
   return (
     <PageContainer
-      pageTitle='Products'
-      pageDescription='Manage products (React Query + nuqs table pattern.)'
-      infoContent={productInfoContent}
+      pageTitle='Catálogo de Itens'
+      pageDescription='Itens compráveis, com indicação de estoque, contrato vigente e preço médio.'
       pageHeaderAction={
-        <Link href='/dashboard/product/new' className={cn(buttonVariants(), 'text-xs md:text-sm')}>
-          <Icons.add className='mr-2 h-4 w-4' /> Add New
+        <Link
+          href='/dashboard/catalog/new'
+          className={cn(buttonVariants(), 'text-xs md:text-sm')}
+        >
+          <Icons.add className='mr-2 h-4 w-4' /> Novo Item
         </Link>
       }
     >
-      <ProductListingPage />
+      <CatalogItemListingPage />
     </PageContainer>
   );
 }

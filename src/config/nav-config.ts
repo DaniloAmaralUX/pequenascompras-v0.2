@@ -43,7 +43,7 @@ export const navGroups: NavGroup[] = [
       },
       {
         title: 'Catálogo de Itens',
-        url: '/dashboard/product',
+        url: '/dashboard/catalog',
         icon: 'catalog',
         shortcut: ['c', 'c'],
         isActive: false,

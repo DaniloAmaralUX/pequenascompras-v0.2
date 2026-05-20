@@ -6,34 +6,34 @@ import { useDataTable } from '@/hooks/use-data-table';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
 import { getSortingStateParser } from '@/lib/parsers';
-import { productsQueryOptions } from '../../api/queries';
+import { catalogItemsQueryOptions } from '../../api/queries';
 import { columns } from './columns';
 
 const columnIds = columns.map((c) => c.id).filter(Boolean) as string[];
 
-export function ProductTable() {
+export function CatalogItemTable() {
   const [params] = useQueryStates({
     page: parseAsInteger.withDefault(1),
     perPage: parseAsInteger.withDefault(10),
-    name: parseAsString,
-    category: parseAsString,
+    nome: parseAsString,
+    categoria: parseAsString,
     sort: getSortingStateParser(columnIds).withDefault([])
   });
 
   const filters = {
     page: params.page,
     limit: params.perPage,
-    ...(params.name && { search: params.name }),
-    ...(params.category && { categories: params.category }),
+    ...(params.nome && { search: params.nome }),
+    ...(params.categoria && { categorias: params.categoria }),
     ...(params.sort.length > 0 && { sort: JSON.stringify(params.sort) })
   };
 
-  const { data } = useSuspenseQuery(productsQueryOptions(filters));
+  const { data } = useSuspenseQuery(catalogItemsQueryOptions(filters));
 
-  const pageCount = Math.ceil(data.total_products / params.perPage);
+  const pageCount = Math.ceil(data.total_items / params.perPage);
 
   const { table } = useDataTable({
-    data: data.products,
+    data: data.items,
     columns,
     pageCount,
     shallow: true,
