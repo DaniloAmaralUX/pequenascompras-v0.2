@@ -125,7 +125,10 @@ export default function PurchaseRequestForm() {
               <span className='text-muted-foreground text-sm'>
                 Etapa {currentStep} de {stepSchemas.length}
               </span>
-              <Progress value={(currentStep / stepSchemas.length) * 100} />
+              <Progress
+                value={(currentStep / stepSchemas.length) * 100}
+                aria-label={`Progresso: etapa ${currentStep} de ${stepSchemas.length}`}
+              />
             </div>
 
             <AnimatePresence mode='popLayout' initial={false}>

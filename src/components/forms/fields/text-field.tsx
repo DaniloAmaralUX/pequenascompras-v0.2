@@ -36,6 +36,11 @@ export function TextField({
   const isValidating = useStore(field.store, (s) => s.meta.isValidating);
   const value = useStore(field.store, (s) => s.value) as string | number;
 
+  const describedBy =
+    [description ? field.formDescriptionId : null, field.formMessageId]
+      .filter(Boolean)
+      .join(' ') || undefined;
+
   return (
     <FormFieldSet>
       <FormField>
@@ -58,6 +63,8 @@ export function TextField({
               }
             }}
             aria-invalid={isTouched && !isValid}
+            aria-required={required || undefined}
+            aria-describedby={describedBy}
             className={className}
             {...inputProps}
           />
@@ -67,7 +74,9 @@ export function TextField({
             </div>
           )}
         </div>
-        {description && <FieldDescription>{description}</FieldDescription>}
+        {description && (
+          <FieldDescription id={field.formDescriptionId}>{description}</FieldDescription>
+        )}
       </FormField>
       <FormFieldError />
     </FormFieldSet>

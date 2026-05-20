@@ -36,6 +36,11 @@ export function TextareaField({
   const isValid = useStore(field.store, (s) => s.meta.isValid);
   const value = (useStore(field.store, (s) => s.value) as string) ?? '';
 
+  const describedBy =
+    [description ? field.formDescriptionId : null, field.formMessageId]
+      .filter(Boolean)
+      .join(' ') || undefined;
+
   return (
     <FormFieldSet>
       <FormField>
@@ -50,6 +55,8 @@ export function TextareaField({
           onChange={(e) => field.handleChange(e.target.value)}
           maxLength={maxLength}
           aria-invalid={isTouched && !isValid}
+          aria-required={required || undefined}
+          aria-describedby={describedBy}
           className={className}
           {...textareaProps}
         />
@@ -59,7 +66,9 @@ export function TextareaField({
             {maxLength ? ` / ${maxLength}` : ''}
           </div>
         )}
-        {description && <FieldDescription>{description}</FieldDescription>}
+        {description && (
+          <FieldDescription id={field.formDescriptionId}>{description}</FieldDescription>
+        )}
       </FormField>
       <FormFieldError />
     </FormFieldSet>

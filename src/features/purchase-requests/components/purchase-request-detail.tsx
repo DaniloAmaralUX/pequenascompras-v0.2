@@ -33,7 +33,7 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
       {/* Cabeçalho */}
       <div className='flex flex-wrap items-center justify-between gap-3'>
         <div>
-          <h2 className='font-mono text-2xl font-bold'>{req.numero}</h2>
+          <h1 className='font-mono text-2xl font-bold'>{req.numero}</h1>
           <p className='text-muted-foreground text-sm'>
             Solicitado por {req.solicitante_nome} · {req.unidade}
           </p>

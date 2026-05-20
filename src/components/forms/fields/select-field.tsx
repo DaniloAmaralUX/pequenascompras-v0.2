@@ -39,6 +39,11 @@ export function SelectField({
   const isValid = useStore(field.store, (s) => s.meta.isValid);
   const value = useStore(field.store, (s) => s.value) as string;
 
+  const describedBy =
+    [description ? field.formDescriptionId : null, field.formMessageId]
+      .filter(Boolean)
+      .join(' ') || undefined;
+
   return (
     <FormFieldSet>
       <FormField>
@@ -53,7 +58,12 @@ export function SelectField({
             if (!open) field.handleBlur();
           }}
         >
-          <SelectTrigger id={field.name} aria-invalid={isTouched && !isValid}>
+          <SelectTrigger
+            id={field.name}
+            aria-invalid={isTouched && !isValid}
+            aria-required={required || undefined}
+            aria-describedby={describedBy}
+          >
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>
           <SelectContent>
@@ -64,7 +74,9 @@ export function SelectField({
             ))}
           </SelectContent>
         </Select>
-        {description && <FieldDescription>{description}</FieldDescription>}
+        {description && (
+          <FieldDescription id={field.formDescriptionId}>{description}</FieldDescription>
+        )}
       </FormField>
       <FormFieldError />
     </FormFieldSet>

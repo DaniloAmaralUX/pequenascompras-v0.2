@@ -173,12 +173,16 @@ function ApprovalSheet({
             placeholder='Opcional para aprovação; obrigatório ao rejeitar.'
             rows={4}
           />
+          <p id='rejeitar-hint' className='text-muted-foreground text-xs'>
+            A justificativa é obrigatória para rejeitar a solicitação.
+          </p>
         </div>
         <SheetFooter className='flex-row justify-end gap-2'>
           <Button
             variant='destructive'
             isLoading={loading}
             disabled={comentario.trim().length === 0}
+            aria-describedby='rejeitar-hint'
             onClick={() => onDecidir('rejeitar', comentario)}
           >
             Rejeitar
@@ -238,11 +242,15 @@ function CompraSheet({
               onChange={(e) => setValor(e.target.value)}
             />
           </div>
+          <p id='compra-hint' className='text-muted-foreground text-xs'>
+            Informe o fornecedor e o valor real para confirmar a compra.
+          </p>
         </div>
         <SheetFooter>
           <Button
             isLoading={loading}
             disabled={fornecedor.trim().length === 0 || !valor}
+            aria-describedby='compra-hint'
             onClick={() => onConfirmar(fornecedor, Number(valor))}
           >
             Confirmar compra
