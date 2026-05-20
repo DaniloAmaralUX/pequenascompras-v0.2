@@ -9,8 +9,10 @@ export const searchParams = {
   page: parseAsInteger.withDefault(1),
   perPage: parseAsInteger.withDefault(10),
   name: parseAsString,
+  nome: parseAsString,
   gender: parseAsString,
   category: parseAsString,
+  categoria: parseAsString,
   role: parseAsString,
   sort: parseAsString
   // advanced filter

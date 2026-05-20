@@ -34,9 +34,17 @@ export const navGroups: NavGroup[] = [
     label: 'Cadastros',
     items: [
       {
+        title: 'Fornecedores',
+        url: '/dashboard/suppliers',
+        icon: 'supplier',
+        shortcut: ['f', 'f'],
+        isActive: false,
+        items: []
+      },
+      {
         title: 'Catálogo de Itens',
         url: '/dashboard/product',
-        icon: 'product',
+        icon: 'catalog',
         shortcut: ['c', 'c'],
         isActive: false,
         items: []
