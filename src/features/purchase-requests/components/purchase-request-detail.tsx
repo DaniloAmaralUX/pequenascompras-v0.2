@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
 import { Icons } from '@/components/icons';
+import { RevealSection } from '@/components/reveal-section';
 import { purchaseRequestByIdOptions } from '../api/queries';
 import type { PurchaseRequest } from '../api/types';
 import { PURCHASE_STATUS } from '@/constants/mock-api-purchase-requests';
@@ -31,34 +32,39 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
   return (
     <div className='space-y-4'>
       {/* Cabeçalho */}
-      <div className='flex flex-wrap items-center justify-between gap-3'>
-        <div>
-          <h1 className='font-mono text-2xl font-bold'>{req.numero}</h1>
-          <p className='text-muted-foreground text-sm'>
-            Solicitado por {req.solicitante_nome} · {req.unidade}
-          </p>
+      <RevealSection delay={0}>
+        <div className='flex flex-wrap items-center justify-between gap-3'>
+          <div>
+            <h1 className='font-mono text-2xl font-bold'>{req.numero}</h1>
+            <p className='text-muted-foreground text-sm'>
+              Solicitado por {req.solicitante_nome} · {req.unidade}
+            </p>
+          </div>
+          <Badge variant={statusBadgeVariant[req.status] ?? 'outline'} className='text-sm'>
+            {req.status}
+          </Badge>
         </div>
-        <Badge variant={statusBadgeVariant[req.status] ?? 'outline'} className='text-sm'>
-          {req.status}
-        </Badge>
-      </div>
+      </RevealSection>
 
       {/* Motivos de bloqueio */}
       {req.status === PURCHASE_STATUS.BLOQUEADA && req.motivos_bloqueio.length > 0 && (
-        <Alert variant='destructive'>
-          <Icons.warning className='h-4 w-4' />
-          <AlertTitle>Solicitação bloqueada pelo motor de governança</AlertTitle>
-          <AlertDescription>
-            <ul className='list-disc pl-4'>
-              {req.motivos_bloqueio.map((m, i) => (
-                <li key={i}>{m}</li>
-              ))}
-            </ul>
-          </AlertDescription>
-        </Alert>
+        <RevealSection delay={0.08}>
+          <Alert variant='destructive'>
+            <Icons.warning className='h-4 w-4' />
+            <AlertTitle>Solicitação bloqueada pelo motor de governança</AlertTitle>
+            <AlertDescription>
+              <ul className='list-disc pl-4'>
+                {req.motivos_bloqueio.map((m, i) => (
+                  <li key={i}>{m}</li>
+                ))}
+              </ul>
+            </AlertDescription>
+          </Alert>
+        </RevealSection>
       )}
 
-      <div className='grid gap-4 lg:grid-cols-3'>
+      <RevealSection delay={0.16}>
+        <div className='grid gap-4 lg:grid-cols-3'>
         {/* Coluna principal */}
         <div className='space-y-4 lg:col-span-2'>
           {/* Dados gerais */}
@@ -191,7 +197,8 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
 
           <WorkflowActionPanel request={req} />
         </div>
-      </div>
+        </div>
+      </RevealSection>
     </div>
   );
 }
