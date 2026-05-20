@@ -15,7 +15,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import * as React from 'react';
-import { CheckIcon, CaretSortIcon } from '@radix-ui/react-icons';
+import { CheckIcon, ChevronsUpDownIcon } from 'lucide-react';
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -41,7 +41,7 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
         >
           <Icons.adjustments />
           View
-          <CaretSortIcon className='ml-auto opacity-50' />
+          <ChevronsUpDownIcon className='ml-auto opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent align='end' className='w-44 p-0'>

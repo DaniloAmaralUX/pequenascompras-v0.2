@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import { ChevronDownIcon, ChevronUpIcon, CaretSortIcon, Cross2Icon } from '@radix-ui/react-icons';
+import { ChevronDownIcon, ChevronUpIcon, ChevronsUpDownIcon, XIcon } from 'lucide-react';
 
 interface DataTableColumnHeaderProps<TData, TValue> extends React.ComponentProps<
   typeof DropdownMenuTrigger
@@ -46,7 +46,7 @@ export function DataTableColumnHeader<TData, TValue>({
           ) : column.getIsSorted() === 'asc' ? (
             <ChevronUpIcon />
           ) : (
-            <CaretSortIcon />
+            <ChevronsUpDownIcon />
           ))}
       </DropdownMenuTrigger>
       <DropdownMenuContent align='start' className='w-28'>
@@ -73,7 +73,7 @@ export function DataTableColumnHeader<TData, TValue>({
                 className='[&_svg]:text-muted-foreground pl-2'
                 onClick={() => column.clearSorting()}
               >
-                <Cross2Icon />
+                <XIcon />
                 Reset
               </DropdownMenuItem>
             )}
