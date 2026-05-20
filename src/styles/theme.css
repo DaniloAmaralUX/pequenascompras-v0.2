@@ -1,6 +1,7 @@
 /* Import individual theme files */
 @import './themes/sesi.css';
 @import './themes/vercel.css';
+@import './themes/maia.css';
 
 body {
   @apply overscroll-none;

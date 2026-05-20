@@ -12,5 +12,9 @@ export const THEMES = [
   {
     name: 'Vercel',
     value: 'vercel'
+  },
+  {
+    name: 'Maia',
+    value: 'maia'
   }
 ];

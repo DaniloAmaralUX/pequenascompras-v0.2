@@ -1,6 +1,7 @@
 import {
   Architects_Daughter,
   DM_Sans,
+  Figtree,
   Fira_Code,
   Geist,
   Geist_Mono,
@@ -90,6 +91,11 @@ const fontPlayfairDisplay = Playfair_Display({
   variable: '--font-playfair-display'
 });
 
+const fontFigtree = Figtree({
+  subsets: ['latin'],
+  variable: '--font-figtree'
+});
+
 export const fontVariables = cn(
   fontSans.variable,
   fontMono.variable,
@@ -104,5 +110,6 @@ export const fontVariables = cn(
   fontSpaceMono.variable,
   fontJetBrainsMono.variable,
   fontMerriweather.variable,
-  fontPlayfairDisplay.variable
+  fontPlayfairDisplay.variable,
+  fontFigtree.variable
 );
