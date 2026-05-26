@@ -14,9 +14,9 @@ import {
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export async function fetchDashboard() {
+export async function fetchDashboard(periodoDias: number | null = 30) {
   await delay(200);
-  return getDashboardData();
+  return getDashboardData(periodoDias);
 }
 
 export async function fetchItensRecorrentes() {

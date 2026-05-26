@@ -1,11 +1,19 @@
 'use client';
 
+import * as React from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle
+} from '@/components/ui/dialog';
 import { Icons } from '@/components/icons';
 import { RevealSection } from '@/components/reveal-section';
 import { cn } from '@/lib/utils';
@@ -15,8 +23,7 @@ import { PURCHASE_STATUS } from '@/constants/mock-api-purchase-requests';
 import { statusBadgeVariant } from '../constants/purchase-request-options';
 import { WorkflowActionPanel } from './workflow-action-panel';
 
-const formatBRL = (v: number) =>
-  v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const formatBRL = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 const formatDataHora = (iso: string) =>
   new Date(iso).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
@@ -53,6 +60,7 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
 
   const req = data.request as PurchaseRequest;
   const bloqueada = req.status === PURCHASE_STATUS.BLOQUEADA && req.motivos_bloqueio.length > 0;
+  const [anexoAberto, setAnexoAberto] = React.useState<string | null>(null);
 
   return (
     <div className='flex flex-col gap-6'>
@@ -243,7 +251,7 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
                       <li key={i}>
                         <button
                           type='button'
-                          title='Visualização de anexos não disponível neste protótipo'
+                          onClick={() => setAnexoAberto(a.nome)}
                           className='hover:bg-muted/60 group flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-left text-sm transition-colors duration-150'
                         >
                           <Icons.paperclip
@@ -255,7 +263,7 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
                             variant='outline'
                             className='text-muted-foreground text-[10px] font-normal'
                           >
-                            protótipo
+                            ver
                           </Badge>
                         </button>
                       </li>
@@ -325,7 +333,45 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
           </div>
         </div>
       </RevealSection>
+
+      <AnexoPreviewDialog nome={anexoAberto} onClose={() => setAnexoAberto(null)} />
     </div>
+  );
+}
+
+/** Preview mock de anexo — Dialog com placeholder visual. No MVP renderiza PDF/imagem real. */
+function AnexoPreviewDialog({ nome, onClose }: { nome: string | null; onClose: () => void }) {
+  return (
+    <Dialog open={!!nome} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className='max-w-2xl'>
+        <DialogHeader>
+          <DialogTitle className='flex items-center gap-2 text-base'>
+            <Icons.paperclip className='size-4' aria-hidden='true' />
+            {nome}
+          </DialogTitle>
+          <DialogDescription>
+            Preview do documento. No MVP, este painel renderiza o PDF ou imagem real do anexo.
+          </DialogDescription>
+        </DialogHeader>
+        <div className='bg-muted/40 flex aspect-[1/1.2] items-center justify-center rounded-lg border border-dashed'>
+          <div className='flex flex-col items-center gap-3 text-center'>
+            <div className='bg-background ring-border flex size-16 items-center justify-center rounded-full ring-1'>
+              <Icons.fileTypePdf className='text-muted-foreground size-7' aria-hidden='true' />
+            </div>
+            <div className='flex flex-col gap-1'>
+              <p className='text-sm font-medium'>Preview disponível no MVP</p>
+              <p className='text-muted-foreground max-w-xs text-xs text-pretty'>
+                Em produção, o conteúdo do arquivo será renderizado aqui (PDF inline, imagem,
+                planilha, etc.) sem precisar baixar.
+              </p>
+            </div>
+            <Badge variant='outline' className='text-[10px] font-normal'>
+              Protótipo
+            </Badge>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -392,10 +438,7 @@ function Timeline({ eventos }: { eventos: HistoryEvent[] }) {
                 )}
               >
                 <Icon
-                  className={cn(
-                    'size-3.5',
-                    isLast ? 'text-primary-foreground' : 'text-primary'
-                  )}
+                  className={cn('size-3.5', isLast ? 'text-primary-foreground' : 'text-primary')}
                   aria-hidden='true'
                 />
               </div>

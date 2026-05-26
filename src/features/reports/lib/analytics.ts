@@ -32,6 +32,13 @@ function solicitacoesValidas(): PurchaseRequest[] {
   return fakePurchaseRequests.records.filter((r) => !STATUS_EXCLUIDOS.includes(r.status));
 }
 
+/** Filtra solicitações pelos últimos N dias (criada_em). null/undefined = sem filtro. */
+function filtrarPorPeriodo(reqs: PurchaseRequest[], periodoDias: number | null): PurchaseRequest[] {
+  if (periodoDias == null) return reqs;
+  const corte = Date.now() - periodoDias * 86_400_000;
+  return reqs.filter((r) => new Date(r.criada_em).getTime() >= corte);
+}
+
 export type DashboardKpis = {
   gastoTotal: number;
   totalSolicitacoes: number;
@@ -109,14 +116,23 @@ function periodos(reqs: PurchaseRequest[], janelaDias = 30) {
   return { atual, anterior };
 }
 
-/** Dados consolidados do Dashboard de Compras. */
-export function getDashboardData(): DashboardData {
-  const reqs = solicitacoesValidas();
+/**
+ * Dados consolidados do Dashboard de Compras.
+ *
+ * @param periodoDias Janela de tempo (em dias) usada para filtrar e calcular deltas.
+ *                    `null` ou `undefined` = todo o histórico (sem filtro de período).
+ *                    Default `30` (últimos 30 dias).
+ */
+export function getDashboardData(periodoDias: number | null = 30): DashboardData {
+  const todas = solicitacoesValidas();
+  const reqs = filtrarPorPeriodo(todas, periodoDias);
   const gastoTotal = reqs.reduce((t, r) => t + valorEfetivo(r), 0);
   const totalSolicitacoes = reqs.length;
 
-  // Períodos para comparação delta (últimos 30 dias vs 30 dias anteriores)
-  const { atual: pAtual, anterior: pAnt } = periodos(reqs, 30);
+  // Períodos para comparação delta — usa a mesma janela escolhida pelo usuário
+  // (se "tudo", compara contra os últimos 30 dias por padrão).
+  const janela = periodoDias ?? 30;
+  const { atual: pAtual, anterior: pAnt } = periodos(todas, janela);
   const gastoAtual = pAtual.reduce((t, r) => t + valorEfetivo(r), 0);
   const gastoAnt = pAnt.reduce((t, r) => t + valorEfetivo(r), 0);
   const ticketAtual = pAtual.length > 0 ? gastoAtual / pAtual.length : 0;
@@ -231,17 +247,15 @@ export function getItensRecorrentes(): ItemRecorrente[] {
 
   for (const r of reqs) {
     for (const it of r.itens) {
-      const e =
-        mapa.get(it.descricao) ??
-        {
-          categoria: it.categoria,
-          numCompras: 0,
-          qtdTotal: 0,
-          valorTotal: 0,
-          solicitantes: new Set<string>(),
-          centros: new Set<string>(),
-          precos: [] as number[]
-        };
+      const e = mapa.get(it.descricao) ?? {
+        categoria: it.categoria,
+        numCompras: 0,
+        qtdTotal: 0,
+        valorTotal: 0,
+        solicitantes: new Set<string>(),
+        centros: new Set<string>(),
+        precos: [] as number[]
+      };
       e.numCompras += 1;
       e.qtdTotal += it.quantidade;
       e.valorTotal += it.quantidade * it.valor_unitario_estimado;

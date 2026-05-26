@@ -18,7 +18,9 @@ export const searchParams = {
   status: parseAsString,
   prioridade: parseAsString,
   role: parseAsString,
-  sort: parseAsString
+  sort: parseAsString,
+  /** Janela de período (em dias) para o Dashboard. 30 = padrão; 0 = todo o histórico. */
+  periodo: parseAsInteger.withDefault(30)
   // advanced filter
   // filters: getFiltersStateParser().withDefault([]),
   // joinOperator: parseAsStringEnum(['and', 'or']).withDefault('and')

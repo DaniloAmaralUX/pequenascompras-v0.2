@@ -103,11 +103,31 @@ const somaItens = (itens: PurchaseRequestItem[]) =>
  * tornando significativas as análises de recorrência e de preço.
  */
 const CATALOGO_ITENS = [
-  { nome: 'Café em grão', categoria: 'Alimentação / Coffee Break', unidade: 'Quilograma', preco: 38 },
-  { nome: 'Coffee break - salgados', categoria: 'Alimentação / Coffee Break', unidade: 'Pacote', preco: 95 },
-  { nome: 'Água mineral 500ml', categoria: 'Alimentação / Coffee Break', unidade: 'Caixa', preco: 22 },
+  {
+    nome: 'Café em grão',
+    categoria: 'Alimentação / Coffee Break',
+    unidade: 'Quilograma',
+    preco: 38
+  },
+  {
+    nome: 'Coffee break - salgados',
+    categoria: 'Alimentação / Coffee Break',
+    unidade: 'Pacote',
+    preco: 95
+  },
+  {
+    nome: 'Água mineral 500ml',
+    categoria: 'Alimentação / Coffee Break',
+    unidade: 'Caixa',
+    preco: 22
+  },
   { nome: 'Papel sulfite A4', categoria: 'Material de Escritório', unidade: 'Resma', preco: 28 },
-  { nome: 'Caneta esferográfica azul', categoria: 'Material de Escritório', unidade: 'Caixa', preco: 24 },
+  {
+    nome: 'Caneta esferográfica azul',
+    categoria: 'Material de Escritório',
+    unidade: 'Caixa',
+    preco: 24
+  },
   { nome: 'Bloco de notas', categoria: 'Material de Escritório', unidade: 'Unidade', preco: 9 },
   { nome: 'Pasta de arquivo', categoria: 'Material de Escritório', unidade: 'Unidade', preco: 15 },
   { nome: 'Toner para impressora', categoria: 'Equipamentos e TI', unidade: 'Unidade', preco: 185 },
@@ -223,7 +243,9 @@ function gerarSolicitacao(id: number, statusAlvo: PurchaseStatus): PurchaseReque
   }
   if (idxAlvo >= 4) {
     req.fornecedor_nome = faker.company.name();
-    req.valor_real = parseFloat((valorEstimado * faker.number.float({ min: 0.9, max: 1.1 })).toFixed(2));
+    req.valor_real = parseFloat(
+      (valorEstimado * faker.number.float({ min: 0.9, max: 1.1 })).toFixed(2)
+    );
     req.comprada_em = avancar();
     historico.push({
       data: req.comprada_em,
@@ -380,11 +402,13 @@ export const fakePurchaseRequests = {
   async getAll({
     statuses = [],
     prioridades = [],
-    search
+    search,
+    solicitanteNome
   }: {
     statuses?: string[];
     prioridades?: string[];
     search?: string;
+    solicitanteNome?: string;
   }) {
     let reqs = [...this.records];
 
@@ -393,6 +417,9 @@ export const fakePurchaseRequests = {
     }
     if (prioridades.length > 0) {
       reqs = reqs.filter((r) => prioridades.includes(r.prioridade));
+    }
+    if (solicitanteNome) {
+      reqs = reqs.filter((r) => r.solicitante_nome === solicitanteNome);
     }
     if (search) {
       reqs = matchSorter(reqs, search, {
@@ -409,7 +436,8 @@ export const fakePurchaseRequests = {
     statuses,
     prioridades,
     search,
-    sort
+    sort,
+    solicitanteNome
   }: {
     page?: number;
     limit?: number;
@@ -417,6 +445,7 @@ export const fakePurchaseRequests = {
     prioridades?: string | string[];
     search?: string;
     sort?: string;
+    solicitanteNome?: string;
   }) {
     await delay(400);
     const toArray = (v?: string | string[]) =>
@@ -424,7 +453,8 @@ export const fakePurchaseRequests = {
     const todos = await this.getAll({
       statuses: toArray(statuses),
       prioridades: toArray(prioridades),
-      search
+      search,
+      solicitanteNome
     });
 
     if (sort) {

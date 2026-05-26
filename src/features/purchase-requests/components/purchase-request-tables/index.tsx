@@ -7,20 +7,15 @@ import { useDataTable } from '@/hooks/use-data-table';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
 import { getSortingStateParser } from '@/lib/parsers';
+import { useActiveProfile } from '@/components/layout/active-profile';
 import { purchaseRequestsQueryOptions } from '../../api/queries';
 import type { PurchaseStatus } from '../../api/types';
 import { buildColumns } from './columns';
 
-export function PurchaseRequestTable({
-  presetStatuses
-}: {
-  presetStatuses?: PurchaseStatus[];
-}) {
+export function PurchaseRequestTable({ presetStatuses }: { presetStatuses?: PurchaseStatus[] }) {
+  const { activeProfile } = useActiveProfile();
   const columns = useMemo(() => buildColumns(!presetStatuses), [presetStatuses]);
-  const columnIds = useMemo(
-    () => columns.map((c) => c.id).filter(Boolean) as string[],
-    [columns]
-  );
+  const columnIds = useMemo(() => columns.map((c) => c.id).filter(Boolean) as string[], [columns]);
 
   const [params] = useQueryStates({
     page: parseAsInteger.withDefault(1),
@@ -31,9 +26,7 @@ export function PurchaseRequestTable({
     sort: getSortingStateParser(columnIds).withDefault([])
   });
 
-  const statuses = presetStatuses
-    ? presetStatuses.join(',')
-    : (params.status ?? undefined);
+  const statuses = presetStatuses ? presetStatuses.join(',') : (params.status ?? undefined);
 
   const filters = {
     page: params.page,
@@ -41,7 +34,8 @@ export function PurchaseRequestTable({
     ...(params.numero && { search: params.numero }),
     ...(params.prioridade && { prioridades: params.prioridade }),
     ...(statuses && { statuses }),
-    ...(params.sort.length > 0 && { sort: JSON.stringify(params.sort) })
+    ...(params.sort.length > 0 && { sort: JSON.stringify(params.sort) }),
+    ...(activeProfile === 'Solicitante' && { solicitanteNome: 'Solicitante' })
   };
 
   const { data } = useSuspenseQuery(purchaseRequestsQueryOptions(filters));

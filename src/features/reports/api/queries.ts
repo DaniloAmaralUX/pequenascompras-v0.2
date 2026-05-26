@@ -8,16 +8,17 @@ import {
 
 export const reportKeys = {
   all: ['reports'] as const,
-  dashboard: () => [...reportKeys.all, 'dashboard'] as const,
+  dashboard: (periodoDias: number | null) =>
+    [...reportKeys.all, 'dashboard', { periodoDias }] as const,
   itensRecorrentes: () => [...reportKeys.all, 'itens-recorrentes'] as const,
   gastoPorSetor: () => [...reportKeys.all, 'gasto-por-setor'] as const,
   alertasPreco: () => [...reportKeys.all, 'alertas-preco'] as const
 };
 
-export const dashboardQueryOptions = () =>
+export const dashboardQueryOptions = (periodoDias: number | null = 30) =>
   queryOptions({
-    queryKey: reportKeys.dashboard(),
-    queryFn: fetchDashboard
+    queryKey: reportKeys.dashboard(periodoDias),
+    queryFn: () => fetchDashboard(periodoDias)
   });
 
 export const itensRecorrentesQueryOptions = () =>

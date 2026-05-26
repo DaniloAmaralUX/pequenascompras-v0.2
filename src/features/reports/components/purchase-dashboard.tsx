@@ -1,15 +1,18 @@
 'use client';
 
+import { useTransition } from 'react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+import { parseAsInteger, useQueryState } from 'nuqs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { RevealSection } from '@/components/reveal-section';
@@ -17,18 +20,58 @@ import { dashboardQueryOptions } from '../api/queries';
 import { statusBadgeVariant } from '@/features/purchase-requests/constants/purchase-request-options';
 import { GastoMensalChart, CategoriaPieChart, TopItensBarChart } from './charts';
 
-const formatBRL = (v: number) =>
-  v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const formatBRL = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 /** Fonte de display (serifada) — contraste com o corpo em Geist. */
 const displayFont = 'font-[family-name:var(--font-merriweather)]';
 
+/** Opções de janela temporal do dashboard. Valor `0` = todo o histórico. */
+const PERIODO_OPCOES = [
+  { value: 7, label: 'Últimos 7 dias' },
+  { value: 30, label: 'Últimos 30 dias' },
+  { value: 90, label: 'Últimos 90 dias' },
+  { value: 180, label: 'Últimos 6 meses' },
+  { value: 365, label: 'Último ano' },
+  { value: 0, label: 'Todo o período' }
+] as const;
+
 export default function PurchaseDashboard() {
-  const { data } = useSuspenseQuery(dashboardQueryOptions());
+  const [, startTransition] = useTransition();
+  const [periodo, setPeriodo] = useQueryState(
+    'periodo',
+    parseAsInteger.withDefault(30).withOptions({ startTransition })
+  );
+  const periodoDias = periodo === 0 ? null : periodo;
+  const { data } = useSuspenseQuery(dashboardQueryOptions(periodoDias));
   const { kpis, gastoMensal, gastoPorCategoria, topItens, recentes } = data;
+
+  const periodoLabel = PERIODO_OPCOES.find((o) => o.value === periodo)?.label ?? 'Últimos 30 dias';
 
   return (
     <div className='space-y-4'>
+      {/* Selector de período — filtra todos os indicadores */}
+      <div className='flex flex-wrap items-center justify-between gap-3'>
+        <div className='flex items-center gap-2'>
+          <Icons.calendar className='text-muted-foreground size-4' aria-hidden='true' />
+          <span className='text-muted-foreground text-sm'>
+            Mostrando dados de{' '}
+            <span className='text-foreground font-medium'>{periodoLabel.toLowerCase()}</span>
+          </span>
+        </div>
+        <Select value={String(periodo)} onValueChange={(v) => setPeriodo(Number(v))}>
+          <SelectTrigger size='sm' className='w-[180px]' aria-label='Filtrar dashboard por período'>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent align='end'>
+            {PERIODO_OPCOES.map((opt) => (
+              <SelectItem key={opt.value} value={String(opt.value)}>
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       {/* Hero — gasto total + oportunidades */}
       <RevealSection delay={0}>
         <Card className='from-primary/10 via-primary/5 to-card overflow-hidden bg-gradient-to-r'>
@@ -50,7 +93,8 @@ export default function PurchaseDashboard() {
                   {formatBRL(kpis.gastoTotal)}
                 </p>
                 <p className='text-muted-foreground mt-1 text-xs'>
-                  Consolidado de {kpis.totalSolicitacoes} solicitações no período
+                  Consolidado de {kpis.totalSolicitacoes} solicitações em{' '}
+                  {periodoLabel.toLowerCase()}
                 </p>
               </div>
             </div>
@@ -112,7 +156,11 @@ export default function PurchaseDashboard() {
               <CardDescription>Gasto com pequenas compras por mês</CardDescription>
             </CardHeader>
             <CardContent>
-              <GastoMensalChart data={gastoMensal} />
+              {gastoMensal.length === 0 ? (
+                <ChartEmpty mensagem='Sem gastos registrados neste período.' />
+              ) : (
+                <GastoMensalChart data={gastoMensal} />
+              )}
             </CardContent>
           </Card>
 
@@ -122,7 +170,11 @@ export default function PurchaseDashboard() {
               <CardDescription>Distribuição do gasto</CardDescription>
             </CardHeader>
             <CardContent>
-              <CategoriaPieChart data={gastoPorCategoria} />
+              {gastoPorCategoria.length === 0 ? (
+                <ChartEmpty mensagem='Nenhuma categoria com gasto no período.' />
+              ) : (
+                <CategoriaPieChart data={gastoPorCategoria} />
+              )}
             </CardContent>
           </Card>
         </div>
@@ -137,7 +189,11 @@ export default function PurchaseDashboard() {
               <CardDescription>Itens que mais consomem orçamento</CardDescription>
             </CardHeader>
             <CardContent>
-              <TopItensBarChart data={topItens} />
+              {topItens.length === 0 ? (
+                <ChartEmpty mensagem='Nenhum item registrado no período.' />
+              ) : (
+                <TopItensBarChart data={topItens} />
+              )}
             </CardContent>
           </Card>
 
@@ -154,27 +210,27 @@ export default function PurchaseDashboard() {
                 </div>
               ) : (
                 recentes.map((r) => (
-                <Link
-                  key={r.id}
-                  href={`/dashboard/requests/${r.id}`}
-                  className='hover:bg-muted/60 group flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm transition-colors duration-150'
-                >
-                  <div className='flex flex-col leading-tight'>
-                    <span className='font-mono font-medium group-hover:underline'>
-                      {r.numero}
-                    </span>
-                    <span className='text-muted-foreground text-xs'>{r.solicitante_nome}</span>
-                  </div>
-                  <div className='flex shrink-0 flex-col items-end gap-1'>
-                    <span className='tabular-nums'>{formatBRL(r.valor_estimado)}</span>
-                    <Badge
-                      variant={statusBadgeVariant[r.status] ?? 'outline'}
-                      className='text-[10px]'
-                    >
-                      {r.status}
-                    </Badge>
-                  </div>
-                </Link>
+                  <Link
+                    key={r.id}
+                    href={`/dashboard/requests/${r.id}`}
+                    className='hover:bg-muted/60 group flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm transition-colors duration-150'
+                  >
+                    <div className='flex flex-col leading-tight'>
+                      <span className='font-mono font-medium group-hover:underline'>
+                        {r.numero}
+                      </span>
+                      <span className='text-muted-foreground text-xs'>{r.solicitante_nome}</span>
+                    </div>
+                    <div className='flex shrink-0 flex-col items-end gap-1'>
+                      <span className='tabular-nums'>{formatBRL(r.valor_estimado)}</span>
+                      <Badge
+                        variant={statusBadgeVariant[r.status] ?? 'outline'}
+                        className='text-[10px]'
+                      >
+                        {r.status}
+                      </Badge>
+                    </div>
+                  </Link>
                 ))
               )}
             </CardContent>
@@ -251,13 +307,22 @@ function KpiCard({
   return cardBody;
 }
 
+/** Estado vazio para gráficos quando o período filtrado não retorna dados. */
+function ChartEmpty({ mensagem }: { mensagem: string }) {
+  return (
+    <div className='text-muted-foreground flex h-[240px] flex-col items-center justify-center gap-3 text-center'>
+      <Icons.report className='text-muted-foreground/40 size-8' aria-hidden='true' />
+      <p className='max-w-[220px] text-xs text-pretty'>{mensagem}</p>
+    </div>
+  );
+}
+
 /** Badge de delta — verde (positivo), vermelho (negativo), neutro. Respeita `inverted`. */
 function DeltaBadge({ value, inverted }: { value: number; inverted: boolean }) {
   const positivo = inverted ? value < 0 : value > 0;
   const zero = Math.abs(value) < 0.5; // <0.5% considera estável
   const sinal = value > 0 ? '+' : '';
-  const Arrow =
-    zero ? Icons.arrowRight : value > 0 ? Icons.trendingUp : Icons.trendingDown;
+  const Arrow = zero ? Icons.arrowRight : value > 0 ? Icons.trendingUp : Icons.trendingDown;
   return (
     <span
       className={cn(

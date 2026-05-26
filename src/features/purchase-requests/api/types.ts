@@ -5,10 +5,7 @@ export type {
   PurchaseStatus
 } from '@/constants/mock-api-purchase-requests';
 
-import type {
-  PurchaseRequest,
-  PurchaseRequestItem
-} from '@/constants/mock-api-purchase-requests';
+import type { PurchaseRequest, PurchaseRequestItem } from '@/constants/mock-api-purchase-requests';
 
 export type PurchaseRequestFilters = {
   page?: number;
@@ -17,6 +14,8 @@ export type PurchaseRequestFilters = {
   prioridades?: string;
   search?: string;
   sort?: string;
+  /** Filtra pelas solicitações de um solicitante específico (usado pelo perfil Solicitante). */
+  solicitanteNome?: string;
 };
 
 export type PurchaseRequestsResponse = {
