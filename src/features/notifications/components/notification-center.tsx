@@ -7,51 +7,60 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { NotificationCard } from '@/components/ui/notification-card';
-import { useNotificationStore } from '../utils/store';
+import { useProfileNotifications } from '../utils/store';
 import { useRouter } from 'next/navigation';
 
-const MAX_VISIBLE = 5;
+const MAX_VISIBLE = 6;
 
+/** Rotas de destino por action id — todas dentro do escopo de cada perfil. */
 const actionRoutes: Record<string, string> = {
-  view: '/dashboard/requests',
-  'view-product': '/dashboard/requests',
-  billing: '/dashboard/requests',
-  open: '/dashboard/requests',
-  'open-chat': '/dashboard/requests'
+  'view-request': '/dashboard/requests',
+  'view-approvals': '/dashboard/approvals',
+  'view-execution': '/dashboard/execution',
+  'view-suppliers': '/dashboard/suppliers',
+  'view-reports': '/dashboard/reports/items',
+  'view-dashboard': '/dashboard/overview'
 };
 
 export function NotificationCenter() {
-  const { notifications, markAsRead, markAllAsRead, unreadCount } = useNotificationStore();
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useProfileNotifications();
   const router = useRouter();
-  const count = unreadCount();
   const visibleNotifications = notifications.slice(0, MAX_VISIBLE);
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant='ghost' size='icon' className='relative h-8 w-8'>
+        <Button
+          variant='ghost'
+          size='icon'
+          className='relative size-8'
+          aria-label={`Notificações${unreadCount > 0 ? ` (${unreadCount} não lidas)` : ''}`}
+        >
           <Icons.notification className='h-4 w-4' />
-          {count > 0 && (
-            <span className='bg-destructive text-destructive-foreground absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-medium'>
-              {count > 9 ? '9+' : count}
+          {unreadCount > 0 && (
+            <span className='bg-destructive text-destructive-foreground absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-medium tabular-nums'>
+              {unreadCount > 9 ? '9+' : unreadCount}
             </span>
           )}
-          <span className='sr-only'>Notificações</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent align='end' className='w-[calc(100vw-2rem)] p-0 sm:w-[380px]' sideOffset={8}>
+      <PopoverContent
+        align='end'
+        className='w-[calc(100vw-2rem)] p-0 sm:w-[380px]'
+        sideOffset={8}
+      >
         <div className='flex items-center justify-between px-4 py-3'>
           <Link href='/dashboard/notifications' className='group flex items-center gap-1'>
             <h4 className='text-sm font-semibold group-hover:underline'>Notificações</h4>
-            <Icons.chevronRight className='text-muted-foreground h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5' />
+            <Icons.chevronRight className='text-muted-foreground h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-0.5' />
           </Link>
           <div className='flex items-center gap-2'>
-            {count > 0 && (
-              <span className='bg-muted text-muted-foreground rounded-full px-2 py-0.5 text-xs'>
-                {count} {count === 1 ? 'nova' : 'novas'}
+            {unreadCount > 0 && (
+              <span className='bg-muted text-muted-foreground rounded-full px-2 py-0.5 text-xs tabular-nums'>
+                {unreadCount} {unreadCount === 1 ? 'nova' : 'novas'}
               </span>
             )}
-            {count > 0 && (
+            {unreadCount > 0 && (
               <Button
                 variant='ghost'
                 size='sm'
@@ -83,11 +92,9 @@ export function NotificationCenter() {
                   actions={notification.actions}
                   onMarkAsRead={markAsRead}
                   onAction={(notifId, actionId) => {
-                    const route = actionRoutes[actionId];
-                    if (route) {
-                      markAsRead(notifId);
-                      router.push(route);
-                    }
+                    const route = actionRoutes[actionId] ?? '/dashboard/requests';
+                    markAsRead(notifId);
+                    router.push(route);
                   }}
                 />
               ))}
