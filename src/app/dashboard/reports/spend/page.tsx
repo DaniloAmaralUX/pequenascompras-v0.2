@@ -4,6 +4,7 @@ import { getQueryClient } from '@/lib/query-client';
 import { requireProfile } from '@/lib/route-guard';
 import PageContainer from '@/components/layout/page-container';
 import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
+import { ExportButton } from '@/components/export-button';
 import GastoSetorReport from '@/features/reports/components/gasto-setor-report';
 import { gastoPorSetorQueryOptions } from '@/features/reports/api/queries';
 
@@ -21,6 +22,7 @@ export default async function Page() {
     <PageContainer
       pageTitle='Gasto por Setor'
       pageDescription='Distribuição do gasto com pequenas compras por centro de custo.'
+      pageHeaderAction={<ExportButton reportName='Gasto por Setor' />}
     >
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense fallback={<DataTableSkeleton columnCount={4} rowCount={8} />}>

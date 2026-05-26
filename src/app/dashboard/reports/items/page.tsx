@@ -4,6 +4,7 @@ import { getQueryClient } from '@/lib/query-client';
 import { requireProfile } from '@/lib/route-guard';
 import PageContainer from '@/components/layout/page-container';
 import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
+import { ExportButton } from '@/components/export-button';
 import ItensRecorrentesReport from '@/features/reports/components/itens-recorrentes-report';
 import { itensRecorrentesQueryOptions } from '@/features/reports/api/queries';
 
@@ -21,6 +22,7 @@ export default async function Page() {
     <PageContainer
       pageTitle='Itens Recorrentes'
       pageDescription='Itens comprados repetidamente — candidatos a compra em atacado ou contrato.'
+      pageHeaderAction={<ExportButton reportName='Itens Recorrentes' />}
     >
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense fallback={<DataTableSkeleton columnCount={8} rowCount={8} />}>

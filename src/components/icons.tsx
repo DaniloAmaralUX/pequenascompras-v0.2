@@ -30,6 +30,7 @@ import {
   CreditCard,
   Crown,
   Ellipsis,
+  Download,
   EllipsisVertical,
   ExternalLink,
   EyeOff,
@@ -159,6 +160,8 @@ export const Icons = {
   // Files
   page: File,
   post: FileText,
+  download: Download,
+  fileText: FileText,
   fileTypePdf: FileText,
   fileTypeDoc: FileText,
   fileTypeXls: FileSpreadsheet,

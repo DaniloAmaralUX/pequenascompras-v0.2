@@ -4,6 +4,7 @@ import { getQueryClient } from '@/lib/query-client';
 import { requireProfile } from '@/lib/route-guard';
 import PageContainer from '@/components/layout/page-container';
 import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
+import { ExportButton } from '@/components/export-button';
 import PrecosAlertasReport from '@/features/reports/components/precos-alertas-report';
 import { alertasPrecoQueryOptions } from '@/features/reports/api/queries';
 
@@ -21,6 +22,7 @@ export default async function Page() {
     <PageContainer
       pageTitle='Preços & Alertas'
       pageDescription='Itens com preço acima da média histórica — apoio à negociação.'
+      pageHeaderAction={<ExportButton reportName='Preços & Alertas' />}
     >
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense fallback={<DataTableSkeleton columnCount={6} rowCount={8} />}>
