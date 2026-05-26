@@ -6,8 +6,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectTrigger,
-  SelectValue
+  SelectTrigger
 } from '@/components/ui/select';
 import { PROFILES, type ProfileId } from '@/config/profiles';
 import { useRouter } from 'next/navigation';
@@ -16,6 +15,9 @@ import { useActiveProfile } from './active-profile';
 /**
  * Seletor "Ver como" — ferramenta de protótipo para visualizar a aplicação
  * como cada perfil de usuário. Dirige o RBAC client-side (menu + ações de workflow).
+ *
+ * O trigger mostra apenas o nome do perfil ativo (compacto, uma linha).
+ * O dropdown mostra cada perfil com sua descrição em duas linhas.
  */
 export function ProfileSwitcher() {
   const { activeProfile, setActiveProfile } = useActiveProfile();
@@ -28,11 +30,17 @@ export function ProfileSwitcher() {
     if (profileId === 'Solicitante') router.push('/dashboard/requests');
   };
 
+  const activeProfileData = PROFILES.find((p) => p.id === activeProfile);
+  const ActiveIcon = activeProfileData ? Icons[activeProfileData.icon] : null;
+
   return (
     <Select value={activeProfile} onValueChange={handleProfileChange}>
       <SelectTrigger size='sm' aria-label='Visualizar a aplicação como um perfil'>
         <span className='text-muted-foreground hidden text-xs lg:inline'>Ver como</span>
-        <SelectValue />
+        <span className='flex items-center gap-1.5'>
+          {ActiveIcon && <ActiveIcon className='size-4 shrink-0' />}
+          <span className='font-medium'>{activeProfileData?.label}</span>
+        </span>
       </SelectTrigger>
       <SelectContent align='end' className='min-w-72'>
         <SelectGroup>

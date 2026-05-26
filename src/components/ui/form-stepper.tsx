@@ -18,43 +18,43 @@ export type FormStepperProps = {
 };
 
 /**
- * Indicador de progresso de formulários multi-step com círculos numerados,
- * conectores animados entre etapas e check icon ao concluir.
+ * Indicador de progresso de formulários multi-step (padrão Stripe/Linear).
+ *
+ * Layout inline: círculo numerado + label lado a lado, conectados por
+ * linhas finas que se preenchem ao concluir cada etapa.
  *
  * Princípios aplicados:
  * - Tabular numbers nos números das etapas (sem layout shift)
- * - Concentric border radius (ring com offset do círculo)
+ * - Ring concêntrico no círculo da etapa atual
  * - Animação stagger ao concluir (scale + opacity + blur)
  * - Sem `transition: all` — propriedades específicas
- * - Hit area mínima 40×40px (size-8 do círculo + padding do `<li>`)
- * - `aria-current="step"` na etapa ativa
+ * - `aria-current="step"` na etapa ativa, `aria-hidden` nos conectores
  */
 export function FormStepper({ steps, currentStep, className }: FormStepperProps) {
   return (
-    <nav aria-label='Progresso do formulário' className={cn('w-full pb-7', className)}>
-      <ol className='flex items-center justify-between'>
+    <nav aria-label='Progresso do formulário' className={cn('w-full', className)}>
+      <ol className='flex items-center gap-3'>
         {steps.map((step, index) => {
           const stepNumber = index + 1;
           const isCompleted = stepNumber < currentStep;
           const isCurrent = stepNumber === currentStep;
+          const isActive = isCompleted || isCurrent;
           const isLast = index === steps.length - 1;
 
           return (
             <React.Fragment key={step.label}>
               <li
-                className='relative shrink-0 py-1'
+                className='flex shrink-0 items-center gap-2 py-1'
                 aria-current={isCurrent ? 'step' : undefined}
               >
                 <div
                   className={cn(
-                    'flex size-8 items-center justify-center rounded-full text-xs font-semibold',
-                    'transition-[background-color,border-color,color,box-shadow] duration-300 ease-out',
+                    'flex size-7 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold',
+                    'transition-[background-color,color,box-shadow] duration-300 ease-out',
                     isCompleted && 'bg-primary text-primary-foreground',
                     isCurrent &&
                       'bg-primary text-primary-foreground ring-primary/20 ring-4',
-                    !isCompleted &&
-                      !isCurrent &&
-                      'bg-background border-muted-foreground/25 text-muted-foreground border-2'
+                    !isActive && 'bg-muted text-muted-foreground'
                   )}
                 >
                   {isCompleted ? (
@@ -65,7 +65,7 @@ export function FormStepper({ steps, currentStep, className }: FormStepperProps)
                       transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
                       className='flex'
                     >
-                      <Icons.check className='size-4' aria-hidden='true' />
+                      <Icons.check className='size-3.5' aria-hidden='true' />
                       <span className='sr-only'>Etapa {stepNumber} concluída</span>
                     </motion.span>
                   ) : (
@@ -74,11 +74,8 @@ export function FormStepper({ steps, currentStep, className }: FormStepperProps)
                 </div>
                 <span
                   className={cn(
-                    'absolute top-11 left-1/2 -translate-x-1/2 text-center text-xs font-medium whitespace-nowrap',
-                    'transition-colors duration-300 ease-out',
-                    isCompleted || isCurrent
-                      ? 'text-foreground'
-                      : 'text-muted-foreground'
+                    'text-sm font-medium whitespace-nowrap transition-colors duration-300',
+                    isActive ? 'text-foreground' : 'text-muted-foreground'
                   )}
                 >
                   {step.label}
@@ -88,7 +85,7 @@ export function FormStepper({ steps, currentStep, className }: FormStepperProps)
               {!isLast && (
                 <li
                   aria-hidden='true'
-                  className='bg-muted-foreground/15 mx-3 h-0.5 flex-1 overflow-hidden rounded-full'
+                  className='bg-muted-foreground/15 h-px flex-1 overflow-hidden rounded-full'
                 >
                   <motion.div
                     initial={false}

@@ -144,9 +144,9 @@ export default function PurchaseRequestForm() {
               >
                 {/* Etapa 1 — Dados gerais */}
                 {currentStep === 1 && (
-                  <div className='space-y-4'>
+                  <div className='flex flex-col gap-4'>
                     <h3 className='text-lg font-semibold'>Dados gerais</h3>
-                    <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+                    <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
                       <FormSelectField
                         name='unidade'
                         label='Unidade'
@@ -181,11 +181,11 @@ export default function PurchaseRequestForm() {
 
                 {/* Etapa 2 — Itens e comprovante */}
                 {currentStep === 2 && (
-                  <div className='space-y-4'>
+                  <div className='flex flex-col gap-4'>
                     <h3 className='text-lg font-semibold'>Itens da solicitação</h3>
                     <form.AppField name='itens' mode='array'>
                       {(arrayField) => (
-                        <div className='space-y-4'>
+                        <div className='flex flex-col gap-4'>
                           {arrayField.state.value.map((_, i) => (
                             <div key={i} className='rounded-lg border p-4'>
                               <div className='mb-2 flex items-center justify-between'>
@@ -290,7 +290,7 @@ export default function PurchaseRequestForm() {
 
                 {/* Etapa 3 — Revisão */}
                 {currentStep === 3 && (
-                  <div className='border-primary/40 bg-primary/[0.03] space-y-4 rounded-lg border p-4'>
+                  <div className='border-primary/40 bg-primary/[0.03] flex flex-col gap-4 rounded-lg border p-4'>
                     <div className='flex items-center gap-2'>
                       <Icons.checks className='text-primary h-5 w-5' />
                       <h3 className='text-lg font-semibold'>Revisão e envio</h3>
