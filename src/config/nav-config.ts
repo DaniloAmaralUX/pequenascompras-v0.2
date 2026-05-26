@@ -11,10 +11,8 @@ import { NavGroup } from '@/types';
  *   access: { role: 'admin' }
  *   access: { requireOrg: true }
  *
- * NOTA (Fase 0): este arquivo contém apenas as rotas já existentes.
- * À medida que as features de Compras forem implementadas (Fases 1-3),
- * os itens correspondentes (Solicitações, Aprovações, Execução, Relatórios,
- * Fornecedores, Catálogo, Centros de Custo) serão adicionados aqui.
+ * O menu contém apenas destinos (seções). Ações como "Nova Solicitação"
+ * ficam como botões no cabeçalho da página correspondente, não aqui.
  */
 export const navGroups: NavGroup[] = [
   {
@@ -26,6 +24,7 @@ export const navGroups: NavGroup[] = [
         icon: 'dashboard',
         isActive: false,
         shortcut: ['d', 'd'],
+        access: { profiles: ['Gestor', 'Analista de Suprimentos'] },
         items: []
       },
       {
@@ -37,19 +36,12 @@ export const navGroups: NavGroup[] = [
         items: []
       },
       {
-        title: 'Nova Solicitação',
-        url: '/dashboard/requests/new',
-        icon: 'add',
-        shortcut: ['n', 's'],
-        isActive: false,
-        items: []
-      },
-      {
         title: 'Aprovações',
         url: '/dashboard/approvals',
         icon: 'checks',
         shortcut: ['a', 'a'],
         isActive: false,
+        access: { profiles: ['Gestor'] },
         items: []
       },
       {
@@ -58,6 +50,7 @@ export const navGroups: NavGroup[] = [
         icon: 'receipt',
         shortcut: ['e', 'e'],
         isActive: false,
+        access: { profiles: ['Analista de Suprimentos'] },
         items: []
       }
     ]
@@ -71,6 +64,7 @@ export const navGroups: NavGroup[] = [
         icon: 'report',
         shortcut: ['r', 'i'],
         isActive: false,
+        access: { profiles: ['Analista de Suprimentos'] },
         items: []
       },
       {
@@ -79,6 +73,7 @@ export const navGroups: NavGroup[] = [
         icon: 'costCenter',
         shortcut: ['r', 'g'],
         isActive: false,
+        access: { profiles: ['Analista de Suprimentos'] },
         items: []
       },
       {
@@ -87,6 +82,7 @@ export const navGroups: NavGroup[] = [
         icon: 'trendingUp',
         shortcut: ['r', 'p'],
         isActive: false,
+        access: { profiles: ['Analista de Suprimentos'] },
         items: []
       }
     ]
@@ -100,6 +96,7 @@ export const navGroups: NavGroup[] = [
         icon: 'supplier',
         shortcut: ['f', 'f'],
         isActive: false,
+        access: { profiles: ['Analista de Suprimentos'] },
         items: []
       },
       {
@@ -108,6 +105,7 @@ export const navGroups: NavGroup[] = [
         icon: 'catalog',
         shortcut: ['c', 'c'],
         isActive: false,
+        access: { profiles: ['Analista de Suprimentos'] },
         items: []
       },
       {
@@ -116,6 +114,7 @@ export const navGroups: NavGroup[] = [
         icon: 'costCenter',
         shortcut: ['x', 'x'],
         isActive: false,
+        access: { profiles: ['Analista de Suprimentos'] },
         items: []
       },
       {
@@ -124,6 +123,7 @@ export const navGroups: NavGroup[] = [
         icon: 'teams',
         shortcut: ['u', 'u'],
         isActive: false,
+        access: { profiles: ['Analista de Suprimentos'] },
         items: []
       }
     ]

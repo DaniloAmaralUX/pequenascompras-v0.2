@@ -1,4 +1,5 @@
 import { Icons } from '@/components/icons';
+import type { ProfileId } from '@/config/profiles';
 
 export interface PermissionCheck {
   permission?: string;
@@ -6,6 +7,8 @@ export interface PermissionCheck {
   feature?: string;
   role?: string;
   requireOrg?: boolean;
+  /** Perfis (protótipo "Ver como") que enxergam o item. Ausente = todos. */
+  profiles?: ProfileId[];
 }
 
 export interface NavItem {

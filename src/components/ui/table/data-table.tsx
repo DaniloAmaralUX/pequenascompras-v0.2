@@ -12,6 +12,14 @@ import {
 } from '@/components/ui/table';
 import { getCommonPinningStyles } from '@/lib/data-table';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle
+} from '@/components/ui/empty';
+import { Icons } from '@/components/icons';
 
 interface DataTableProps<TData> extends React.ComponentProps<'div'> {
   table: TanstackTable<TData>;
@@ -62,9 +70,19 @@ export function DataTable<TData>({ table, actionBar, children }: DataTableProps<
                     </TableRow>
                   ))
                 ) : (
-                  <TableRow>
-                    <TableCell colSpan={table.getAllColumns().length} className='h-24 text-center'>
-                      No results.
+                  <TableRow className='hover:bg-transparent'>
+                    <TableCell colSpan={table.getAllColumns().length} className='h-64'>
+                      <Empty className='border-0'>
+                        <EmptyHeader>
+                          <EmptyMedia variant='icon'>
+                            <Icons.search />
+                          </EmptyMedia>
+                          <EmptyTitle>Nenhum resultado</EmptyTitle>
+                          <EmptyDescription>
+                            Nenhum registro encontrado. Ajuste os filtros ou tente outra busca.
+                          </EmptyDescription>
+                        </EmptyHeader>
+                      </Empty>
                     </TableCell>
                   </TableRow>
                 )}

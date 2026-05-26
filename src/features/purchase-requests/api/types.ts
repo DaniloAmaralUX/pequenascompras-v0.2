@@ -46,7 +46,7 @@ export type PurchaseRequestPayload = {
   centro_de_custo: string;
   justificativa: string;
   prioridade: string;
-  forma_pagamento: string;
+  forma_pagamento?: string;
   itens: PurchaseRequestItemInput[];
   anexos: { nome: string; tipo: string }[];
   /** true = enviar para aprovação; false = salvar como rascunho. */

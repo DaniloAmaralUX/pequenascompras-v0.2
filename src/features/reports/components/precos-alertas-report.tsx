@@ -1,29 +1,26 @@
 'use client';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { DataTable } from '@/components/ui/table/data-table';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription } from '@/components/ui/empty';
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription
+} from '@/components/ui/empty';
 import { Icons } from '@/components/icons';
+import { useClientDataTable } from '@/hooks/use-client-data-table';
 import { alertasPrecoQueryOptions } from '../api/queries';
-
-const formatBRL = (v: number) =>
-  v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+import { precosAlertasColumns } from './precos-alertas-columns';
 
 export default function PrecosAlertasReport() {
   const { data } = useSuspenseQuery(alertasPrecoQueryOptions());
+  const { table } = useClientDataTable({ data, columns: precosAlertasColumns });
 
   return (
-    <div className='space-y-4'>
+    <div className='flex flex-1 flex-col gap-4'>
       <Alert>
         <Icons.info className='h-4 w-4' />
         <AlertTitle>Como funciona</AlertTitle>
@@ -33,59 +30,21 @@ export default function PrecosAlertasReport() {
         </AlertDescription>
       </Alert>
 
-      <Card>
-        <CardContent className='pt-6'>
-          {data.length === 0 ? (
-            <Empty>
-              <EmptyHeader>
-                <EmptyMedia variant='icon'>
-                  <Icons.circleCheck />
-                </EmptyMedia>
-                <EmptyTitle>Nenhum alerta de preço</EmptyTitle>
-                <EmptyDescription>
-                  Nenhum item está acima da média histórica de preço no momento.
-                </EmptyDescription>
-              </EmptyHeader>
-            </Empty>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Solicitação</TableHead>
-                  <TableHead>Item</TableHead>
-                  <TableHead>Solicitante</TableHead>
-                  <TableHead className='text-right'>Preço unitário</TableHead>
-                  <TableHead className='text-right'>Média histórica</TableHead>
-                  <TableHead className='text-right'>Variação</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data.map((a, i) => (
-                  <TableRow key={`${a.numero}-${a.item}-${i}`}>
-                    <TableCell className='font-mono'>{a.numero}</TableCell>
-                    <TableCell className='font-medium'>{a.item}</TableCell>
-                    <TableCell className='text-muted-foreground'>{a.solicitante}</TableCell>
-                    <TableCell className='text-right tabular-nums'>
-                      {formatBRL(a.precoUnitario)}
-                    </TableCell>
-                    <TableCell className='text-right tabular-nums'>
-                      {formatBRL(a.precoMedio)}
-                    </TableCell>
-                    <TableCell className='text-right'>
-                      <Badge
-                        variant={a.diferencaPct > 20 ? 'destructive' : 'secondary'}
-                        className='tabular-nums'
-                      >
-                        +{a.diferencaPct.toFixed(1)}%
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+      {data.length === 0 ? (
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant='icon'>
+              <Icons.circleCheck />
+            </EmptyMedia>
+            <EmptyTitle>Nenhum alerta de preço</EmptyTitle>
+            <EmptyDescription>
+              Nenhum item está acima da média histórica de preço no momento.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      ) : (
+        <DataTable table={table} />
+      )}
     </div>
   );
 }

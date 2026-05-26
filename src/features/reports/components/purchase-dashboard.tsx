@@ -181,7 +181,7 @@ function KpiCard({
   rodape: string;
 }) {
   return (
-    <Card className='@container/card from-primary/5 to-card bg-gradient-to-t'>
+    <Card className='@container/card from-primary/5 to-card bg-gradient-to-t shadow-sm transition-shadow duration-200 hover:shadow-md'>
       <CardHeader>
         <CardDescription className='flex items-center gap-2'>
           {icone} {titulo}

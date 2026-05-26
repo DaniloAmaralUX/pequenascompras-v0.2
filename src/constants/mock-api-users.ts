@@ -12,8 +12,7 @@ export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve
 export const USER_ROLES = [
   'Solicitante',
   'Gestor',
-  'Analista de Suprimentos',
-  'Administrador'
+  'Analista de Suprimentos'
 ] as const;
 
 // Situação do usuário
@@ -70,6 +69,22 @@ export const fakeUsers = {
     }
 
     return users;
+  },
+
+  async getUserById(id: number) {
+    await delay(300);
+    const user = this.records.find((u) => u.id === id);
+
+    if (!user) {
+      return { success: false, message: `Usuário com ID ${id} não encontrado` };
+    }
+
+    return {
+      success: true,
+      time: new Date().toISOString(),
+      message: 'Usuário carregado',
+      user
+    };
   },
 
   async createUser(data: Omit<User, 'id' | 'created_at' | 'updated_at'>) {

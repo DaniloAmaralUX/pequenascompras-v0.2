@@ -18,7 +18,7 @@ export const columns: ColumnDef<Supplier>[] = [
     cell: ({ cell }) => <div className='font-medium'>{cell.getValue<Supplier['nome']>()}</div>,
     meta: {
       label: 'Fornecedor',
-      placeholder: 'Buscar fornecedor...',
+      placeholder: 'Buscar fornecedor…',
       variant: 'text',
       icon: Icons.text
     },
@@ -78,9 +78,13 @@ export const columns: ColumnDef<Supplier>[] = [
     header: 'Situação',
     cell: ({ cell }) => {
       const bloqueado = cell.getValue<Supplier['bloqueado']>();
+      if (bloqueado) {
+        return <Badge variant='destructive'>Bloqueado</Badge>;
+      }
       return (
-        <Badge variant={bloqueado ? 'destructive' : 'outline'}>
-          {bloqueado ? 'Bloqueado' : 'Ativo'}
+        <Badge variant='outline' className='gap-1.5'>
+          <span className='size-1.5 rounded-full bg-emerald-500' aria-hidden='true' />
+          Ativo
         </Badge>
       );
     }

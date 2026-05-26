@@ -1,6 +1,7 @@
 import PageContainer from '@/components/layout/page-container';
 import { buttonVariants } from '@/components/ui/button';
 import CatalogItemListingPage from '@/features/catalog-items/components/catalog-item-listing';
+import { requireProfile } from '@/lib/route-guard';
 import { searchParamsCache } from '@/lib/searchparams';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
@@ -16,6 +17,7 @@ type PageProps = {
 };
 
 export default async function Page(props: PageProps) {
+  await requireProfile(['Analista de Suprimentos']);
   const searchParams = await props.searchParams;
   searchParamsCache.parse(searchParams);
 

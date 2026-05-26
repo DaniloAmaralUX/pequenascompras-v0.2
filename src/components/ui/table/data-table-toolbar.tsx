@@ -46,14 +46,14 @@ export function DataTableToolbar<TData>({
         ))}
         {isFiltered && (
           <Button
-            aria-label='Reset filters'
+            aria-label='Limpar filtros'
             variant='outline'
             size='sm'
             className='border-dashed'
             onClick={onReset}
           >
             <XIcon />
-            Reset
+            Limpar
           </Button>
         )}
       </div>

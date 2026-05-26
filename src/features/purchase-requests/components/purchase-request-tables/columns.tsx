@@ -37,7 +37,7 @@ export function buildColumns(statusFiltravel: boolean): ColumnDef<PurchaseReques
       ),
       meta: {
         label: 'Solicitação',
-        placeholder: 'Buscar por número, solicitante...',
+        placeholder: 'Buscar por número, solicitante…',
         variant: 'text',
         icon: Icons.text
       },

@@ -18,6 +18,13 @@ export type UsersResponse = {
   users: import('@/constants/mock-api-users').User[];
 };
 
+export type UserByIdResponse = {
+  success: boolean;
+  time: string;
+  message: string;
+  user: import('@/constants/mock-api-users').User;
+};
+
 export type UserMutationPayload = {
   first_name: string;
   last_name: string;

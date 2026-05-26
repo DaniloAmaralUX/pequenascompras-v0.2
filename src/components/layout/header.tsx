@@ -1,11 +1,9 @@
 import React from 'react';
 import { SidebarTrigger } from '../ui/sidebar';
 import { Separator } from '../ui/separator';
+import { Badge } from '../ui/badge';
 import { Breadcrumbs } from '../breadcrumbs';
-import SearchInput from '../search-input';
-import { ThemeSelector } from '../themes/theme-selector';
-import { ThemeModeToggle } from '../themes/theme-mode-toggle';
-import CtaGithub from './cta-github';
+import { ProfileSwitcher } from './profile-switcher';
 import { NotificationCenter } from '@/features/notifications/components/notification-center';
 
 export default function Header() {
@@ -15,17 +13,13 @@ export default function Header() {
         <SidebarTrigger className='-ml-1' />
         <Separator orientation='vertical' className='mr-2 h-4' />
         <Breadcrumbs />
+        <Badge variant='outline' className='ml-2 hidden text-[10px] font-normal sm:inline-flex'>
+          Protótipo
+        </Badge>
       </div>
 
       <div className='flex items-center gap-2 px-4'>
-        <CtaGithub />
-        <div className='hidden md:flex'>
-          <SearchInput />
-        </div>
-        <ThemeModeToggle />
-        <div className='hidden sm:block'>
-          <ThemeSelector />
-        </div>
+        <ProfileSwitcher />
         <NotificationCenter />
       </div>
     </header>

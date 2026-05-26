@@ -51,6 +51,7 @@ export function TextField({
         <div className='relative'>
           <Input
             id={field.name}
+            name={field.name}
             type={type}
             value={value ?? ''}
             onBlur={field.handleBlur}
@@ -62,6 +63,9 @@ export function TextField({
                 field.handleChange(e.target.value);
               }
             }}
+            autoComplete='off'
+            spellCheck={false}
+            inputMode={type === 'number' ? 'decimal' : undefined}
             aria-invalid={isTouched && !isValid}
             aria-required={required || undefined}
             aria-describedby={describedBy}

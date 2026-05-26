@@ -203,7 +203,7 @@ export function DataTableSliderFilter<TData>({ column, title }: DataTableSliderF
             </div>
           </div>
           <Label htmlFor={`${id}-slider`} className='sr-only'>
-            {title} slider
+            Controle deslizante de {title}
           </Label>
           <Slider
             id={`${id}-slider`}
@@ -214,8 +214,8 @@ export function DataTableSliderFilter<TData>({ column, title }: DataTableSliderF
             onValueChange={onSliderValueChange}
           />
         </div>
-        <Button aria-label={`Clear ${title} filter`} variant='outline' size='sm' onClick={onReset}>
-          Clear
+        <Button aria-label={`Limpar filtro de ${title}`} variant='outline' size='sm' onClick={onReset}>
+          Limpar
         </Button>
       </PopoverContent>
     </Popover>

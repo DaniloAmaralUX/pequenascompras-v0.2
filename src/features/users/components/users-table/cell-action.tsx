@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger
@@ -11,54 +12,61 @@ import {
 import { deleteUserMutation } from '../../api/mutations';
 import type { User } from '../../api/types';
 import { Icons } from '@/components/icons';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { UserFormSheet } from '../user-form-sheet';
 
 interface CellActionProps {
   data: User;
 }
 
 export function CellAction({ data }: CellActionProps) {
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const deleteMutation = useMutation({
     ...deleteUserMutation,
     onSuccess: () => {
-      toast.success('User deleted successfully');
-      setDeleteOpen(false);
+      toast.success('Usuário excluído com sucesso');
+      setOpen(false);
     },
     onError: () => {
-      toast.error('Failed to delete user');
+      toast.error('Falha ao excluir usuário');
     }
   });
 
   return (
     <>
       <AlertModal
-        isOpen={deleteOpen}
-        onClose={() => setDeleteOpen(false)}
+        isOpen={open}
+        onClose={() => setOpen(false)}
         onConfirm={() => deleteMutation.mutate(data.id)}
         loading={deleteMutation.isPending}
+        title='Excluir usuário?'
+        description='O usuário perderá o acesso ao sistema. Esta ação não pode ser desfeita.'
+        confirmLabel='Excluir'
       />
-      <UserFormSheet user={data} open={editOpen} onOpenChange={setEditOpen} />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button variant='ghost' className='h-8 w-8 p-0'>
-            <span className='sr-only'>Open menu</span>
+          <Button
+            variant='ghost'
+            className="relative size-8 p-0 before:absolute before:-inset-1.5 before:content-['']"
+          >
+            <span className='sr-only'>Abrir menu</span>
             <Icons.ellipsis className='h-4 w-4' />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => setEditOpen(true)}>
-            <Icons.edit className='mr-2 h-4 w-4' /> Update
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setDeleteOpen(true)}>
-            <Icons.trash className='mr-2 h-4 w-4' /> Delete
-          </DropdownMenuItem>
+          <DropdownMenuLabel>Ações</DropdownMenuLabel>
+          <DropdownMenuGroup>
+            <DropdownMenuItem onClick={() => router.push(`/dashboard/users/${data.id}`)}>
+              <Icons.edit className='mr-2 h-4 w-4' /> Editar
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setOpen(true)}>
+              <Icons.trash className='mr-2 h-4 w-4' /> Excluir
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

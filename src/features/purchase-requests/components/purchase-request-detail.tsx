@@ -35,7 +35,9 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
       <RevealSection delay={0}>
         <div className='flex flex-wrap items-center justify-between gap-3'>
           <div>
-            <h1 className='font-mono text-2xl font-bold'>{req.numero}</h1>
+            <h1 className='font-mono text-2xl font-bold' translate='no'>
+              {req.numero}
+            </h1>
             <p className='text-muted-foreground text-sm'>
               Solicitado por {req.solicitante_nome} · {req.unidade}
             </p>
@@ -75,7 +77,7 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
             <CardContent className='grid grid-cols-2 gap-4 text-sm md:grid-cols-3'>
               <Campo rotulo='Centro de custo' valor={req.centro_de_custo} />
               <Campo rotulo='Prioridade' valor={req.prioridade} />
-              <Campo rotulo='Forma de pagamento' valor={req.forma_pagamento} />
+              <Campo rotulo='Forma de pagamento' valor={req.forma_pagamento ?? '—'} />
               <Campo rotulo='Fornecedor' valor={req.fornecedor_nome ?? '—'} />
               <Campo rotulo='Aprovador' valor={req.aprovador_nome ?? '—'} />
               <Campo rotulo='Analista' valor={req.analista_nome ?? '—'} />
@@ -133,8 +135,16 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
               ) : (
                 <ul className='space-y-1'>
                   {req.anexos.map((a, i) => (
-                    <li key={i} className='flex items-center gap-2 text-sm'>
-                      <Icons.paperclip className='h-4 w-4' /> {a.nome}
+                    <li key={i}>
+                      <button
+                        type='button'
+                        title='Visualização de anexos não disponível neste protótipo'
+                        className='hover:bg-muted/60 group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors'
+                      >
+                        <Icons.paperclip className='text-muted-foreground h-4 w-4' />
+                        <span className='group-hover:underline'>{a.nome}</span>
+                        <span className='text-muted-foreground ml-auto text-xs'>protótipo</span>
+                      </button>
                     </li>
                   ))}
                 </ul>

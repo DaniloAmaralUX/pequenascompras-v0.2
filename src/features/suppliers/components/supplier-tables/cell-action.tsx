@@ -43,12 +43,15 @@ export function CellAction({ data }: CellActionProps) {
         onClose={() => setOpen(false)}
         onConfirm={() => deleteMutation.mutate(data.id)}
         loading={deleteMutation.isPending}
+        title='Remover fornecedor?'
+        description='O fornecedor deixará de estar disponível para novas solicitações. Esta ação não pode ser desfeita.'
+        confirmLabel='Remover'
       />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button
             variant='ghost'
-            className="relative size-8 p-0 before:absolute before:-inset-1 before:content-['']"
+            className="relative size-8 p-0 before:absolute before:-inset-1.5 before:content-['']"
           >
             <span className='sr-only'>Abrir menu</span>
             <Icons.ellipsis className='h-4 w-4' />

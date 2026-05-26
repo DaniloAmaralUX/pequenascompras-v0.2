@@ -1,7 +1,6 @@
 import {
   PURCHASE_STATUS,
   PRIORIDADES,
-  FORMAS_PAGAMENTO,
   type PurchaseStatus
 } from '@/constants/mock-api-purchase-requests';
 
@@ -21,9 +20,6 @@ export const statusOptions = Object.values(PURCHASE_STATUS).map((s) => ({
 
 /** Opções de prioridade. */
 export const prioridadeOptions = PRIORIDADES.map((p) => ({ value: p, label: p }));
-
-/** Opções de forma de pagamento. */
-export const formaPagamentoOptions = FORMAS_PAGAMENTO.map((f) => ({ value: f, label: f }));
 
 type BadgeVariant = 'default' | 'secondary' | 'destructive' | 'outline';
 

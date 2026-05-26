@@ -1,40 +1,40 @@
 import type { InfobarContent } from '@/components/ui/infobar';
 
 export const usersInfoContent: InfobarContent = {
-  title: 'Users — React Query + nuqs Pattern',
+  title: 'Usuários — Padrão React Query + nuqs',
   sections: [
     {
-      title: 'Overview',
+      title: 'Visão Geral',
       description:
-        'This page demonstrates client-side data fetching with React Query combined with nuqs URL search params — as an alternative to the Products page which uses server-side RSC fetching. Both patterns use the same DataTable, useDataTable hook, and nuqs URL state.',
+        'Esta página demonstra busca de dados no lado do cliente com React Query combinada com parâmetros de URL via nuqs — como alternativa à página de Produtos que usa busca server-side com RSC. Ambos os padrões utilizam o mesmo DataTable, hook useDataTable e estado de URL com nuqs.',
       links: [
         {
-          title: 'TanStack Query SSR Docs',
+          title: 'Docs TanStack Query SSR',
           url: 'https://tanstack.com/query/latest/docs/framework/react/guides/advanced-ssr'
         }
       ]
     },
     {
-      title: 'Server Prefetch + Client Hydration',
+      title: 'Prefetch no Servidor + Hidratação no Cliente',
       description:
-        'The server component reads search params via searchParamsCache, builds filters, and calls queryClient.prefetchQuery(). The dehydrated state is passed to HydrationBoundary so the client starts with cached data. The client component reads the same search params via useQueryState and calls useSuspenseQuery with matching filters.',
+        'O componente servidor lê os parâmetros de busca via searchParamsCache, constrói os filtros e chama queryClient.prefetchQuery(). O estado desidratado é passado ao HydrationBoundary para que o cliente inicie com dados em cache. O componente cliente lê os mesmos parâmetros via useQueryState e chama useSuspenseQuery com os filtros correspondentes.',
       links: []
     },
     {
-      title: 'URL State with nuqs',
+      title: 'Estado de URL com nuqs',
       description:
-        'Pagination, search, and role filters are synced to the URL via nuqs. The useDataTable hook manages the TanStack Table state and debounces filter changes before updating the URL. When the URL changes, React Query automatically refetches because the query key includes the filters.',
+        'Paginação, busca e filtros de perfil são sincronizados na URL via nuqs. O hook useDataTable gerencia o estado da TanStack Table e aplica debounce nas mudanças de filtro antes de atualizar a URL. Quando a URL muda, o React Query refaz a busca automaticamente pois a chave de query inclui os filtros.',
       links: [
         {
-          title: 'nuqs Documentation',
+          title: 'Documentação nuqs',
           url: 'https://nuqs.47ng.com'
         }
       ]
     },
     {
-      title: 'Products vs Users Pattern',
+      title: 'Diferença: Produtos vs. Usuários',
       description:
-        'Products: searchParams → RSC fetch → pass data as props to client table. Users: searchParams → server prefetch → HydrationBoundary → client useSuspenseQuery. The Users pattern enables background refetching, cache sharing across components, and optimistic mutations.',
+        'Produtos: searchParams → busca RSC → passa dados como props para a tabela cliente. Usuários: searchParams → prefetch no servidor → HydrationBoundary → useSuspenseQuery no cliente. O padrão de Usuários permite refetch em segundo plano, compartilhamento de cache entre componentes e mutações otimistas.',
       links: []
     }
   ]

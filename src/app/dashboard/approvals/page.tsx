@@ -1,6 +1,7 @@
 import PageContainer from '@/components/layout/page-container';
 import PurchaseRequestListingPage from '@/features/purchase-requests/components/purchase-request-listing';
 import { STATUS_VIEWS } from '@/features/purchase-requests/constants/purchase-request-options';
+import { requireProfile } from '@/lib/route-guard';
 import { searchParamsCache } from '@/lib/searchparams';
 import { SearchParams } from 'nuqs/server';
 
@@ -13,6 +14,7 @@ type PageProps = {
 };
 
 export default async function Page(props: PageProps) {
+  await requireProfile(['Gestor']);
   const searchParams = await props.searchParams;
   searchParamsCache.parse(searchParams);
 

@@ -16,7 +16,6 @@ export const step1Schema = z.object({
   unidade: z.string().min(1, 'Selecione a unidade.'),
   centro_de_custo: z.string().min(1, 'Informe o centro de custo.'),
   prioridade: z.string().min(1, 'Selecione a prioridade.'),
-  forma_pagamento: z.string().min(1, 'Selecione a forma de pagamento.'),
   justificativa: z.string().min(10, 'A justificativa deve ter ao menos 10 caracteres.')
 });
 
@@ -38,7 +37,6 @@ export type PurchaseRequestFormValues = {
   unidade: string;
   centro_de_custo: string;
   prioridade: string;
-  forma_pagamento: string;
   justificativa: string;
   itens: {
     descricao: string;

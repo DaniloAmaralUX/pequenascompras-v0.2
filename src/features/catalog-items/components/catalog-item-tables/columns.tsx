@@ -21,7 +21,7 @@ export const columns: ColumnDef<CatalogItem>[] = [
     cell: ({ cell }) => <div className='font-medium'>{cell.getValue<CatalogItem['nome']>()}</div>,
     meta: {
       label: 'Item',
-      placeholder: 'Buscar item...',
+      placeholder: 'Buscar item…',
       variant: 'text',
       icon: Icons.text
     },

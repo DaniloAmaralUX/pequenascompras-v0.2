@@ -11,7 +11,18 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground touch-manipulation;
+  }
+
+  /* Fonte de títulos (heading) — Inter, definida por tema via --font-heading */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  [data-slot='card-title'] {
+    font-family: var(--font-heading);
   }
 
   /* Global scrollbar styling to match ScrollArea */

@@ -24,7 +24,7 @@ export const columns: ColumnDef<User>[] = [
     ),
     meta: {
       label: 'Nome',
-      placeholder: 'Buscar usuários...',
+      placeholder: 'Buscar usuários…',
       variant: 'text' as const,
       icon: Icons.text
     },

@@ -6,10 +6,10 @@ import { revalidateLogic, useStore } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { FormStepper } from '@/components/ui/form-stepper';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Icons } from '@/components/icons';
@@ -20,7 +20,7 @@ import {
   purchaseRequestSchema,
   type PurchaseRequestFormValues
 } from '../schemas/purchase-request';
-import { prioridadeOptions, formaPagamentoOptions } from '../constants/purchase-request-options';
+import { prioridadeOptions } from '../constants/purchase-request-options';
 import { unidadeOptions } from '@/features/cost-centers/constants/cost-center-options';
 import {
   itemCategoryOptions,
@@ -42,6 +42,7 @@ const itemVazio = {
 export default function PurchaseRequestForm() {
   const router = useRouter();
   const enviarRef = React.useRef(false);
+  const reduzirMovimento = useReducedMotion();
 
   const { currentValidator, step, currentStep, isFirstStep, handleCancelOrBack, handleNextStepOrSubmit } =
     useFormStepper(stepSchemas);
@@ -68,7 +69,6 @@ export default function PurchaseRequestForm() {
       unidade: '',
       centro_de_custo: '',
       prioridade: '',
-      forma_pagamento: '',
       justificativa: '',
       itens: [{ ...itemVazio }],
       anexos: undefined
@@ -80,12 +80,11 @@ export default function PurchaseRequestForm() {
     },
     onSubmit: ({ value }) => {
       mutation.mutate({
-        solicitante_nome: 'Solicitante (Demo)',
+        solicitante_nome: 'Solicitante',
         unidade: value.unidade,
         centro_de_custo: value.centro_de_custo,
         justificativa: value.justificativa,
         prioridade: value.prioridade,
-        forma_pagamento: value.forma_pagamento,
         itens: value.itens.map((it) => ({
           descricao: it.descricao,
           categoria: it.categoria,
@@ -121,23 +120,26 @@ export default function PurchaseRequestForm() {
       <CardContent>
         <form.AppForm>
           <form.Form className='flex flex-col gap-6'>
-            <div className='flex flex-col items-center gap-1'>
-              <span className='text-muted-foreground text-sm'>
-                Etapa {currentStep} de {stepSchemas.length}
-              </span>
-              <Progress
-                value={(currentStep / stepSchemas.length) * 100}
-                aria-label={`Progresso: etapa ${currentStep} de ${stepSchemas.length}`}
-              />
-            </div>
+            <FormStepper
+              currentStep={currentStep}
+              steps={[
+                { label: 'Dados gerais' },
+                { label: 'Itens' },
+                { label: 'Revisão' }
+              ]}
+            />
+
+            <span className='sr-only' aria-live='polite'>
+              Etapa {currentStep} de {stepSchemas.length}
+            </span>
 
             <AnimatePresence mode='popLayout' initial={false}>
               <motion.div
                 key={currentStep}
-                initial={{ opacity: 0, x: 15 }}
+                initial={reduzirMovimento ? false : { opacity: 0, x: 15 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -15 }}
-                transition={{ duration: 0.3, type: 'spring' }}
+                exit={reduzirMovimento ? { opacity: 0 } : { opacity: 0, x: -15 }}
+                transition={reduzirMovimento ? { duration: 0 } : { duration: 0.3, type: 'spring' }}
                 className='flex flex-col gap-4'
               >
                 {/* Etapa 1 — Dados gerais */}
@@ -164,13 +166,6 @@ export default function PurchaseRequestForm() {
                         required
                         options={prioridadeOptions}
                         placeholder='Selecione a prioridade'
-                      />
-                      <FormSelectField
-                        name='forma_pagamento'
-                        label='Forma de pagamento'
-                        required
-                        options={formaPagamentoOptions}
-                        placeholder='Selecione a forma de pagamento'
                       />
                     </div>
                     <FormTextareaField
@@ -200,7 +195,8 @@ export default function PurchaseRequestForm() {
                                     type='button'
                                     variant='ghost'
                                     size='icon'
-                                    className='h-7 w-7'
+                                    aria-label={`Remover item ${i + 1}`}
+                                    className="relative size-8 before:absolute before:-inset-1.5 before:content-['']"
                                     onClick={() => arrayField.removeValue(i)}
                                   >
                                     <Icons.trash className='h-4 w-4' />
@@ -294,13 +290,19 @@ export default function PurchaseRequestForm() {
 
                 {/* Etapa 3 — Revisão */}
                 {currentStep === 3 && (
-                  <div className='space-y-4'>
-                    <h3 className='text-lg font-semibold'>Revisão e envio</h3>
+                  <div className='border-primary/40 bg-primary/[0.03] space-y-4 rounded-lg border p-4'>
+                    <div className='flex items-center gap-2'>
+                      <Icons.checks className='text-primary h-5 w-5' />
+                      <h3 className='text-lg font-semibold'>Revisão e envio</h3>
+                    </div>
+                    <p className='text-muted-foreground -mt-3 text-xs'>
+                      Confira os dados antes de enviar. Após o envio, a solicitação seguirá para
+                      aprovação.
+                    </p>
                     <div className='grid gap-3 md:grid-cols-2'>
                       <ReviewLinha rotulo='Unidade' valor={formValues.unidade} />
                       <ReviewLinha rotulo='Centro de custo' valor={formValues.centro_de_custo} />
                       <ReviewLinha rotulo='Prioridade' valor={formValues.prioridade} />
-                      <ReviewLinha rotulo='Forma de pagamento' valor={formValues.forma_pagamento} />
                     </div>
                     <ReviewLinha rotulo='Justificativa' valor={formValues.justificativa} />
                     <Separator />

@@ -5,6 +5,10 @@
 import { faker } from '@faker-js/faker';
 import { matchSorter } from 'match-sorter';
 import { SESI_UNIDADES } from '@/constants/mock-api-cost-centers';
+import { loadFromStorage, saveToStorage } from '@/lib/mock-storage';
+
+const STORAGE_KEY = 'purchase-requests';
+const COUNTER_KEY = 'purchase-requests-counter';
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -56,7 +60,7 @@ export type PurchaseRequest = {
   centro_de_custo: string;
   justificativa: string;
   prioridade: string;
-  forma_pagamento: string;
+  forma_pagamento?: string;
   itens: PurchaseRequestItem[];
   fornecedor_nome?: string;
   aprovador_nome?: string;
@@ -324,6 +328,15 @@ export const fakePurchaseRequests = {
   records: [] as PurchaseRequest[],
 
   initialize() {
+    // Tenta carregar dados persistidos no navegador (client-side)
+    const persisted = loadFromStorage<PurchaseRequest[]>(STORAGE_KEY);
+    if (persisted && persisted.length > 0) {
+      this.records = persisted;
+      const persistedCounter = loadFromStorage<number>(COUNTER_KEY);
+      contadorNumero = persistedCounter ?? Math.max(...persisted.map((r) => r.id), 0);
+      return;
+    }
+
     // Distribuição de status para cobrir todos os cenários do workflow
     const distribuicao: PurchaseStatus[] = [
       PURCHASE_STATUS.RASCUNHO,
@@ -354,6 +367,12 @@ export const fakePurchaseRequests = {
     ];
     contadorNumero = 0;
     this.records = distribuicao.map((status, i) => gerarSolicitacao(i + 1, status));
+    this.persist();
+  },
+
+  persist() {
+    saveToStorage(STORAGE_KEY, this.records);
+    saveToStorage(COUNTER_KEY, contadorNumero);
   },
 
   async getAll({
@@ -458,6 +477,7 @@ export const fakePurchaseRequests = {
   async createPurchaseRequest(request: PurchaseRequest) {
     await delay(400);
     this.records.push(request);
+    this.persist();
     return { success: true, message: 'Solicitação criada com sucesso', request };
   },
 
@@ -468,6 +488,7 @@ export const fakePurchaseRequests = {
       return { success: false, message: `Solicitação com ID ${id} não encontrada` };
     }
     this.records[index] = request;
+    this.persist();
     return { success: true, message: 'Solicitação atualizada com sucesso', request };
   },
 

@@ -34,21 +34,21 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          aria-label='Toggle columns'
+          aria-label='Exibir colunas'
           variant='outline'
           size='sm'
           className='ml-auto hidden h-8 lg:flex'
         >
           <Icons.adjustments />
-          View
+          Colunas
           <ChevronsUpDownIcon className='ml-auto opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent align='end' className='w-44 p-0'>
         <Command>
-          <CommandInput placeholder='Search columns...' />
+          <CommandInput placeholder='Buscar colunas…' />
           <CommandList>
-            <CommandEmpty>No columns found.</CommandEmpty>
+            <CommandEmpty>Nenhuma coluna encontrada.</CommandEmpty>
             <CommandGroup>
               {columns.map((column) => (
                 <CommandItem

@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/query-client';
+import { requireProfile } from '@/lib/route-guard';
 import PageContainer from '@/components/layout/page-container';
 import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
 import GastoSetorReport from '@/features/reports/components/gasto-setor-report';
@@ -10,7 +11,9 @@ export const metadata = {
   title: 'Relatórios: Gasto por Setor'
 };
 
-export default function Page() {
+export default async function Page() {
+  await requireProfile(['Analista de Suprimentos']);
+
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(gastoPorSetorQueryOptions());
 

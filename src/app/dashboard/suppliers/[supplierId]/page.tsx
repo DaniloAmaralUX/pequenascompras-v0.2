@@ -1,5 +1,6 @@
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/query-client';
+import { requireProfile } from '@/lib/route-guard';
 import { supplierByIdOptions } from '@/features/suppliers/api/queries';
 import PageContainer from '@/components/layout/page-container';
 import SupplierViewPage from '@/features/suppliers/components/supplier-view-page';
@@ -11,6 +12,7 @@ export const metadata = {
 type PageProps = { params: Promise<{ supplierId: string }> };
 
 export default async function Page(props: PageProps) {
+  await requireProfile(['Analista de Suprimentos']);
   const params = await props.params;
   const queryClient = getQueryClient();
 

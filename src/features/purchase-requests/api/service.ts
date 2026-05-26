@@ -53,7 +53,7 @@ function montarSolicitacao(payload: PurchaseRequestPayload): PurchaseRequest {
     centro_de_custo: payload.centro_de_custo,
     justificativa: payload.justificativa,
     prioridade: payload.prioridade,
-    forma_pagamento: payload.forma_pagamento,
+    forma_pagamento: payload.forma_pagamento ?? '',
     itens,
     valor_estimado: valorEstimado,
     status: PURCHASE_STATUS.RASCUNHO,

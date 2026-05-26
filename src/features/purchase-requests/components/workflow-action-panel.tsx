@@ -6,6 +6,16 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+import {
   Sheet,
   SheetContent,
   SheetDescription,
@@ -20,17 +30,20 @@ import { Icons } from '@/components/icons';
 import { workflowActionMutation } from '../api/mutations';
 import type { PurchaseRequest, WorkflowAction, WorkflowActionPayload } from '../api/types';
 import { acoesDisponiveis } from '../lib/workflow';
+import { useActiveProfile } from '@/components/layout/active-profile';
+import type { ProfileId } from '@/config/profiles';
 
-const AUTOR: Record<WorkflowAction, string> = {
-  aprovar: 'Gestor (Demo)',
-  rejeitar: 'Gestor (Demo)',
-  'registrar-pedido': 'Robô de Integração',
-  'registrar-compra': 'Analista (Demo)',
-  'encaminhar-financeiro': 'Analista (Demo)',
-  'confirmar-pagamento': 'Analista (Demo)',
-  'confirmar-envio': 'Analista (Demo)',
-  'confirmar-recebimento': 'Solicitante (Demo)',
-  cancelar: 'Solicitante (Demo)'
+/** Quais perfis podem executar cada ação de workflow (RBAC do protótipo). */
+const ACOES_POR_PERFIL: Record<WorkflowAction, ProfileId[]> = {
+  aprovar: ['Gestor'],
+  rejeitar: ['Gestor'],
+  'registrar-pedido': ['Analista de Suprimentos'],
+  'registrar-compra': ['Analista de Suprimentos'],
+  'encaminhar-financeiro': ['Analista de Suprimentos'],
+  'confirmar-pagamento': ['Analista de Suprimentos'],
+  'confirmar-envio': ['Analista de Suprimentos'],
+  'confirmar-recebimento': ['Analista de Suprimentos'],
+  cancelar: ['Solicitante']
 };
 
 const LABEL: Record<WorkflowAction, string> = {
@@ -46,9 +59,14 @@ const LABEL: Record<WorkflowAction, string> = {
 };
 
 export function WorkflowActionPanel({ request }: { request: PurchaseRequest }) {
-  const acoes = acoesDisponiveis(request.status);
+  const { activeProfile } = useActiveProfile();
+  const acoesDoStatus = acoesDisponiveis(request.status);
+  const acoes = acoesDoStatus.filter((acao) =>
+    ACOES_POR_PERFIL[acao].includes(activeProfile)
+  );
   const [aprovacaoAberta, setAprovacaoAberta] = React.useState(false);
   const [compraAberta, setCompraAberta] = React.useState(false);
+  const [cancelarAberto, setCancelarAberto] = React.useState(false);
 
   const mutation = useMutation({
     ...workflowActionMutation,
@@ -57,6 +75,7 @@ export function WorkflowActionPanel({ request }: { request: PurchaseRequest }) {
         toast.success(data.message ?? 'Ação aplicada com sucesso');
         setAprovacaoAberta(false);
         setCompraAberta(false);
+        setCancelarAberto(false);
       } else {
         toast.error(data?.message ?? 'Não foi possível aplicar a ação');
       }
@@ -68,15 +87,17 @@ export function WorkflowActionPanel({ request }: { request: PurchaseRequest }) {
     mutation.mutate({ id: request.id, payload });
 
   if (acoes.length === 0) {
+    const mensagem =
+      acoesDoStatus.length === 0
+        ? 'Esta solicitação está finalizada — não há ações disponíveis.'
+        : `Nenhuma ação disponível para o perfil "${activeProfile}" neste status.`;
     return (
       <Card>
         <CardHeader>
           <CardTitle className='text-base'>Ações</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className='text-muted-foreground text-sm'>
-            Esta solicitação está finalizada — não há ações disponíveis.
-          </p>
+          <p className='text-muted-foreground text-sm'>{mensagem}</p>
         </CardContent>
       </Card>
     );
@@ -108,20 +129,52 @@ export function WorkflowActionPanel({ request }: { request: PurchaseRequest }) {
           <Button
             key={acao}
             variant={acao === 'cancelar' ? 'destructive' : 'default'}
-            isLoading={mutation.isPending}
-            onClick={() => aplicar({ action: acao, autor: AUTOR[acao] })}
+            isLoading={mutation.isPending && acao !== 'cancelar'}
+            onClick={() => {
+              if (acao === 'cancelar') {
+                setCancelarAberto(true);
+              } else {
+                aplicar({ action: acao, autor: activeProfile });
+              }
+            }}
           >
             {LABEL[acao]}
           </Button>
         ))}
       </CardContent>
 
+      <AlertDialog open={cancelarAberto} onOpenChange={setCancelarAberto}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Cancelar esta solicitação?</AlertDialogTitle>
+            <AlertDialogDescription>
+              A solicitação <span className='font-mono font-semibold'>{request.numero}</span> será
+              marcada como cancelada e não poderá mais ser aprovada ou executada. Esta ação fica
+              registrada no histórico.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={mutation.isPending}>Voltar</AlertDialogCancel>
+            <AlertDialogAction
+              className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
+              disabled={mutation.isPending}
+              onClick={(e) => {
+                e.preventDefault();
+                aplicar({ action: 'cancelar', autor: activeProfile });
+              }}
+            >
+              Sim, cancelar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <ApprovalSheet
         open={aprovacaoAberta}
         onOpenChange={setAprovacaoAberta}
         loading={mutation.isPending}
         onDecidir={(acao, comentario) =>
-          aplicar({ action: acao, autor: AUTOR[acao], comentario })
+          aplicar({ action: acao, autor: activeProfile, comentario })
         }
       />
       <CompraSheet
@@ -132,7 +185,7 @@ export function WorkflowActionPanel({ request }: { request: PurchaseRequest }) {
         onConfirmar={(fornecedor, valor) =>
           aplicar({
             action: 'registrar-compra',
-            autor: AUTOR['registrar-compra'],
+            autor: activeProfile,
             fornecedor_nome: fornecedor,
             valor_real: valor
           })

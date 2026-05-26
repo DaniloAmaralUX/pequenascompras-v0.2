@@ -1,9 +1,13 @@
 'use client';
 
-import { useAppForm, useFormFields } from '@/components/ui/tanstack-form';
+import { useAppForm, useFormFields, scrollToFirstError } from '@/components/ui/tanstack-form';
+import { useStore } from '@tanstack/react-form';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { AlertModal } from '@/components/modal/alert-modal';
 import { FormSection } from '@/components/form-section';
+import { useUnsavedChangesWarning } from '@/hooks/use-unsaved-changes-warning';
 import { createSupplierMutation, updateSupplierMutation } from '../api/mutations';
 import type { Supplier } from '../api/types';
 import { useMutation } from '@tanstack/react-query';
@@ -58,6 +62,7 @@ export default function SupplierForm({
     validators: {
       onSubmit: supplierSchema
     },
+    onSubmitInvalid: () => scrollToFirstError(),
     onSubmit: ({ value }) => {
       const payload = {
         nome: value.nome,
@@ -80,8 +85,27 @@ export default function SupplierForm({
   const { FormTextField, FormSelectField, FormSwitchField } =
     useFormFields<SupplierFormValues>();
 
+  const isDirty = useStore(form.store, (s) => s.isDirty);
+  const [confirmarSaida, setConfirmarSaida] = useState(false);
+  useUnsavedChangesWarning(isDirty);
+
+  const handleVoltar = () => {
+    if (isDirty) setConfirmarSaida(true);
+    else router.back();
+  };
+
   return (
-    <Card className='mx-auto w-full max-w-4xl'>
+    <>
+      <AlertModal
+        isOpen={confirmarSaida}
+        onClose={() => setConfirmarSaida(false)}
+        onConfirm={() => router.back()}
+        loading={false}
+        title='Descartar alterações?'
+        description='As alterações não salvas serão perdidas.'
+        confirmLabel='Descartar'
+      />
+      <Card className='mx-auto w-full max-w-4xl'>
       <CardHeader>
         <CardTitle className='text-left text-2xl font-bold'>{pageTitle}</CardTitle>
       </CardHeader>
@@ -164,7 +188,7 @@ export default function SupplierForm({
             </FormSection>
 
             <div className='flex justify-end gap-2'>
-              <Button type='button' variant='outline' onClick={() => router.back()}>
+              <Button type='button' variant='outline' onClick={handleVoltar}>
                 Voltar
               </Button>
               <form.SubmitButton>
@@ -174,6 +198,7 @@ export default function SupplierForm({
           </form.Form>
         </form.AppForm>
       </CardContent>
-    </Card>
+      </Card>
+    </>
   );
 }

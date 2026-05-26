@@ -1,41 +1,50 @@
 'use client';
-import { useEffect, useState } from 'react';
+
 import { Button } from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
+} from '@/components/ui/alert-dialog';
 
 interface AlertModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
   loading: boolean;
+  title?: string;
+  description?: string;
+  confirmLabel?: string;
 }
 
-export function AlertModal({ isOpen, onClose, onConfirm, loading }: AlertModalProps) {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
-
+export function AlertModal({
+  isOpen,
+  onClose,
+  onConfirm,
+  loading,
+  title = 'Tem certeza?',
+  description = 'Esta ação não pode ser desfeita.',
+  confirmLabel = 'Confirmar'
+}: AlertModalProps) {
   return (
-    <Modal
-      title='Are you sure?'
-      description='This action cannot be undone.'
-      isOpen={isOpen}
-      onClose={onClose}
-    >
-      <div className='flex w-full items-center justify-end space-x-2 pt-6'>
-        <Button disabled={loading} variant='outline' onClick={onClose}>
-          Cancel
-        </Button>
-        <Button disabled={loading} variant='destructive' onClick={onConfirm}>
-          Continue
-        </Button>
-      </div>
-    </Modal>
+    <AlertDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <Button variant='outline' disabled={loading} onClick={onClose}>
+            Cancelar
+          </Button>
+          <Button variant='destructive' isLoading={loading} onClick={onConfirm}>
+            {confirmLabel}
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

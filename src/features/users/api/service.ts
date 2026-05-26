@@ -28,10 +28,19 @@
 // ============================================================
 
 import { fakeUsers } from '@/constants/mock-api-users';
-import type { UserFilters, UsersResponse, UserMutationPayload } from './types';
+import type {
+  UserFilters,
+  UsersResponse,
+  UserByIdResponse,
+  UserMutationPayload
+} from './types';
 
 export async function getUsers(filters: UserFilters): Promise<UsersResponse> {
   return fakeUsers.getUsers(filters);
+}
+
+export async function getUserById(id: number): Promise<UserByIdResponse> {
+  return fakeUsers.getUserById(id) as Promise<UserByIdResponse>;
 }
 
 export async function createUser(data: UserMutationPayload) {

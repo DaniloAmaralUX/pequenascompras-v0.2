@@ -1,5 +1,6 @@
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import { getQueryClient } from '@/lib/query-client';
+import { requireProfile } from '@/lib/route-guard';
 import { costCenterByIdOptions } from '@/features/cost-centers/api/queries';
 import PageContainer from '@/components/layout/page-container';
 import CostCenterViewPage from '@/features/cost-centers/components/cost-center-view-page';
@@ -11,6 +12,7 @@ export const metadata = {
 type PageProps = { params: Promise<{ costCenterId: string }> };
 
 export default async function Page(props: PageProps) {
+  await requireProfile(['Analista de Suprimentos']);
   const params = await props.params;
   const queryClient = getQueryClient();
 

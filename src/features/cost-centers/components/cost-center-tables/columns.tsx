@@ -26,7 +26,7 @@ export const columns: ColumnDef<CostCenter>[] = [
     cell: ({ cell }) => <div className='font-medium'>{cell.getValue<CostCenter['nome']>()}</div>,
     meta: {
       label: 'Centro de Custo',
-      placeholder: 'Buscar centro de custo...',
+      placeholder: 'Buscar centro de custo…',
       variant: 'text',
       icon: Icons.text
     },
