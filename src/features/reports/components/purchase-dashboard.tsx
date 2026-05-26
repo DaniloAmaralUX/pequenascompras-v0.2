@@ -44,7 +44,7 @@ export default function PurchaseDashboard() {
                 <p
                   className={cn(
                     displayFont,
-                    'text-4xl font-bold tracking-tight tabular-nums md:text-5xl'
+                    'text-3xl leading-none font-bold tracking-tight tabular-nums md:text-[2.5rem]'
                   )}
                 >
                   {formatBRL(kpis.gastoTotal)}
@@ -99,7 +99,7 @@ export default function PurchaseDashboard() {
       {/* Gráficos — linha 1 */}
       <RevealSection delay={0.16}>
         <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-          <Card className='from-primary/5 to-card bg-gradient-to-t lg:col-span-4'>
+          <Card className='from-primary/5 to-card bg-gradient-to-t shadow-xs transition-shadow duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:shadow-md lg:col-span-4'>
             <CardHeader>
               <CardTitle className='text-base'>Evolução do gasto mensal</CardTitle>
               <CardDescription>Gasto com pequenas compras por mês</CardDescription>
@@ -109,7 +109,7 @@ export default function PurchaseDashboard() {
             </CardContent>
           </Card>
 
-          <Card className='from-primary/5 to-card bg-gradient-to-t lg:col-span-3'>
+          <Card className='from-primary/5 to-card bg-gradient-to-t shadow-xs transition-shadow duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:shadow-md lg:col-span-3'>
             <CardHeader>
               <CardTitle className='text-base'>Gasto por categoria</CardTitle>
               <CardDescription>Distribuição do gasto</CardDescription>
@@ -124,7 +124,7 @@ export default function PurchaseDashboard() {
       {/* Gráficos — linha 2 */}
       <RevealSection delay={0.24}>
         <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-          <Card className='from-primary/5 to-card bg-gradient-to-t lg:col-span-4'>
+          <Card className='from-primary/5 to-card bg-gradient-to-t shadow-xs transition-shadow duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:shadow-md lg:col-span-4'>
             <CardHeader>
               <CardTitle className='text-base'>Top itens por valor</CardTitle>
               <CardDescription>Itens que mais consomem orçamento</CardDescription>
@@ -134,7 +134,7 @@ export default function PurchaseDashboard() {
             </CardContent>
           </Card>
 
-          <Card className='from-primary/5 to-card bg-gradient-to-t lg:col-span-3'>
+          <Card className='from-primary/5 to-card bg-gradient-to-t shadow-xs transition-shadow duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:shadow-md lg:col-span-3'>
             <CardHeader>
               <CardTitle className='text-base'>Solicitações recentes</CardTitle>
               <CardDescription>Últimas solicitações registradas</CardDescription>
@@ -183,15 +183,15 @@ function KpiCard({
   rodape: string;
 }) {
   return (
-    <Card className='@container/card from-primary/5 to-card bg-gradient-to-t shadow-sm transition-shadow duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:shadow-md'>
+    <Card className='@container/card from-primary/5 to-card bg-gradient-to-t shadow-xs transition-[box-shadow,transform] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:shadow-md'>
       <CardHeader>
-        <CardDescription className='flex items-center gap-2'>
+        <CardDescription className='text-muted-foreground flex items-center gap-2 text-xs font-medium tracking-wide uppercase'>
           {icone} {titulo}
         </CardDescription>
         <CardTitle
           className={cn(
             displayFont,
-            'text-2xl font-bold tracking-tight tabular-nums @[250px]/card:text-3xl'
+            'text-3xl leading-none font-bold tracking-tight tabular-nums @[250px]/card:text-[2rem]'
           )}
         >
           {valor}

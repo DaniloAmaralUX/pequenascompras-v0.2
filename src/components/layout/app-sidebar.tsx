@@ -43,14 +43,24 @@ export default function AppSidebar() {
       <SidebarHeader className='group-data-[collapsible=icon]:pt-4'>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size='lg' asChild tooltip='Pequenas Compras'>
+            <SidebarMenuButton size='lg' asChild tooltip='SESI Pequenas Compras'>
               <Link href='/dashboard/overview'>
-                <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg'>
-                  <Icons.logo className='size-4' />
+                {/* Marca institucional SESI — quadrado azul institucional com monograma "SC".
+                    "S" sobre "C" sugere Sistema de Compras. Aspect-square garante consistência
+                    em modo recolhido (icon-only). */}
+                <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 shrink-0 items-center justify-center rounded-md font-[family-name:var(--font-merriweather)] text-[11px] leading-none font-bold tracking-tight shadow-xs'>
+                  <span aria-hidden='true'>
+                    SC
+                  </span>
+                  <span className='sr-only'>SESI Pequenas Compras</span>
                 </div>
-                <div className='grid flex-1 text-left text-sm leading-tight'>
-                  <span className='truncate font-semibold'>Pequenas Compras</span>
-                  <span className='text-muted-foreground truncate text-xs'>SESI</span>
+                <div className='grid flex-1 text-left leading-tight'>
+                  <span className='font-[family-name:var(--font-merriweather)] truncate text-[15px] font-bold tracking-tight'>
+                    Pequenas Compras
+                  </span>
+                  <span className='text-muted-foreground truncate text-[10px] font-medium tracking-wider uppercase'>
+                    SESI
+                  </span>
                 </div>
               </Link>
             </SidebarMenuButton>
