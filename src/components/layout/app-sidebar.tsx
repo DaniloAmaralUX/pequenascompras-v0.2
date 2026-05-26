@@ -39,7 +39,7 @@ export default function AppSidebar() {
   const ProfileIcon = profile ? Icons[profile.icon] : Icons.profile;
 
   return (
-    <Sidebar collapsible='icon'>
+    <Sidebar collapsible='icon' variant='floating'>
       <SidebarHeader className='group-data-[collapsible=icon]:pt-4'>
         <SidebarMenu>
           <SidebarMenuItem>

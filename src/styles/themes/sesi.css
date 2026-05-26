@@ -28,14 +28,16 @@
   --chart-3: oklch(0.7 0.14 142);
   --chart-4: oklch(0.62 0.1 290);
   --chart-5: oklch(0.7 0.06 257);
-  --sidebar: oklch(0.34 0.09 257);
-  --sidebar-foreground: oklch(0.97 0.01 257);
-  --sidebar-primary: oklch(0.7 0.16 142);
-  --sidebar-primary-foreground: oklch(0.2 0.04 145);
-  --sidebar-accent: oklch(0.41 0.09 257);
-  --sidebar-accent-foreground: oklch(0.99 0.005 257);
-  --sidebar-border: oklch(0.41 0.07 257);
-  --sidebar-ring: oklch(0.7 0.16 142);
+  /* Sidebar floating leve — bg quase imperceptível com tint institucional sutil.
+     Combina com o ritmo editorial cards-claros sem competir com o conteúdo. */
+  --sidebar: oklch(0.985 0.003 257);
+  --sidebar-foreground: oklch(0.21 0.03 257);
+  --sidebar-primary: oklch(0.47 0.14 257);
+  --sidebar-primary-foreground: oklch(0.985 0.003 257);
+  --sidebar-accent: oklch(0.95 0.018 257);
+  --sidebar-accent-foreground: oklch(0.21 0.03 257);
+  --sidebar-border: oklch(0.91 0.012 257);
+  --sidebar-ring: oklch(0.47 0.14 257);
   --font-sans: Geist, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Geist Mono, monospace;
@@ -85,14 +87,16 @@
   --chart-3: oklch(0.78 0.14 142);
   --chart-4: oklch(0.72 0.1 290);
   --chart-5: oklch(0.78 0.05 257);
-  --sidebar: oklch(0.16 0.02 257);
+  /* Sidebar floating dark — bg um pouco mais claro que o background para
+     separação visual sutil quando flutuando. */
+  --sidebar: oklch(0.22 0.025 257);
   --sidebar-foreground: oklch(0.97 0.01 257);
-  --sidebar-primary: oklch(0.72 0.16 142);
-  --sidebar-primary-foreground: oklch(0.16 0.03 145);
-  --sidebar-accent: oklch(0.28 0.04 257);
+  --sidebar-primary: oklch(0.66 0.13 255);
+  --sidebar-primary-foreground: oklch(0.16 0.03 257);
+  --sidebar-accent: oklch(0.28 0.035 257);
   --sidebar-accent-foreground: oklch(0.97 0.01 257);
-  --sidebar-border: oklch(0.28 0.03 257);
-  --sidebar-ring: oklch(0.72 0.16 142);
+  --sidebar-border: oklch(0.3 0.03 257);
+  --sidebar-ring: oklch(0.66 0.13 255);
   --font-sans: Geist, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Geist Mono, monospace;
