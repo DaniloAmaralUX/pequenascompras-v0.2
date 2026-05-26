@@ -48,6 +48,8 @@ export type HistoryEvent = {
   data: string;
   autor: string;
   descricao: string;
+  /** Comentário opcional (justificativa de aprovação/rejeição/etc.). */
+  comentario?: string;
   de?: string;
   para?: string;
 };

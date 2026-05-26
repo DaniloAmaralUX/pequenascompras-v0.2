@@ -72,7 +72,7 @@ export default function PurchaseDashboard() {
         </Card>
       </RevealSection>
 
-      {/* KPIs secundários */}
+      {/* KPIs secundários — clicáveis (drill-down) + delta vs mês anterior */}
       <RevealSection delay={0.08}>
         <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
           <KpiCard
@@ -80,18 +80,25 @@ export default function PurchaseDashboard() {
             valor={String(kpis.totalSolicitacoes)}
             icone={<Icons.request className='size-4' />}
             rodape={`${kpis.aguardandoAprovacao} aguardando aprovação`}
+            delta={kpis.deltas.totalSolicitacoes}
+            href='/dashboard/requests'
           />
           <KpiCard
             titulo='Ticket médio'
             valor={formatBRL(kpis.ticketMedio)}
             icone={<Icons.trendingUp className='size-4' />}
             rodape='Valor médio por solicitação'
+            delta={kpis.deltas.ticketMedio}
+            href='/dashboard/requests'
           />
           <KpiCard
             titulo='Tempo médio de ciclo'
             valor={`${kpis.tempoMedioCicloDias} dias`}
             icone={<Icons.clock className='size-4' />}
             rodape='Da criação ao recebimento'
+            delta={kpis.deltas.tempoMedioCicloDias}
+            deltaInverso
+            href='/dashboard/requests?status=Concluída'
           />
         </div>
       </RevealSection>
@@ -139,8 +146,14 @@ export default function PurchaseDashboard() {
               <CardTitle className='text-base'>Solicitações recentes</CardTitle>
               <CardDescription>Últimas solicitações registradas</CardDescription>
             </CardHeader>
-            <CardContent className='space-y-3'>
-              {recentes.map((r) => (
+            <CardContent className='flex flex-col gap-3'>
+              {recentes.length === 0 ? (
+                <div className='text-muted-foreground flex flex-col items-center justify-center gap-2 py-8 text-center'>
+                  <Icons.request className='text-muted-foreground/40 size-6' aria-hidden='true' />
+                  <p className='text-xs'>Nenhuma solicitação recente ainda</p>
+                </div>
+              ) : (
+                recentes.map((r) => (
                 <Link
                   key={r.id}
                   href={`/dashboard/requests/${r.id}`}
@@ -162,7 +175,8 @@ export default function PurchaseDashboard() {
                     </Badge>
                   </div>
                 </Link>
-              ))}
+                ))
+              )}
             </CardContent>
           </Card>
         </div>
@@ -175,31 +189,88 @@ function KpiCard({
   titulo,
   valor,
   icone,
-  rodape
+  rodape,
+  delta,
+  deltaInverso,
+  href
 }: {
   titulo: string;
   valor: string;
   icone: React.ReactNode;
   rodape: string;
+  /** Variação percentual vs período anterior (null se sem dados). */
+  delta?: number | null;
+  /** Se true, queda é positiva (ex.: tempo de ciclo menor é melhor). */
+  deltaInverso?: boolean;
+  /** Se passado, o card vira um Link clicável (drill-down). */
+  href?: string;
 }) {
-  return (
-    <Card className='@container/card from-primary/5 to-card bg-gradient-to-t shadow-xs transition-[box-shadow,transform] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:shadow-md'>
+  const cardBody = (
+    <Card className='@container/card from-primary/5 to-card group bg-gradient-to-t shadow-xs transition-[box-shadow,transform] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-0.5 hover:shadow-md'>
       <CardHeader>
         <CardDescription className='text-muted-foreground flex items-center gap-2 text-xs font-medium tracking-wide uppercase'>
           {icone} {titulo}
         </CardDescription>
-        <CardTitle
-          className={cn(
-            displayFont,
-            'text-3xl leading-none font-bold tracking-tight tabular-nums @[250px]/card:text-[2rem]'
-          )}
-        >
-          {valor}
-        </CardTitle>
+        <div className='flex items-baseline justify-between gap-2'>
+          <CardTitle
+            className={cn(
+              displayFont,
+              'text-3xl leading-none font-bold tracking-tight tabular-nums @[250px]/card:text-[2rem]'
+            )}
+          >
+            {valor}
+          </CardTitle>
+          {delta != null && <DeltaBadge value={delta} inverted={!!deltaInverso} />}
+        </div>
       </CardHeader>
       <CardContent>
-        <p className='text-muted-foreground text-xs'>{rodape}</p>
+        <p className='text-muted-foreground flex items-center justify-between gap-2 text-xs'>
+          <span>{rodape}</span>
+          {href && (
+            <Icons.arrowRight
+              className='text-muted-foreground/40 size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-current'
+              aria-hidden='true'
+            />
+          )}
+        </p>
       </CardContent>
     </Card>
+  );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className='focus-visible:ring-ring/50 rounded-xl outline-none focus-visible:ring-[3px]'
+        aria-label={`${titulo}: ${valor}. Ver detalhes`}
+      >
+        {cardBody}
+      </Link>
+    );
+  }
+  return cardBody;
+}
+
+/** Badge de delta — verde (positivo), vermelho (negativo), neutro. Respeita `inverted`. */
+function DeltaBadge({ value, inverted }: { value: number; inverted: boolean }) {
+  const positivo = inverted ? value < 0 : value > 0;
+  const zero = Math.abs(value) < 0.5; // <0.5% considera estável
+  const sinal = value > 0 ? '+' : '';
+  const Arrow =
+    zero ? Icons.arrowRight : value > 0 ? Icons.trendingUp : Icons.trendingDown;
+  return (
+    <span
+      className={cn(
+        'inline-flex shrink-0 items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold tabular-nums',
+        zero && 'bg-muted text-muted-foreground',
+        !zero && positivo && 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
+        !zero && !positivo && 'bg-destructive/10 text-destructive'
+      )}
+      aria-label={`Variação de ${sinal}${value.toFixed(1)}% em relação ao período anterior`}
+    >
+      <Arrow className='size-2.5' aria-hidden='true' />
+      {sinal}
+      {value.toFixed(0)}%
+    </span>
   );
 }

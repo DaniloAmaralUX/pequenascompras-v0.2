@@ -39,6 +39,13 @@ export type DashboardKpis = {
   itensRecorrentes: number;
   tempoMedioCicloDias: number;
   aguardandoAprovacao: number;
+  /** Variação percentual vs período anterior (mesmo intervalo). null se sem dados. */
+  deltas: {
+    gastoTotal: number | null;
+    totalSolicitacoes: number | null;
+    ticketMedio: number | null;
+    tempoMedioCicloDias: number | null;
+  };
 };
 
 export type SerieValor = { rotulo: string; valor: number };
@@ -79,11 +86,57 @@ export type AlertaPreco = {
   diferencaPct: number;
 };
 
+/** Calcula a variação percentual entre dois valores; null se o anterior é zero. */
+function delta(atual: number, anterior: number): number | null {
+  if (anterior === 0) return null;
+  return ((atual - anterior) / anterior) * 100;
+}
+
+/** Particiona um array de requests em dois períodos consecutivos de N dias. */
+function periodos(reqs: PurchaseRequest[], janelaDias = 30) {
+  const agora = Date.now();
+  const inicioAtual = agora - janelaDias * 86_400_000;
+  const inicioAnterior = inicioAtual - janelaDias * 86_400_000;
+
+  const atual = reqs.filter((r) => {
+    const t = new Date(r.criada_em).getTime();
+    return t >= inicioAtual && t < agora;
+  });
+  const anterior = reqs.filter((r) => {
+    const t = new Date(r.criada_em).getTime();
+    return t >= inicioAnterior && t < inicioAtual;
+  });
+  return { atual, anterior };
+}
+
 /** Dados consolidados do Dashboard de Compras. */
 export function getDashboardData(): DashboardData {
   const reqs = solicitacoesValidas();
   const gastoTotal = reqs.reduce((t, r) => t + valorEfetivo(r), 0);
   const totalSolicitacoes = reqs.length;
+
+  // Períodos para comparação delta (últimos 30 dias vs 30 dias anteriores)
+  const { atual: pAtual, anterior: pAnt } = periodos(reqs, 30);
+  const gastoAtual = pAtual.reduce((t, r) => t + valorEfetivo(r), 0);
+  const gastoAnt = pAnt.reduce((t, r) => t + valorEfetivo(r), 0);
+  const ticketAtual = pAtual.length > 0 ? gastoAtual / pAtual.length : 0;
+  const ticketAnt = pAnt.length > 0 ? gastoAnt / pAnt.length : 0;
+
+  // Tempo médio de ciclo por período (concluídas em cada janela)
+  const cicloMedio = (lista: PurchaseRequest[]) => {
+    const conc = lista.filter((r) => r.status === PURCHASE_STATUS.CONCLUIDA && r.recebida_em);
+    if (conc.length === 0) return 0;
+    return (
+      conc.reduce((t, r) => {
+        const dias =
+          (new Date(r.recebida_em as string).getTime() - new Date(r.criada_em).getTime()) /
+          86_400_000;
+        return t + dias;
+      }, 0) / conc.length
+    );
+  };
+  const cicloAtual = cicloMedio(pAtual);
+  const cicloAnt = cicloMedio(pAnt);
 
   // Tempo médio de ciclo (criação → recebimento) das concluídas
   const concluidas = reqs.filter((r) => r.status === PURCHASE_STATUS.CONCLUIDA && r.recebida_em);
@@ -140,7 +193,13 @@ export function getDashboardData(): DashboardData {
       tempoMedioCicloDias: Math.round(tempoMedio),
       aguardandoAprovacao: fakePurchaseRequests.records.filter(
         (r) => r.status === PURCHASE_STATUS.AGUARDANDO_APROVACAO
-      ).length
+      ).length,
+      deltas: {
+        gastoTotal: delta(gastoAtual, gastoAnt),
+        totalSolicitacoes: delta(pAtual.length, pAnt.length),
+        ticketMedio: delta(ticketAtual, ticketAnt),
+        tempoMedioCicloDias: delta(cicloAtual, cicloAnt)
+      }
     },
     gastoMensal,
     gastoPorCategoria,

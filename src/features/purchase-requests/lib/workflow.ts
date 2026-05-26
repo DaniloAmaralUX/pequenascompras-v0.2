@@ -98,9 +98,8 @@ export function applyTransition(
       {
         data: agora,
         autor: payload.autor,
-        descricao: payload.comentario
-          ? `${def.descricao} — ${payload.comentario}`
-          : def.descricao,
+        descricao: def.descricao,
+        comentario: payload.comentario,
         de: request.status,
         para: def.para
       }

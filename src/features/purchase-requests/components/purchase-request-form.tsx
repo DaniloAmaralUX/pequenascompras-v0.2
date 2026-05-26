@@ -27,6 +27,13 @@ import {
   unidadeMedidaOptions
 } from '@/features/catalog-items/constants/catalog-item-options';
 import { PURCHASE_STATUS } from '@/constants/mock-api-purchase-requests';
+import { loadFromStorage, saveToStorage } from '@/lib/mock-storage';
+
+const DRAFT_STORAGE_KEY = 'purchase-request-draft';
+const AUTOSAVE_DEBOUNCE_MS = 800;
+
+/** Persiste apenas campos serializáveis (exclui File objects dos anexos). */
+type DraftSnapshot = Omit<PurchaseRequestFormValues, 'anexos'>;
 
 const formatBRL = (v: number) =>
   v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -43,6 +50,10 @@ export default function PurchaseRequestForm() {
   const router = useRouter();
   const enviarRef = React.useRef(false);
   const reduzirMovimento = useReducedMotion();
+  const [draftSavedAt, setDraftSavedAt] = React.useState<number | null>(null);
+
+  // Restaura rascunho do localStorage (anexos não são persistíveis).
+  const draftInicial = React.useMemo(() => loadFromStorage<DraftSnapshot>(DRAFT_STORAGE_KEY), []);
 
   const { currentValidator, step, currentStep, isFirstStep, handleCancelOrBack, handleNextStepOrSubmit } =
     useFormStepper(stepSchemas);
@@ -50,6 +61,8 @@ export default function PurchaseRequestForm() {
   const mutation = useMutation({
     ...createPurchaseRequestMutation,
     onSuccess: (data) => {
+      // Limpa o rascunho persistido — submissão concluída.
+      saveToStorage<DraftSnapshot | null>(DRAFT_STORAGE_KEY, null);
       if (data?.request?.status === PURCHASE_STATUS.BLOQUEADA) {
         toast.warning('Solicitação bloqueada pelo motor de governança', {
           description: data.request.motivos_bloqueio.join(' | ')
@@ -66,11 +79,13 @@ export default function PurchaseRequestForm() {
 
   const form = useAppForm({
     defaultValues: {
-      unidade: '',
-      centro_de_custo: '',
-      prioridade: '',
-      justificativa: '',
-      itens: [{ ...itemVazio }],
+      unidade: draftInicial?.unidade ?? '',
+      centro_de_custo: draftInicial?.centro_de_custo ?? '',
+      prioridade: draftInicial?.prioridade ?? '',
+      justificativa: draftInicial?.justificativa ?? '',
+      itens: draftInicial?.itens && draftInicial.itens.length > 0
+        ? draftInicial.itens
+        : [{ ...itemVazio }],
       anexos: undefined
     } as PurchaseRequestFormValues,
     validationLogic: revalidateLogic(),
@@ -107,6 +122,32 @@ export default function PurchaseRequestForm() {
     0
   );
 
+  // Auto-save do rascunho — debounced 800ms para não bater a cada keystroke.
+  // Anexos não são serializáveis (File objects) — preservados só na sessão.
+  React.useEffect(() => {
+    const temAlgo =
+      formValues.unidade ||
+      formValues.centro_de_custo ||
+      formValues.prioridade ||
+      formValues.justificativa ||
+      formValues.itens.some((it) => it.descricao || it.categoria);
+    if (!temAlgo) return;
+
+    const id = setTimeout(() => {
+      const snapshot: DraftSnapshot = {
+        unidade: formValues.unidade,
+        centro_de_custo: formValues.centro_de_custo,
+        prioridade: formValues.prioridade,
+        justificativa: formValues.justificativa,
+        itens: formValues.itens
+      };
+      saveToStorage(DRAFT_STORAGE_KEY, snapshot);
+      setDraftSavedAt(Date.now());
+    }, AUTOSAVE_DEBOUNCE_MS);
+
+    return () => clearTimeout(id);
+  }, [formValues]);
+
   const submeter = (enviar: boolean) => {
     enviarRef.current = enviar;
     form.handleSubmit();
@@ -114,8 +155,17 @@ export default function PurchaseRequestForm() {
 
   return (
     <Card className='mx-auto w-full max-w-4xl'>
-      <CardHeader>
+      <CardHeader className='flex flex-row items-start justify-between gap-3'>
         <CardTitle className='text-left text-2xl font-bold'>Nova Solicitação de Compra</CardTitle>
+        {draftSavedAt && (
+          <span
+            className='text-muted-foreground inline-flex shrink-0 items-center gap-1 text-xs'
+            aria-live='polite'
+          >
+            <Icons.check className='size-3 text-emerald-500' aria-hidden='true' />
+            Rascunho salvo
+          </span>
+        )}
       </CardHeader>
       <CardContent>
         <form.AppForm>

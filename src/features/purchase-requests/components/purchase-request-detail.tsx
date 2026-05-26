@@ -401,7 +401,7 @@ function Timeline({ eventos }: { eventos: HistoryEvent[] }) {
               </div>
               {!isLast && <span className='bg-border w-px flex-1' aria-hidden='true' />}
             </div>
-            <div className={cn('flex flex-1 flex-col gap-0.5', !isLast && 'pb-5')}>
+            <div className={cn('flex flex-1 flex-col gap-1', !isLast && 'pb-5')}>
               <p className='text-sm leading-snug font-medium'>{ev.descricao}</p>
               <div className='text-muted-foreground flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs'>
                 <span>{ev.autor}</span>
@@ -418,6 +418,13 @@ function Timeline({ eventos }: { eventos: HistoryEvent[] }) {
                   </>
                 )}
               </div>
+              {ev.comentario && (
+                <blockquote className='border-primary/30 bg-muted/40 text-foreground mt-1 rounded-md border-l-2 px-3 py-1.5 text-xs leading-relaxed'>
+                  <span className='text-muted-foreground mr-1'>“</span>
+                  {ev.comentario}
+                  <span className='text-muted-foreground ml-1'>”</span>
+                </blockquote>
+              )}
             </div>
           </li>
         );
