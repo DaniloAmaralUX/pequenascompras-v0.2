@@ -19,7 +19,7 @@ export function CellAction({ data }: CellActionProps) {
       className='h-8'
       onClick={() => router.push(`/dashboard/requests/${data.id}`)}
     >
-      <Icons.arrowRight className='mr-1 h-4 w-4' aria-hidden='true' /> Detalhes
+      <Icons.arrowRight className='mr-1 size-4' aria-hidden='true' /> Detalhes
     </Button>
   );
 }

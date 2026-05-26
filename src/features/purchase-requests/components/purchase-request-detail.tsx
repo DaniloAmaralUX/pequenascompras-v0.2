@@ -52,7 +52,7 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
       {req.status === PURCHASE_STATUS.BLOQUEADA && req.motivos_bloqueio.length > 0 && (
         <RevealSection delay={0.08}>
           <Alert variant='destructive'>
-            <Icons.warning className='h-4 w-4' />
+            <Icons.warning className='size-4' />
             <AlertTitle>Solicitação bloqueada pelo motor de governança</AlertTitle>
             <AlertDescription>
               <ul className='list-disc pl-4'>
@@ -141,7 +141,7 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
                         title='Visualização de anexos não disponível neste protótipo'
                         className='hover:bg-muted/60 group flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors'
                       >
-                        <Icons.paperclip className='text-muted-foreground h-4 w-4' />
+                        <Icons.paperclip className='text-muted-foreground size-4' />
                         <span className='group-hover:underline'>{a.nome}</span>
                         <span className='text-muted-foreground ml-auto text-xs'>protótipo</span>
                       </button>

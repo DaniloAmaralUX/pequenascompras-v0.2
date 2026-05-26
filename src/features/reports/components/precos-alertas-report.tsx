@@ -22,7 +22,7 @@ export default function PrecosAlertasReport() {
   return (
     <div className='flex flex-1 flex-col gap-4'>
       <Alert>
-        <Icons.info className='h-4 w-4' />
+        <Icons.info className='size-4' />
         <AlertTitle>Como funciona</AlertTitle>
         <AlertDescription>
           Itens cujo preço unitário está mais de 10% acima da média histórica do próprio item.

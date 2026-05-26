@@ -117,12 +117,12 @@ export function WorkflowActionPanel({ request }: { request: PurchaseRequest }) {
       <CardContent className='flex flex-col gap-2'>
         {temAprovacao && (
           <Button onClick={() => setAprovacaoAberta(true)}>
-            <Icons.checks className='mr-1 h-4 w-4' aria-hidden='true' /> Analisar aprovação
+            <Icons.checks className='mr-1 size-4' aria-hidden='true' /> Analisar aprovação
           </Button>
         )}
         {temCompra && (
           <Button onClick={() => setCompraAberta(true)}>
-            <Icons.receipt className='mr-1 h-4 w-4' aria-hidden='true' /> Registrar compra
+            <Icons.receipt className='mr-1 size-4' aria-hidden='true' /> Registrar compra
           </Button>
         )}
         {acoesSimples.map((acao) => (

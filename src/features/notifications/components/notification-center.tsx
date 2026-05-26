@@ -36,7 +36,7 @@ export function NotificationCenter() {
           className='relative size-8'
           aria-label={`Notificações${unreadCount > 0 ? ` (${unreadCount} não lidas)` : ''}`}
         >
-          <Icons.notification className='h-4 w-4' />
+          <Icons.notification className='size-4' />
           {unreadCount > 0 && (
             <span className='bg-destructive text-destructive-foreground absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-medium tabular-nums'>
               {unreadCount > 9 ? '9+' : unreadCount}
@@ -52,7 +52,7 @@ export function NotificationCenter() {
         <div className='flex items-center justify-between px-4 py-3'>
           <Link href='/dashboard/notifications' className='group flex items-center gap-1'>
             <h4 className='text-sm font-semibold group-hover:underline'>Notificações</h4>
-            <Icons.chevronRight className='text-muted-foreground h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-0.5' />
+            <Icons.chevronRight className='text-muted-foreground size-3.5 transition-transform duration-150 group-hover:translate-x-0.5' />
           </Link>
           <div className='flex items-center gap-2'>
             {unreadCount > 0 && (
@@ -76,7 +76,7 @@ export function NotificationCenter() {
         <ScrollArea className='h-[400px]'>
           {notifications.length === 0 ? (
             <div className='flex flex-col items-center justify-center py-12'>
-              <Icons.notification className='text-muted-foreground/40 mb-2 h-8 w-8' />
+              <Icons.notification className='text-muted-foreground/40 mb-2 size-8' aria-hidden='true' />
               <p className='text-muted-foreground text-sm'>Nenhuma notificação ainda</p>
             </div>
           ) : (

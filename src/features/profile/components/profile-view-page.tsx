@@ -11,7 +11,7 @@ export default function ProfileViewPage() {
       <Card className='max-w-2xl'>
         <CardHeader>
           <CardTitle className='flex items-center gap-2 text-base'>
-            <Icons.profile className='h-4 w-4' />
+            <Icons.profile className='size-4' />
             Sessão de teste
           </CardTitle>
         </CardHeader>

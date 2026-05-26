@@ -32,7 +32,7 @@ export default async function UsersPage(props: PageProps) {
           href='/dashboard/users/new'
           className={cn(buttonVariants(), 'text-xs md:text-sm')}
         >
-          <Icons.add className='mr-2 h-4 w-4' aria-hidden='true' /> Novo Usuário
+          <Icons.add className='mr-2 size-4' aria-hidden='true' /> Novo Usuário
         </Link>
       }
     >

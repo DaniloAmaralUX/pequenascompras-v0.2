@@ -63,14 +63,14 @@ export function ThemeModeToggle() {
                 className='absolute inset-0 flex items-center justify-center'
               >
                 {isDark ? (
-                  <Icons.moon className='h-4 w-4' aria-hidden='true' />
+                  <Icons.moon className='size-4' aria-hidden='true' />
                 ) : (
-                  <Icons.sun className='h-4 w-4' aria-hidden='true' />
+                  <Icons.sun className='size-4' aria-hidden='true' />
                 )}
               </motion.span>
             </AnimatePresence>
           ) : (
-            <Icons.brightness className='h-4 w-4' aria-hidden='true' />
+            <Icons.brightness className='size-4' aria-hidden='true' />
           )}
         </Button>
       </TooltipTrigger>

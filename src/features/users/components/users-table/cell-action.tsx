@@ -54,17 +54,17 @@ export function CellAction({ data }: CellActionProps) {
             className="relative size-8 p-0 before:absolute before:-inset-1.5 before:content-['']"
           >
             <span className='sr-only'>Abrir menu</span>
-            <Icons.ellipsis className='h-4 w-4' />
+            <Icons.ellipsis className='size-4' />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuLabel>Ações</DropdownMenuLabel>
           <DropdownMenuGroup>
             <DropdownMenuItem onClick={() => router.push(`/dashboard/users/${data.id}`)}>
-              <Icons.edit className='mr-2 h-4 w-4' /> Editar
+              <Icons.edit className='mr-2 size-4' /> Editar
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setOpen(true)}>
-              <Icons.trash className='mr-2 h-4 w-4' /> Excluir
+              <Icons.trash className='mr-2 size-4' /> Excluir
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

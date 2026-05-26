@@ -78,19 +78,19 @@ export default function PurchaseDashboard() {
           <KpiCard
             titulo='Solicitações'
             valor={String(kpis.totalSolicitacoes)}
-            icone={<Icons.request className='h-4 w-4' />}
+            icone={<Icons.request className='size-4' />}
             rodape={`${kpis.aguardandoAprovacao} aguardando aprovação`}
           />
           <KpiCard
             titulo='Ticket médio'
             valor={formatBRL(kpis.ticketMedio)}
-            icone={<Icons.trendingUp className='h-4 w-4' />}
+            icone={<Icons.trendingUp className='size-4' />}
             rodape='Valor médio por solicitação'
           />
           <KpiCard
             titulo='Tempo médio de ciclo'
             valor={`${kpis.tempoMedioCicloDias} dias`}
-            icone={<Icons.clock className='h-4 w-4' />}
+            icone={<Icons.clock className='size-4' />}
             rodape='Da criação ao recebimento'
           />
         </div>

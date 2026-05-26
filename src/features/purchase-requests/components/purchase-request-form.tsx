@@ -199,7 +199,7 @@ export default function PurchaseRequestForm() {
                                     className="relative size-8 before:absolute before:-inset-1.5 before:content-['']"
                                     onClick={() => arrayField.removeValue(i)}
                                   >
-                                    <Icons.trash className='h-4 w-4' />
+                                    <Icons.trash className='size-4' />
                                   </Button>
                                 )}
                               </div>
@@ -265,7 +265,7 @@ export default function PurchaseRequestForm() {
                             size='sm'
                             onClick={() => arrayField.pushValue({ ...itemVazio })}
                           >
-                            <Icons.add className='mr-2 h-4 w-4' /> Adicionar item
+                            <Icons.add className='mr-2 size-4' /> Adicionar item
                           </Button>
                         </div>
                       )}
@@ -292,7 +292,7 @@ export default function PurchaseRequestForm() {
                 {currentStep === 3 && (
                   <div className='border-primary/40 bg-primary/[0.03] flex flex-col gap-4 rounded-lg border p-4'>
                     <div className='flex items-center gap-2'>
-                      <Icons.checks className='text-primary h-5 w-5' />
+                      <Icons.checks className='text-primary size-5' />
                       <h3 className='text-lg font-semibold'>Revisão e envio</h3>
                     </div>
                     <p className='text-muted-foreground -mt-3 text-xs'>
@@ -347,7 +347,7 @@ export default function PurchaseRequestForm() {
                 disabled={isFirstStep}
                 onClick={() => handleCancelOrBack()}
               >
-                <Icons.chevronLeft className='mr-1 h-4 w-4' aria-hidden='true' /> Voltar
+                <Icons.chevronLeft className='mr-1 size-4' aria-hidden='true' /> Voltar
               </Button>
 
               {step.isCompleted ? (
@@ -365,12 +365,12 @@ export default function PurchaseRequestForm() {
                     isLoading={mutation.isPending}
                     onClick={() => submeter(true)}
                   >
-                    <Icons.send className='mr-1 h-4 w-4' aria-hidden='true' /> Enviar para aprovação
+                    <Icons.send className='mr-1 size-4' aria-hidden='true' /> Enviar para aprovação
                   </Button>
                 </div>
               ) : (
                 <Button type='button' onClick={() => handleNextStepOrSubmit(form)}>
-                  Próximo <Icons.chevronRight className='ml-1 h-4 w-4' />
+                  Próximo <Icons.chevronRight className='ml-1 size-4' />
                 </Button>
               )}
             </div>

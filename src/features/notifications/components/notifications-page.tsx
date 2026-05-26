@@ -28,7 +28,7 @@ export default function NotificationsPage() {
     if (items.length === 0) {
       return (
         <div className='flex flex-col items-center justify-center py-16'>
-          <Icons.notification className='text-muted-foreground/40 mb-3 h-10 w-10' />
+          <Icons.notification className='text-muted-foreground/40 mb-3 size-10' aria-hidden='true' />
           <p className='text-muted-foreground text-sm'>Nenhuma notificação</p>
         </div>
       );
