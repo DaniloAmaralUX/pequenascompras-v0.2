@@ -19,11 +19,15 @@
   --border: oklch(0.91 0.012 257);
   --input: oklch(0.93 0.012 257);
   --ring: oklch(0.47 0.14 257);
-  --chart-1: oklch(0.47 0.14 257);
-  --chart-2: oklch(0.7 0.16 142);
-  --chart-3: oklch(0.64 0.13 240);
-  --chart-4: oklch(0.8 0.15 80);
-  --chart-5: oklch(0.55 0.03 257);
+  /* Paleta de charts harmonizada com a identidade SESI:
+     azul institucional → sky → verde Melhoria Contínua → indigo → slate neutro.
+     Hues mantidos entre 142°-290° (sem amarelo/laranja destoante).
+     Chroma e lightness ajustados para distinção visual sem hue drift. */
+  --chart-1: oklch(0.55 0.16 257);
+  --chart-2: oklch(0.66 0.13 220);
+  --chart-3: oklch(0.7 0.14 142);
+  --chart-4: oklch(0.62 0.1 290);
+  --chart-5: oklch(0.7 0.06 257);
   --sidebar: oklch(0.34 0.09 257);
   --sidebar-foreground: oklch(0.97 0.01 257);
   --sidebar-primary: oklch(0.7 0.16 142);
@@ -75,11 +79,12 @@
   --border: oklch(0.32 0.03 257);
   --input: oklch(0.34 0.03 257);
   --ring: oklch(0.66 0.13 255);
-  --chart-1: oklch(0.66 0.13 255);
-  --chart-2: oklch(0.72 0.16 142);
-  --chart-3: oklch(0.7 0.12 240);
-  --chart-4: oklch(0.82 0.15 80);
-  --chart-5: oklch(0.7 0.03 257);
+  /* Paleta dark — mesma estrutura, L ~+0.1 para legibilidade em fundo escuro. */
+  --chart-1: oklch(0.7 0.15 257);
+  --chart-2: oklch(0.75 0.13 220);
+  --chart-3: oklch(0.78 0.14 142);
+  --chart-4: oklch(0.72 0.1 290);
+  --chart-5: oklch(0.78 0.05 257);
   --sidebar: oklch(0.16 0.02 257);
   --sidebar-foreground: oklch(0.97 0.01 257);
   --sidebar-primary: oklch(0.72 0.16 142);

@@ -50,7 +50,7 @@ export function FormStepper({ steps, currentStep, className }: FormStepperProps)
                 <div
                   className={cn(
                     'flex size-7 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold',
-                    'transition-[background-color,color,box-shadow] duration-300 ease-out',
+                    'transition-[background-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]',
                     isCompleted && 'bg-primary text-primary-foreground',
                     isCurrent &&
                       'bg-primary text-primary-foreground ring-primary/20 ring-4',
@@ -90,7 +90,7 @@ export function FormStepper({ steps, currentStep, className }: FormStepperProps)
                   <motion.div
                     initial={false}
                     animate={{ scaleX: isCompleted ? 1 : 0 }}
-                    transition={{ duration: 0.4, ease: [0.2, 0, 0, 1] }}
+                    transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
                     style={{ originX: 0 }}
                     className='bg-primary h-full w-full'
                   />
