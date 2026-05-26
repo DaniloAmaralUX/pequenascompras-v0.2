@@ -347,7 +347,7 @@ export default function PurchaseRequestForm() {
                 disabled={isFirstStep}
                 onClick={() => handleCancelOrBack()}
               >
-                <Icons.chevronLeft className='mr-1 h-4 w-4' /> Voltar
+                <Icons.chevronLeft className='mr-1 h-4 w-4' aria-hidden='true' /> Voltar
               </Button>
 
               {step.isCompleted ? (
@@ -365,7 +365,7 @@ export default function PurchaseRequestForm() {
                     isLoading={mutation.isPending}
                     onClick={() => submeter(true)}
                   >
-                    <Icons.send className='mr-1 h-4 w-4' /> Enviar para aprovação
+                    <Icons.send className='mr-1 h-4 w-4' aria-hidden='true' /> Enviar para aprovação
                   </Button>
                 </div>
               ) : (

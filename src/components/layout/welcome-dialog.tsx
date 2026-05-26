@@ -72,7 +72,7 @@ export function WelcomeDialog() {
                 className='bg-muted/40 flex flex-col gap-2 rounded-lg border p-3'
               >
                 <div className='flex items-center gap-2'>
-                  <Icon className='text-primary h-4 w-4' />
+                  <Icon className='text-primary h-4 w-4' aria-hidden='true' />
                   <span className='font-semibold text-sm'>{profile.label}</span>
                 </div>
                 <p className='text-muted-foreground text-xs leading-relaxed'>

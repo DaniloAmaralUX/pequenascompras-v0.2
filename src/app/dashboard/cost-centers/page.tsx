@@ -30,7 +30,7 @@ export default async function Page(props: PageProps) {
           href='/dashboard/cost-centers/new'
           className={cn(buttonVariants(), 'text-xs md:text-sm')}
         >
-          <Icons.add className='mr-2 h-4 w-4' /> Novo Centro de Custo
+          <Icons.add className='mr-2 h-4 w-4' aria-hidden='true' /> Novo Centro de Custo
         </Link>
       }
     >

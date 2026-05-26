@@ -28,7 +28,7 @@ export default async function Page(props: PageProps) {
           href='/dashboard/requests/new'
           className={cn(buttonVariants(), 'text-xs md:text-sm')}
         >
-          <Icons.add className='mr-2 h-4 w-4' /> Nova Solicitação
+          <Icons.add className='mr-2 h-4 w-4' aria-hidden='true' /> Nova Solicitação
         </Link>
       }
     >
