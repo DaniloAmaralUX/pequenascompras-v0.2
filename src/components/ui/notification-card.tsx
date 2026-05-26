@@ -81,7 +81,7 @@ export const NotificationCard: FC<NotificationCardProps> = ({
   return (
     <div
       className={cn(
-        'group relative w-full rounded-2xl transition-all',
+        'group relative w-full rounded-2xl transition-[background-color,opacity] duration-200',
         isUnread ? 'bg-muted' : 'bg-muted/40',
         className
       )}

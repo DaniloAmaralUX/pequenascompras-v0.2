@@ -144,13 +144,15 @@ export default function PurchaseDashboard() {
                 <Link
                   key={r.id}
                   href={`/dashboard/requests/${r.id}`}
-                  className='hover:bg-muted/50 flex items-center justify-between rounded-md px-2 py-1.5 text-sm'
+                  className='hover:bg-muted/60 group flex items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm transition-colors duration-150'
                 >
-                  <div className='flex flex-col'>
-                    <span className='font-mono font-medium'>{r.numero}</span>
+                  <div className='flex flex-col leading-tight'>
+                    <span className='font-mono font-medium group-hover:underline'>
+                      {r.numero}
+                    </span>
                     <span className='text-muted-foreground text-xs'>{r.solicitante_nome}</span>
                   </div>
-                  <div className='flex flex-col items-end gap-1'>
+                  <div className='flex shrink-0 flex-col items-end gap-1'>
                     <span className='tabular-nums'>{formatBRL(r.valor_estimado)}</span>
                     <Badge
                       variant={statusBadgeVariant[r.status] ?? 'outline'}

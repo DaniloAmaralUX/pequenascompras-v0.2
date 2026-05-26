@@ -12,6 +12,10 @@
   }
   body {
     @apply bg-background text-foreground touch-manipulation;
+    /* Polish: rendering tipográfico mais nítido em macOS/Linux. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   /* Fonte de títulos (heading) — Inter, definida por tema via --font-heading */
@@ -23,6 +27,13 @@
   h6,
   [data-slot='card-title'] {
     font-family: var(--font-heading);
+    /* Polish: balanceia quebra de linhas em títulos (evita órfãs feias). */
+    text-wrap: balance;
+  }
+
+  /* Polish: parágrafos sem órfãs (Tailwind v4 / Chrome 117+). */
+  p {
+    text-wrap: pretty;
   }
 
   /* Global scrollbar styling to match ScrollArea */
