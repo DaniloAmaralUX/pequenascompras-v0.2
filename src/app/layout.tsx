@@ -10,9 +10,11 @@ import NextTopLoader from 'nextjs-toploader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import '../styles/globals.css';
 
+/* theme-color casa com o bg real do tema SESI (oklch → hex aproximado).
+   Vercel guideline: alinhar a barra superior do browser com a página. */
 const META_THEME_COLORS = {
-  light: '#ffffff',
-  dark: '#09090b'
+  light: '#fcfcfd',
+  dark: '#23262f'
 };
 
 export const metadata: Metadata = {

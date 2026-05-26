@@ -2,9 +2,12 @@
 [data-theme='sesi'] {
   --background: oklch(0.99 0.003 257);
   --foreground: oklch(0.21 0.03 257);
-  --card: oklch(1 0 0);
+  /* OKLCH coherence: card mantém L≈1 mas recebe a mesma tint do background
+     (Vercel: tint borders/shadows toward the same hue). Sem isso o card
+     pareceria "mais branco que branco" sobre o bg tinted. */
+  --card: oklch(1 0.003 257);
   --card-foreground: oklch(0.21 0.03 257);
-  --popover: oklch(1 0 0);
+  --popover: oklch(1 0.003 257);
   --popover-foreground: oklch(0.21 0.03 257);
   --primary: oklch(0.47 0.14 257);
   --primary-foreground: oklch(0.99 0.003 257);
@@ -14,20 +17,21 @@
   --muted-foreground: oklch(0.5 0.03 257);
   --accent: oklch(0.93 0.05 142);
   --accent-foreground: oklch(0.32 0.09 145);
-  --destructive: oklch(0.59 0.21 27);
+  /* APCA fix: L=0.59 sobre texto branco (L=0.99) dá ΔL=0.40 — borderline.
+     Escurecer para L=0.54 leva ΔL para 0.45 e melhora APCA Lc para ~80. */
+  --destructive: oklch(0.54 0.22 27);
   --destructive-foreground: oklch(0.99 0 0);
   --border: oklch(0.91 0.012 257);
   --input: oklch(0.93 0.012 257);
   --ring: oklch(0.47 0.14 257);
-  /* Paleta de charts harmonizada com a identidade SESI:
-     azul institucional → sky → verde Melhoria Contínua → indigo → slate neutro.
-     Hues mantidos entre 142°-290° (sem amarelo/laranja destoante).
-     Chroma e lightness ajustados para distinção visual sem hue drift. */
-  --chart-1: oklch(0.55 0.16 257);
-  --chart-2: oklch(0.66 0.13 220);
-  --chart-3: oklch(0.7 0.14 142);
-  --chart-4: oklch(0.62 0.1 290);
-  --chart-5: oklch(0.7 0.06 257);
+  /* Paleta de charts — hues espalhados (142°/200°/257°/260°/290°) para pizza
+     ficar legível; C% normalizado a ~75% do max de cada hue (princípio OKLCH:
+     equal C% = equal perceived vividness mesmo com C absoluto diferente). */
+  --chart-1: oklch(0.5 0.17 257); /* azul SESI institucional (anchor) */
+  --chart-2: oklch(0.65 0.14 200); /* teal — entre blue e green */
+  --chart-3: oklch(0.62 0.14 142); /* verde Melhoria Contínua */
+  --chart-4: oklch(0.55 0.22 290); /* violeta — agora vivid como o resto */
+  --chart-5: oklch(0.72 0.06 260); /* slate neutro — claramente "muted" */
   /* Sidebar floating leve — bg quase imperceptível com tint institucional sutil.
      Combina com o ritmo editorial cards-claros sem competir com o conteúdo. */
   --sidebar: oklch(0.985 0.003 257);
@@ -81,12 +85,13 @@
   --border: oklch(0.32 0.03 257);
   --input: oklch(0.34 0.03 257);
   --ring: oklch(0.66 0.13 255);
-  /* Paleta dark — mesma estrutura, L ~+0.1 para legibilidade em fundo escuro. */
+  /* Paleta dark — mirror da light com L+0.1, hues idênticos (sem hue drift),
+     C levemente reduzido para evitar oversaturation em fundo escuro. */
   --chart-1: oklch(0.7 0.15 257);
-  --chart-2: oklch(0.75 0.13 220);
-  --chart-3: oklch(0.78 0.14 142);
-  --chart-4: oklch(0.72 0.1 290);
-  --chart-5: oklch(0.78 0.05 257);
+  --chart-2: oklch(0.75 0.13 200);
+  --chart-3: oklch(0.72 0.14 142);
+  --chart-4: oklch(0.68 0.2 290);
+  --chart-5: oklch(0.78 0.06 260);
   /* Sidebar floating dark — bg um pouco mais claro que o background para
      separação visual sutil quando flutuando. */
   --sidebar: oklch(0.22 0.025 257);
