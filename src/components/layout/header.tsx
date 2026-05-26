@@ -4,6 +4,7 @@ import { Separator } from '../ui/separator';
 import { Badge } from '../ui/badge';
 import { Breadcrumbs } from '../breadcrumbs';
 import { ProfileSwitcher } from './profile-switcher';
+import { ThemeModeToggle } from '../themes/theme-mode-toggle';
 import { NotificationCenter } from '@/features/notifications/components/notification-center';
 
 export default function Header() {
@@ -20,6 +21,7 @@ export default function Header() {
 
       <div className='flex items-center gap-2 px-4'>
         <ProfileSwitcher />
+        <ThemeModeToggle />
         <NotificationCenter />
       </div>
     </header>

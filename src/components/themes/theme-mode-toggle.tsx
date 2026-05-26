@@ -1,55 +1,80 @@
 'use client';
 
-import { Icons } from '@/components/icons';
-import { useTheme } from 'next-themes';
 import * as React from 'react';
-
+import { useTheme } from 'next-themes';
+import { motion, AnimatePresence } from 'motion/react';
+import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Kbd } from '@/components/ui/kbd';
 
+/**
+ * Alternador entre tema light e dark.
+ *
+ * Polish aplicado:
+ * - Cross-fade do ícone (sun/moon) com scale + opacity + blur (spring duration 0.3, bounce 0)
+ * - View Transition API quando suportada (transição visual suave de cores)
+ * - Tooltip indicando ação
+ * - Tabular-ready: tamanho fixo size-8 sem layout shift
+ */
 export function ThemeModeToggle() {
-  const { setTheme, resolvedTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
 
-  const handleThemeToggle = React.useCallback(
+  React.useEffect(() => setMounted(true), []);
+
+  const isDark = resolvedTheme === 'dark';
+  const next = isDark ? 'light' : 'dark';
+  const label = next === 'light' ? 'Mudar para tema claro' : 'Mudar para tema escuro';
+
+  const handleToggle = React.useCallback(
     (e?: React.MouseEvent) => {
-      const newMode = resolvedTheme === 'dark' ? 'light' : 'dark';
       const root = document.documentElement;
-
       if (!document.startViewTransition) {
-        setTheme(newMode);
+        setTheme(next);
         return;
       }
-
-      // Set coordinates from the click event
       if (e) {
         root.style.setProperty('--x', `${e.clientX}px`);
         root.style.setProperty('--y', `${e.clientY}px`);
       }
-
-      document.startViewTransition(() => {
-        setTheme(newMode);
-      });
+      document.startViewTransition(() => setTheme(next));
     },
-    [resolvedTheme, setTheme]
+    [next, setTheme]
   );
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
-          variant='secondary'
+          variant='ghost'
           size='icon'
-          className='group/toggle size-8'
-          onClick={handleThemeToggle}
+          className='relative size-8'
+          aria-label={mounted ? label : 'Alternar tema'}
+          onClick={handleToggle}
         >
-          <Icons.brightness />
-          <span className='sr-only'>Toggle theme</span>
+          {mounted ? (
+            <AnimatePresence initial={false} mode='wait'>
+              <motion.span
+                key={isDark ? 'moon' : 'sun'}
+                initial={{ scale: 0.25, opacity: 0, filter: 'blur(4px)' }}
+                animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
+                exit={{ scale: 0.25, opacity: 0, filter: 'blur(4px)' }}
+                transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
+                className='absolute inset-0 flex items-center justify-center'
+              >
+                {isDark ? (
+                  <Icons.moon className='h-4 w-4' aria-hidden='true' />
+                ) : (
+                  <Icons.sun className='h-4 w-4' aria-hidden='true' />
+                )}
+              </motion.span>
+            </AnimatePresence>
+          ) : (
+            <Icons.brightness className='h-4 w-4' aria-hidden='true' />
+          )}
         </Button>
       </TooltipTrigger>
-      <TooltipContent>
-        Toggle theme <Kbd>D D</Kbd>
-      </TooltipContent>
+      <TooltipContent>{mounted ? label : 'Alternar tema'}</TooltipContent>
     </Tooltip>
   );
 }
