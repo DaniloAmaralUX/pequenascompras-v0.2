@@ -35,8 +35,7 @@ const AUTOSAVE_DEBOUNCE_MS = 800;
 /** Persiste apenas campos serializáveis (exclui File objects dos anexos). */
 type DraftSnapshot = Omit<PurchaseRequestFormValues, 'anexos'>;
 
-const formatBRL = (v: number) =>
-  v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const formatBRL = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
 const itemVazio = {
   descricao: '',
@@ -55,8 +54,14 @@ export default function PurchaseRequestForm() {
   // Restaura rascunho do localStorage (anexos não são persistíveis).
   const draftInicial = React.useMemo(() => loadFromStorage<DraftSnapshot>(DRAFT_STORAGE_KEY), []);
 
-  const { currentValidator, step, currentStep, isFirstStep, handleCancelOrBack, handleNextStepOrSubmit } =
-    useFormStepper(stepSchemas);
+  const {
+    currentValidator,
+    step,
+    currentStep,
+    isFirstStep,
+    handleCancelOrBack,
+    handleNextStepOrSubmit
+  } = useFormStepper(stepSchemas);
 
   const mutation = useMutation({
     ...createPurchaseRequestMutation,
@@ -83,9 +88,10 @@ export default function PurchaseRequestForm() {
       centro_de_custo: draftInicial?.centro_de_custo ?? '',
       prioridade: draftInicial?.prioridade ?? '',
       justificativa: draftInicial?.justificativa ?? '',
-      itens: draftInicial?.itens && draftInicial.itens.length > 0
-        ? draftInicial.itens
-        : [{ ...itemVazio }],
+      itens:
+        draftInicial?.itens && draftInicial.itens.length > 0
+          ? draftInicial.itens
+          : [{ ...itemVazio }],
       anexos: undefined
     } as PurchaseRequestFormValues,
     validationLogic: revalidateLogic(),
@@ -172,11 +178,7 @@ export default function PurchaseRequestForm() {
           <form.Form className='flex flex-col gap-6'>
             <FormStepper
               currentStep={currentStep}
-              steps={[
-                { label: 'Dados gerais' },
-                { label: 'Itens' },
-                { label: 'Revisão' }
-              ]}
+              steps={[{ label: 'Dados gerais' }, { label: 'Itens' }, { label: 'Revisão' }]}
             />
 
             <span className='sr-only' aria-live='polite'>
@@ -329,11 +331,14 @@ export default function PurchaseRequestForm() {
                       description='Anexe orçamento, print de site ou nota fiscal (obrigatório).'
                       maxSize={5 * 1024 * 1024}
                       maxFiles={3}
+                      accept={{ 'image/*': [], 'application/pdf': [] }}
                     />
 
                     <div className='bg-muted/50 flex items-center justify-between rounded-lg px-4 py-3'>
                       <span className='text-sm font-medium'>Valor total estimado</span>
-                      <span className='text-lg font-bold tabular-nums'>{formatBRL(valorTotal)}</span>
+                      <span className='text-lg font-bold tabular-nums'>
+                        {formatBRL(valorTotal)}
+                      </span>
                     </div>
                   </div>
                 )}
@@ -370,17 +375,14 @@ export default function PurchaseRequestForm() {
                           </span>
                           <span className='tabular-nums'>
                             {formatBRL(
-                              Number(it.quantidade || 0) *
-                                Number(it.valor_unitario_estimado || 0)
+                              Number(it.quantidade || 0) * Number(it.valor_unitario_estimado || 0)
                             )}
                           </span>
                         </div>
                       ))}
                     </div>
                     <div className='flex items-center justify-between'>
-                      <Badge variant='secondary'>
-                        {(formValues.anexos?.length ?? 0)} anexo(s)
-                      </Badge>
+                      <Badge variant='secondary'>{formValues.anexos?.length ?? 0} anexo(s)</Badge>
                       <span className='text-lg font-bold tabular-nums'>
                         {formatBRL(valorTotal)}
                       </span>

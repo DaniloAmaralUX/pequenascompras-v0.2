@@ -2,18 +2,14 @@
 // Banco de dados fake de Usuários — Sistema de Pequenas Compras (SESI)
 ////////////////////////////////////////////////////////////////////////////////
 
-import { faker } from '@faker-js/faker';
+import { fakerPT_BR as faker } from '@faker-js/faker';
 import { matchSorter } from 'match-sorter';
 import { SESI_UNIDADES } from '@/constants/mock-api-cost-centers';
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Papéis do sistema de compras (usados no RBAC)
-export const USER_ROLES = [
-  'Solicitante',
-  'Gestor',
-  'Analista de Suprimentos'
-] as const;
+export const USER_ROLES = ['Solicitante', 'Gestor', 'Analista de Suprimentos'] as const;
 
 // Situação do usuário
 export const USER_STATUSES = ['Ativo', 'Inativo', 'Convidado'] as const;

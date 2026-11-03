@@ -2,7 +2,7 @@
 // Banco de dados fake de Itens de Catálogo — Sistema de Pequenas Compras (SESI)
 ////////////////////////////////////////////////////////////////////////////////
 
-import { faker } from '@faker-js/faker';
+import { fakerPT_BR as faker } from '@faker-js/faker';
 import { matchSorter } from 'match-sorter';
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -28,6 +28,39 @@ export const UNIDADES_MEDIDA = [
   'Resma'
 ] as const;
 
+/** Itens típicos de pequenas compras: [nome, categoria, unidade, preço médio]. */
+const ITENS_CATALOGO: [
+  string,
+  (typeof ITEM_CATEGORIES)[number],
+  (typeof UNIDADES_MEDIDA)[number],
+  number
+][] = [
+  ['Papel sulfite A4', 'Material de Escritório', 'Resma', 28],
+  ['Caneta esferográfica azul', 'Material de Escritório', 'Caixa', 24],
+  ['Bloco de notas', 'Material de Escritório', 'Unidade', 9],
+  ['Pasta de arquivo', 'Material de Escritório', 'Unidade', 15],
+  ['Grampeador', 'Material de Escritório', 'Unidade', 32],
+  ['Envelope pardo A4', 'Material de Escritório', 'Pacote', 19],
+  ['Lâmpada LED', 'Manutenção Predial', 'Unidade', 26],
+  ['Fita isolante', 'Manutenção Predial', 'Unidade', 8],
+  ['Tomada de embutir', 'Manutenção Predial', 'Unidade', 14],
+  ['Tinta acrílica branca', 'Manutenção Predial', 'Litro', 46],
+  ['Café em grão', 'Alimentação / Coffee Break', 'Quilograma', 38],
+  ['Coffee break - salgados', 'Alimentação / Coffee Break', 'Pacote', 95],
+  ['Água mineral 500ml', 'Alimentação / Coffee Break', 'Caixa', 22],
+  ['Açúcar refinado', 'Alimentação / Coffee Break', 'Quilograma', 5],
+  ['Toner para impressora', 'Equipamentos e TI', 'Unidade', 185],
+  ['Cabo HDMI 2m', 'Equipamentos e TI', 'Unidade', 32],
+  ['Mouse USB', 'Equipamentos e TI', 'Unidade', 46],
+  ['Pilha AA', 'Equipamentos e TI', 'Pacote', 16],
+  ['Chaveiro (cópia de chave)', 'Serviços Gerais', 'Unidade', 12],
+  ['Encadernação de apostilas', 'Serviços Gerais', 'Unidade', 7],
+  ['Detergente multiuso', 'Limpeza e Higiene', 'Litro', 13],
+  ['Papel higiênico', 'Limpeza e Higiene', 'Pacote', 34],
+  ['Copo descartável 200ml', 'Limpeza e Higiene', 'Pacote', 9],
+  ['Saco de lixo 100L', 'Limpeza e Higiene', 'Pacote', 27]
+];
+
 export type CatalogItem = {
   id: number;
   nome: string;
@@ -45,15 +78,15 @@ export const fakeCatalogItems = {
 
   initialize() {
     const registros: CatalogItem[] = [];
-    for (let i = 1; i <= 24; i++) {
+    for (const [i, [nome, categoria, unidade, preco]] of ITENS_CATALOGO.entries()) {
       registros.push({
-        id: i,
-        nome: faker.commerce.productName(),
-        categoria: faker.helpers.arrayElement(ITEM_CATEGORIES),
-        unidade_medida: faker.helpers.arrayElement(UNIDADES_MEDIDA),
+        id: i + 1,
+        nome,
+        categoria,
+        unidade_medida: unidade,
         is_item_estoque: faker.datatype.boolean(0.25),
         tem_contrato_vigente: faker.datatype.boolean(0.2),
-        preco_medio_historico: parseFloat(faker.commerce.price({ min: 5, max: 800, dec: 2 })),
+        preco_medio_historico: preco,
         created_at: faker.date.between({ from: '2024-01-01', to: '2025-12-31' }).toISOString(),
         updated_at: faker.date.recent().toISOString()
       });

@@ -2,7 +2,7 @@
 // Banco de dados fake de Fornecedores — Sistema de Pequenas Compras (SESI)
 ////////////////////////////////////////////////////////////////////////////////
 
-import { faker } from '@faker-js/faker';
+import { fakerPT_BR as faker } from '@faker-js/faker';
 import { matchSorter } from 'match-sorter';
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

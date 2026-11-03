@@ -1,5 +1,6 @@
 'use client';
 
+import type { ComponentProps } from 'react';
 import { useStore } from '@tanstack/react-form';
 import { FileUploader } from '@/components/file-uploader';
 import { FieldDescription, FieldLabel } from '@/components/ui/field';
@@ -17,6 +18,8 @@ interface FileUploadFieldProps {
   required?: boolean;
   maxSize?: number;
   maxFiles?: number;
+  /** Tipos aceitos (padrão do FileUploader: só imagens). */
+  accept?: ComponentProps<typeof FileUploader>['accept'];
 }
 
 export function FileUploadField({
@@ -24,7 +27,8 @@ export function FileUploadField({
   description,
   required,
   maxSize,
-  maxFiles
+  maxFiles,
+  accept
 }: FileUploadFieldProps) {
   const field = useFieldContext();
   const value = useStore(field.store, (s) => s.value) as File[] | undefined;
@@ -42,6 +46,7 @@ export function FileUploadField({
             onValueChange={field.handleChange}
             maxSize={maxSize}
             maxFiles={maxFiles}
+            accept={accept}
           />
         </div>
         {description && <FieldDescription>{description}</FieldDescription>}

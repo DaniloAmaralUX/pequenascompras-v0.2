@@ -2,13 +2,33 @@
 // Banco de dados fake de Solicitações de Compra — Sistema de Pequenas Compras
 ////////////////////////////////////////////////////////////////////////////////
 
-import { faker } from '@faker-js/faker';
+import { fakerPT_BR as faker } from '@faker-js/faker';
 import { matchSorter } from 'match-sorter';
 import { SESI_UNIDADES } from '@/constants/mock-api-cost-centers';
 import { loadFromStorage, saveToStorage } from '@/lib/mock-storage';
 
-const STORAGE_KEY = 'purchase-requests';
-const COUNTER_KEY = 'purchase-requests-counter';
+// v2: datas relativas a hoje e textos em português. A troca de chave descarta
+// dados que testadores já tinham salvo no navegador com o gerador antigo.
+const STORAGE_KEY = 'purchase-requests-v2';
+const COUNTER_KEY = 'purchase-requests-v2-counter';
+
+const DIA_MS = 86_400_000;
+const SEMENTE_DEMO = 2026;
+/** Mesmo valor de GOVERNANCA.LIMITE_VALOR (constants/purchase-request-options). */
+const LIMITE_PEQUENA_COMPRA = 3000;
+
+const JUSTIFICATIVAS = [
+  'Reposição do material de escritório da secretaria escolar para o mês.',
+  'Coffee break da reunião de planejamento com as coordenações das unidades.',
+  'Substituição de lâmpadas queimadas nas salas de aula do bloco B.',
+  'Itens de limpeza para a semana de eventos abertos à comunidade.',
+  'Toner para a impressora da coordenação pedagógica, que está sem carga.',
+  'Cabos e periféricos para o laboratório de informática.',
+  'Água e lanche para a formação de professores no sábado.',
+  'Material para as oficinas do programa de qualidade de vida.',
+  'Pilhas para os controles dos projetores e microfones do auditório.',
+  'Reposição de copos e papel para a copa do administrativo.'
+];
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -169,9 +189,18 @@ function proximoNumero(): string {
 function gerarSolicitacao(id: number, statusAlvo: PurchaseStatus): PurchaseRequest {
   const solicitante = faker.person.fullName();
   const valorAlto = statusAlvo === PURCHASE_STATUS.BLOQUEADA;
-  const itens = gerarItens(valorAlto);
+  let itens = gerarItens(valorAlto);
+  // Só as bloqueadas podem passar do limite de R$ 3.000 (regra 1 da governança)
+  if (!valorAlto) {
+    while (somaItens(itens) > LIMITE_PEQUENA_COMPRA) itens = gerarItens(false);
+  }
   const valorEstimado = somaItens(itens);
-  const criadaEm = faker.date.between({ from: '2026-01-05', to: '2026-05-15' });
+  // Datas relativas a hoje: os filtros de período do dashboard sempre têm dados
+  const agora = new Date();
+  const criadaEm = faker.date.between({
+    from: new Date(agora.getTime() - 75 * DIA_MS),
+    to: new Date(agora.getTime() - 4 * DIA_MS)
+  });
 
   const historico: HistoryEvent[] = [
     {
@@ -187,7 +216,7 @@ function gerarSolicitacao(id: number, statusAlvo: PurchaseStatus): PurchaseReque
     solicitante_nome: solicitante,
     unidade: faker.helpers.arrayElement(SESI_UNIDADES),
     centro_de_custo: `CC-${faker.number.int({ min: 1001, max: 1014 })}`,
-    justificativa: faker.lorem.sentence({ min: 8, max: 16 }),
+    justificativa: faker.helpers.arrayElement(JUSTIFICATIVAS),
     prioridade: faker.helpers.arrayElement(PRIORIDADES),
     forma_pagamento: faker.helpers.arrayElement(FORMAS_PAGAMENTO),
     itens,
@@ -205,7 +234,8 @@ function gerarSolicitacao(id: number, statusAlvo: PurchaseStatus): PurchaseReque
   const idxAlvo = FLUXO.indexOf(statusAlvo);
   let cursor = new Date(criadaEm);
   const avancar = () => {
-    cursor = faker.date.soon({ days: 5, refDate: cursor });
+    cursor = faker.date.soon({ days: 3, refDate: cursor });
+    if (cursor > agora) cursor = new Date(agora); // nenhum evento no futuro
     return cursor.toISOString();
   };
 
@@ -390,6 +420,9 @@ export const fakePurchaseRequests = {
       PURCHASE_STATUS.CANCELADA
     ];
     contadorNumero = 0;
+    // Semente fixa: todo testador vê os mesmos dados de exemplo (datas
+    // continuam relativas a hoje), o que torna demos e roteiros repetíveis.
+    faker.seed(SEMENTE_DEMO);
     this.records = distribuicao.map((status, i) => gerarSolicitacao(i + 1, status));
     this.persist();
   },
