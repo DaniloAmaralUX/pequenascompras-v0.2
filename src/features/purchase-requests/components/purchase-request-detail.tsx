@@ -22,6 +22,7 @@ import type { PurchaseRequest, HistoryEvent } from '../api/types';
 import { PURCHASE_STATUS } from '@/constants/mock-api-purchase-requests';
 import { statusBadgeVariant } from '../constants/purchase-request-options';
 import { WorkflowActionPanel } from './workflow-action-panel';
+import { useActiveProfile } from '@/components/layout/active-profile';
 
 const formatBRL = (v: number) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
@@ -52,6 +53,7 @@ function iconeEvento(descricao: string): React.ComponentType<{ className?: strin
 }
 
 export default function PurchaseRequestDetail({ requestId }: { requestId: number }) {
+  const { activeProfile } = useActiveProfile();
   const { data } = useSuspenseQuery(purchaseRequestByIdOptions(requestId));
 
   if (!data?.success || !data?.request) {
@@ -59,6 +61,12 @@ export default function PurchaseRequestDetail({ requestId }: { requestId: number
   }
 
   const req = data.request as PurchaseRequest;
+
+  // O Solicitante só enxerga as próprias solicitações (mesmo critério da
+  // listagem). Acesso por URL a solicitação alheia → 404, sem revelar que existe.
+  if (activeProfile === 'Solicitante' && req.solicitante_nome !== 'Solicitante') {
+    notFound();
+  }
   const bloqueada = req.status === PURCHASE_STATUS.BLOQUEADA && req.motivos_bloqueio.length > 0;
   const [anexoAberto, setAnexoAberto] = React.useState<string | null>(null);
 

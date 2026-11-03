@@ -1,12 +1,10 @@
 import { Suspense } from 'react';
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
-import { getQueryClient } from '@/lib/query-client';
 import { requireProfile } from '@/lib/route-guard';
 import PageContainer from '@/components/layout/page-container';
+import { ClientOnly } from '@/components/client-only';
 import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
 import { ExportButton } from '@/components/export-button';
 import GastoSetorReport from '@/features/reports/components/gasto-setor-report';
-import { gastoPorSetorQueryOptions } from '@/features/reports/api/queries';
 
 export const metadata = {
   title: 'Relatórios: Gasto por Setor'
@@ -15,8 +13,7 @@ export const metadata = {
 export default async function Page() {
   await requireProfile(['Analista de Suprimentos']);
 
-  const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(gastoPorSetorQueryOptions());
+  const skeleton = <DataTableSkeleton columnCount={4} rowCount={8} />;
 
   return (
     <PageContainer
@@ -24,11 +21,11 @@ export default async function Page() {
       pageDescription='Distribuição do gasto com pequenas compras por centro de custo.'
       pageHeaderAction={<ExportButton reportName='Gasto por Setor' />}
     >
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense fallback={<DataTableSkeleton columnCount={4} rowCount={8} />}>
+      <ClientOnly fallback={skeleton}>
+        <Suspense fallback={skeleton}>
           <GastoSetorReport />
         </Suspense>
-      </HydrationBoundary>
+      </ClientOnly>
     </PageContainer>
   );
 }

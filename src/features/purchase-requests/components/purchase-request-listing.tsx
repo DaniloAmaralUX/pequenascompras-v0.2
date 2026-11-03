@@ -1,40 +1,25 @@
-import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
-import { getQueryClient } from '@/lib/query-client';
-import { searchParamsCache } from '@/lib/searchparams';
-import { purchaseRequestsQueryOptions } from '../api/queries';
+import { Suspense } from 'react';
+import { ClientOnly } from '@/components/client-only';
+import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
 import { PurchaseRequestTable } from './purchase-request-tables';
 import type { PurchaseStatus } from '../api/types';
 
+/**
+ * Sem prefetch no servidor: as solicitações vivem no localStorage do
+ * testador, então a tabela busca os dados só no navegador (ver ClientOnly).
+ */
 export default function PurchaseRequestListingPage({
   presetStatuses
 }: {
   presetStatuses?: PurchaseStatus[];
 }) {
-  const page = searchParamsCache.get('page');
-  const search = searchParamsCache.get('numero');
-  const pageLimit = searchParamsCache.get('perPage');
-  const prioridade = searchParamsCache.get('prioridade');
-  const status = searchParamsCache.get('status');
-  const sort = searchParamsCache.get('sort');
-
-  const statuses = presetStatuses ? presetStatuses.join(',') : status;
-
-  const filters = {
-    page,
-    limit: pageLimit,
-    ...(search && { search }),
-    ...(prioridade && { prioridades: prioridade }),
-    ...(statuses && { statuses }),
-    ...(sort && { sort })
-  };
-
-  const queryClient = getQueryClient();
-
-  void queryClient.prefetchQuery(purchaseRequestsQueryOptions(filters));
+  const skeleton = <DataTableSkeleton columnCount={8} rowCount={10} filterCount={2} />;
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <PurchaseRequestTable presetStatuses={presetStatuses} />
-    </HydrationBoundary>
+    <ClientOnly fallback={skeleton}>
+      <Suspense fallback={skeleton}>
+        <PurchaseRequestTable presetStatuses={presetStatuses} />
+      </Suspense>
+    </ClientOnly>
   );
 }
