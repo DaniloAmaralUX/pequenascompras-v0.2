@@ -1,0 +1,362 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R 9 0 R 11 0 R 13 0 R] /Count 5 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 5779 >>
+stream
+0.420 0.447 0.502 rg BT /F1 8 Tf 504.28 26.00 Td (Pagina 1) Tj ET
+0.851 0.886 0.925 RG 0.5 w 46 40 m 549.28 40 l S
+0.059 0.153 0.259 rg BT /F2 22 Tf 46.00 785.89 Td (Analise do Sistema de RH para Controle de Vagas) Tj ET
+0.278 0.333 0.412 rg BT /F1 10 Tf 46.00 763.89 Td (Resumo funcional, principais indicadores, requisitos, epicos, features e user stories derivados da) Tj ET
+0.278 0.333 0.412 rg BT /F1 10 Tf 46.00 749.89 Td (planilha CONTROLE_DE_VAGAS_2026.) Tj ET
+0.071 0.196 0.306 rg BT /F2 15 Tf 46.00 711.89 Td (Contexto Da Planilha) Tj ET
+0.749 0.831 0.910 RG 0.8 w 46 703.89 m 549.28 703.89 l S
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 691.89 Td (- A planilha possui quatro abas principais: VAGAS SESI, VAGAS S ORQUESTRA, CRONOGRAMA e Base.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 676.89 Td (- A aba VAGAS SESI concentra o controle principal com campos de chamado, codigo da vaga, gestor, unidade, contrato,) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 56.00 663.89 Td (  cargo, status, acao, SLA, juridico, retorno do gestor e dados de fechamento.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 648.89 Td (- A aba CRONOGRAMA acompanha etapas do processo seletivo, como periodo de inscricao, prova, entrevista RH,) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 56.00 635.89 Td (  entrevista com gestor, habilitacao, formulario e admissao.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 620.89 Td (- A aba Base funciona como dicionario de listas para solicitantes, areas, contratos, motivos, cargos, niveis,) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 56.00 607.89 Td (  funcoes, recrutadores, status, acoes e campos de classificacao.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 592.89 Td (- Foram identificadas formulas quebradas com #REF! no cronograma; por isso, o sistema deve recalcular indicadores) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 56.00 579.89 Td (  internamente e validar inconsistencias na importacao.) Tj ET
+0.071 0.196 0.306 rg BT /F2 15 Tf 46.00 544.89 Td (Resumo Do Sistema) Tj ET
+0.749 0.831 0.910 RG 0.8 w 46 536.89 m 549.28 536.89 l S
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 524.89 Td (O sistema sera uma solucao de apoio ao RH para consolidar, acompanhar e analisar os processos seletivos de novos) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 511.89 Td (colaboradores. A base inicial continuara sendo alimentada pela planilha de controle de vagas, mas o sistema devera) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 498.89 Td (transformar os registros importados em dashboards, historicos e relatorios gerenciais confiaveis.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 481.89 Td (A aplicacao devera permitir que a gestao acompanhe prazos, SLAs, gargalos, status das vagas, acoes pendentes, tempos) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 468.89 Td (de resposta do gestor e do juridico, alem da evolucao historica dos processos seletivos.) Tj ET
+0.071 0.196 0.306 rg BT /F2 15 Tf 46.00 431.89 Td (Objetivo) Tj ET
+0.749 0.831 0.910 RG 0.8 w 46 423.89 m 549.28 423.89 l S
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 411.89 Td (Centralizar e organizar os dados dos processos seletivos para gerar indicadores confiaveis ao RH e aos gestores,) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 398.89 Td (reduzindo a dependencia de analise manual em planilha e permitindo acompanhamento historico das vagas, prazos,) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 385.89 Td (etapas e responsaveis.) Tj ET
+0.071 0.196 0.306 rg BT /F2 15 Tf 46.00 348.89 Td (Principais Funcionalidades) Tj ET
+0.749 0.831 0.910 RG 0.8 w 46 340.89 m 549.28 340.89 l S
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 328.89 Td (- Importacao da planilha de controle de vagas.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 313.89 Td (- Suporte aos layouts VAGAS SESI e VAGAS S ORQUESTRA.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 298.89 Td (- Validacao de campos obrigatorios, colunas esperadas, datas e inconsistencias.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 283.89 Td (- Armazenamento historico das cargas e das alteracoes por vaga.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 268.89 Td (- Consulta por chamado, codigo, status, acao, area, gestor, recrutador, cargo, contrato e periodo.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 253.89 Td (- Dashboard gerencial de vagas abertas, em andamento, finalizadas, canceladas, congeladas, suspensas e fracassadas.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 238.89 Td (- Calculo de SLA de 20 dias uteis a partir da data de abertura.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 223.89 Td (- Calculo do tempo de resposta do gestor e do juridico.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 208.89 Td (- Acompanhamento de reaberturas, fechamento no prazo, banco de candidatos e candidatos internos.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 193.89 Td (- Relatorios analiticos por vaga, area, recrutador, gestor, status, acao e etapa do cronograma.) Tj ET
+0.071 0.196 0.306 rg BT /F2 15 Tf 46.00 158.89 Td (Indicadores Sugeridos) Tj ET
+0.749 0.831 0.910 RG 0.8 w 46 150.89 m 549.28 150.89 l S
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 138.89 Td (- Total de vagas por status, acao, area, gestor, recrutador, tipo de contrato e motivo de contratacao.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 123.89 Td (- Quantidade de vagas PCD, reabertas, fechadas no prazo, canceladas, congeladas, suspensas e fracassadas.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 108.89 Td (- Tempo medio de preenchimento da vaga, tempo ate divulgacao do resultado e tempo ate previsao de admissao.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 93.89 Td (- Tempo medio de resposta do gestor e tempo medio de resposta do juridico.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 78.89 Td (- SLA total da vaga em dias uteis e SLA descontando tempos externos.) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 714 >>
+stream
+0.420 0.447 0.502 rg BT /F1 8 Tf 504.28 26.00 Td (Pagina 2) Tj ET
+0.851 0.886 0.925 RG 0.5 w 46 40 m 549.28 40 l S
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 795.89 Td (- Vagas com SLA vencido ou proximas do vencimento.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 780.89 Td (- Vagas por etapa do cronograma: inscricao, prova, entrevista RH, entrevista gestor, habilitacao e admissao.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 765.89 Td (- Candidatos selecionados por genero, candidatos internos selecionados e vagas que geraram banco.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 750.89 Td (- Quantidade de candidatos aplicados por vaga, caso esse dado seja incluido na planilha ou informado no sistema.) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 10 0 R >>
+endobj
+10 0 obj
+<< /Length 7019 >>
+stream
+0.420 0.447 0.502 rg BT /F1 8 Tf 504.28 26.00 Td (Pagina 3) Tj ET
+0.851 0.886 0.925 RG 0.5 w 46 40 m 549.28 40 l S
+0.071 0.196 0.306 rg BT /F2 15 Tf 46.00 775.89 Td (Requisitos Funcionais) Tj ET
+0.749 0.831 0.910 RG 0.8 w 46 767.89 m 549.28 767.89 l S
+q 0.910 0.941 0.969 rg 46.00 735.89 503.00 24.00 re f Q
+q 0.580 0.639 0.722 RG 0.6 w 46.00 735.89 503.00 24.00 re S Q
+q 0.796 0.835 0.882 RG 0.35 w 46.00 735.89 65.00 24.00 re S Q
+0.059 0.153 0.259 rg BT /F2 8 Tf 51.00 745.89 Td (Codigo) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 735.89 438.00 24.00 re S Q
+0.059 0.153 0.259 rg BT /F2 8 Tf 116.00 745.89 Td (Requisito funcional) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 711.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 721.89 Td (RF01) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 711.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 721.89 Td (Permitir o upload da planilha de controle de vagas.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 687.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 697.89 Td (RF02) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 687.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 697.89 Td (Identificar o layout importado, como VAGAS SESI ou VAGAS S ORQUESTRA.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 663.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 673.89 Td (RF03) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 663.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 673.89 Td (Validar se a planilha possui as colunas obrigatorias esperadas.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 639.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 649.89 Td (RF04) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 639.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 649.89 Td (Alertar sobre inconsistencias, campos ausentes, datas invalidas e formulas quebradas.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 615.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 625.89 Td (RF05) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 615.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 625.89 Td (Importar dados das vagas usando campos como chamado, codigo da vaga, gestor, unidade, cargo, status e acao.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 591.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 601.89 Td (RF06) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 591.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 601.89 Td (Manter historico das importacoes realizadas.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 567.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 577.89 Td (RF07) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 567.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 577.89 Td (Manter historico de alteracoes por vaga ao longo do tempo.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 543.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 553.89 Td (RF08) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 543.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 553.89 Td (Permitir consultar vagas por chamado, codigo, status, acao, area, gestor, recrutador e periodo.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 519.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 529.89 Td (RF09) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 519.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 529.89 Td (Calcular o SLA de 20 dias uteis a partir da data de abertura.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 495.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 505.89 Td (RF10) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 495.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 505.89 Td (Calcular a contagem do SLA ate a divulgacao do resultado ou ate a data atual, quando a vaga estiver aberta.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 471.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 481.89 Td (RF11) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 471.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 481.89 Td (Calcular o tempo de resposta do gestor.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 447.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 457.89 Td (RF12) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 447.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 457.89 Td (Calcular o tempo de resposta do juridico.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 423.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 433.89 Td (RF13) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 423.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 433.89 Td (Identificar vagas reabertas.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 399.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 409.89 Td (RF14) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 399.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 409.89 Td (Identificar se a vaga foi fechada no prazo.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 375.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 385.89 Td (RF15) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 375.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 385.89 Td (Exibir dashboard gerencial com indicadores consolidados.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 351.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 361.89 Td (RF16) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 351.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 361.89 Td (Exibir relatorio analitico por vaga.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 327.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 337.89 Td (RF17) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 327.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 337.89 Td (Exibir relatorio por cronograma do processo seletivo.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 303.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 313.89 Td (RF18) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 303.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 313.89 Td (Permitir analise por etapa: inscricao, prova, entrevista RH, entrevista gestor, habilitacao e admissao.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 279.89 65.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 289.89 Td (RF19) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 279.89 438.00 24.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 289.89 Td (Permitir exportar relatorios filtrados.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 247.89 65.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 265.89 Td (RF20) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 111.00 247.89 438.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 265.89 Td (Permitir registrar ou importar quantidade de candidatos aplicados, caso esse indicador seja mantido fora da) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 116.00 255.89 Td (planilha atual.) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 12 0 R >>
+endobj
+12 0 obj
+<< /Length 11020 >>
+stream
+0.420 0.447 0.502 rg BT /F1 8 Tf 504.28 26.00 Td (Pagina 4) Tj ET
+0.851 0.886 0.925 RG 0.5 w 46 40 m 549.28 40 l S
+0.071 0.196 0.306 rg BT /F2 15 Tf 46.00 775.89 Td (Epicos, Features E User Stories) Tj ET
+0.749 0.831 0.910 RG 0.8 w 46 767.89 m 549.28 767.89 l S
+q 0.910 0.941 0.969 rg 46.00 735.89 503.00 24.00 re f Q
+q 0.580 0.639 0.722 RG 0.6 w 46.00 735.89 503.00 24.00 re S Q
+q 0.796 0.835 0.882 RG 0.35 w 46.00 735.89 125.00 24.00 re S Q
+0.059 0.153 0.259 rg BT /F2 8 Tf 51.00 745.89 Td (Epico) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 735.89 125.00 24.00 re S Q
+0.059 0.153 0.259 rg BT /F2 8 Tf 176.00 745.89 Td (Feature) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 735.89 253.00 24.00 re S Q
+0.059 0.153 0.259 rg BT /F2 8 Tf 301.00 745.89 Td (User story) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 703.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 721.89 Td (Importacao de planilhas) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 703.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 721.89 Td (Upload de arquivo) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 703.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 721.89 Td (Como RH, quero importar a planilha de vagas para atualizar a) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 711.89 Td (base do sistema.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 671.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 689.89 Td (Importacao de planilhas) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 671.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 689.89 Td (Validacao de layout) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 671.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 689.89 Td (Como RH, quero saber se a planilha possui todas as colunas) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 679.89 Td (obrigatorias antes da carga.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 639.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 657.89 Td (Importacao de planilhas) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 639.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 657.89 Td (Tratamento de erros) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 639.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 657.89 Td (Como RH, quero visualizar erros de importacao para corrigir) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 647.89 Td (dados inconsistentes.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 607.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 625.89 Td (Historico de dados) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 607.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 625.89 Td (Historico de cargas) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 607.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 625.89 Td (Como gestora de RH, quero saber quando cada planilha foi) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 615.89 Td (importada e por quem.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 575.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 593.89 Td (Historico de dados) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 575.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 593.89 Td (Historico da vaga) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 575.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 593.89 Td (Como gestora de RH, quero acompanhar a evolucao de status, acao) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 583.89 Td (e datas de uma vaga ao longo do tempo.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 543.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 561.89 Td (Gestao de vagas) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 543.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 561.89 Td (Consulta de vagas) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 543.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 561.89 Td (Como RH, quero consultar vagas por chamado, codigo, gestor,) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 551.89 Td (area, status e recrutador.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 511.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 529.89 Td (Gestao de vagas) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 511.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 529.89 Td (Detalhe da vaga) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 511.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 529.89 Td (Como gestor, quero visualizar os dados completos de uma vaga,) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 519.89 Td (incluindo SLA, juridico, gestor e candidato selecionado.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 479.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 497.89 Td (Indicadores de SLA) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 479.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 497.89 Td (SLA da vaga) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 479.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 497.89 Td (Como gestora de RH, quero acompanhar o prazo de 20 dias uteis) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 487.89 Td (das vagas abertas.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 447.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 465.89 Td (Indicadores de SLA) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 447.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 465.89 Td (SLA gestor) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 447.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 465.89 Td (Como gestora de RH, quero medir quanto tempo o gestor demora) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 455.89 Td (para retornar quando acionado.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 415.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 433.89 Td (Indicadores de SLA) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 415.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 433.89 Td (SLA juridico) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 415.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 433.89 Td (Como gestora de RH, quero medir quanto tempo o juridico demora) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 423.89 Td (para emitir parecer.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 383.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 401.89 Td (Dashboard gerencial) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 383.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 401.89 Td (Visao executiva) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 383.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 401.89 Td (Como gestora de RH, quero visualizar os principais indicadores) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 391.89 Td (de vagas em um dashboard.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 351.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 369.89 Td (Dashboard gerencial) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 351.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 369.89 Td (Gargalos do processo) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 351.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 369.89 Td (Como gestora de RH, quero identificar quais etapas concentram) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 359.89 Td (mais atrasos.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 319.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 337.89 Td (Cronograma seletivo) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 319.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 337.89 Td (Etapas do processo) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 319.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 337.89 Td (Como RH, quero acompanhar inscricao, prova, entrevista RH,) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 327.89 Td (entrevista gestor, habilitacao e admissao.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 287.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 305.89 Td (Relatorios analiticos) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 287.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 305.89 Td (Relatorio por area) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 287.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 305.89 Td (Como gestora de RH, quero comparar o desempenho das areas) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 295.89 Td (solicitantes.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 255.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 273.89 Td (Relatorios analiticos) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 255.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 273.89 Td (Relatorio por recrutador) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 255.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 273.89 Td (Como gestora de RH, quero acompanhar volume e desempenho por) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 263.89 Td (recrutador.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 223.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 241.89 Td (Candidatos) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 223.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 241.89 Td (Indicadores de candidato) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 223.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 241.89 Td (Como gestora de RH, quero analisar candidato selecionado,) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 231.89 Td (genero, candidato interno e geracao de banco.) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 46.00 191.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 51.00 209.89 Td (Candidatos) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 171.00 191.89 125.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 176.00 209.89 Td (Quantidade de aplicados) Tj ET
+q 0.796 0.835 0.882 RG 0.35 w 296.00 191.89 253.00 32.00 re S Q
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 209.89 Td (Como gestora de RH, quero acompanhar a quantidade de candidatos) Tj ET
+0.216 0.255 0.318 rg BT /F1 7.8 Tf 301.00 199.89 Td (aplicados por vaga.) Tj ET
+0.071 0.196 0.306 rg BT /F2 15 Tf 46.00 157.89 Td (Pontos De Atencao Para Refinamento) Tj ET
+0.749 0.831 0.910 RG 0.8 w 46 149.89 m 549.28 149.89 l S
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 137.89 Td (- Definir oficialmente qual data representa vaga preenchida: divulgacao do resultado, previsao de admissao ou) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 56.00 124.89 Td (  outra.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 109.89 Td (- Definir oficialmente qual data representa vaga encerrada.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 94.89 Td (- Substituir a logica de cronograma quebrada na planilha por calculos consistentes no sistema.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 79.89 Td (- Incluir o campo numero de candidatos aplicados, pois ele nao aparece claramente na planilha atual.) Tj ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 14 0 R >>
+endobj
+14 0 obj
+<< /Length 448 >>
+stream
+0.420 0.447 0.502 rg BT /F1 8 Tf 504.28 26.00 Td (Pagina 5) Tj ET
+0.851 0.886 0.925 RG 0.5 w 46 40 m 549.28 40 l S
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 795.89 Td (- Padronizar o identificador unico da vaga, provavelmente combinando numero do chamado e codigo da vaga.) Tj ET
+0.122 0.161 0.216 rg BT /F1 9 Tf 46.00 780.89 Td (- Corrigir nomes de campos com erro de digitacao no modelo do sistema, como VAGA FECAHADA NO PRAZO? e REABERTUTA.) Tj ET
+endstream
+endobj
+xref
+0 15
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000147 00000 n 
+0000000244 00000 n 
+0000000346 00000 n 
+0000000488 00000 n 
+0000006318 00000 n 
+0000006460 00000 n 
+0000007224 00000 n 
+0000007367 00000 n 
+0000014438 00000 n 
+0000014582 00000 n 
+0000025655 00000 n 
+0000025799 00000 n 
+trailer
+<< /Size 15 /Root 1 0 R >>
+startxref
+26298
+%%EOF

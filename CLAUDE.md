@@ -9,6 +9,7 @@ This is a Next.js 16 + shadcn/ui admin dashboard starter kit.
 - **[docs/themes.md](./docs/themes.md)** — Theme system: OKLCH colors, adding themes, font config
 - **[docs/nav-rbac.md](./docs/nav-rbac.md)** — Navigation RBAC: access control, Clerk integration
 - **[docs/clerk_setup.md](./docs/clerk_setup.md)** — Clerk auth setup: organizations, billing, environment variables
+- **[docs/rh-controle-vagas/](./docs/rh-controle-vagas/README.md)** — Escopo do sistema RH de controle de vagas: requisitos RF01–RF20, épicos, indicadores e pontos em aberto
 
 ## Critical Conventions
 
